@@ -160,6 +160,41 @@
   .svc h3{font-size:22px;font-weight:600;margin-bottom:12px;letter-spacing:-.5px}
   .svc p{color:var(--muted);font-weight:300;line-height:1.65;font-size:14px}
 
+  /* STORYBOARD */
+  .sb-intro{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:end;margin-bottom:54px}
+  .sb-intro h3{font-size:clamp(26px,3.6vw,44px);font-weight:600;letter-spacing:-1.5px;line-height:1.08}
+  .sb-intro h3 .em{font-style:italic;font-weight:300}
+  .sb-intro p{color:var(--muted);font-weight:300;font-size:15px;line-height:1.75;max-width:520px}
+  .sb-steps{display:flex;gap:0;margin-top:22px;border:1px solid var(--line);border-radius:100px;overflow:hidden;width:max-content;max-width:100%}
+  .sb-steps span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--dim);padding:10px 18px;border-right:1px solid var(--line);display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .sb-steps span:last-child{border-right:0}
+  .sb-steps span b{color:var(--cyan);font-weight:500}
+  .sb-steps span.on{color:#fff;background:rgba(38,215,227,.07)}
+  .sb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .sb{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--elevated);
+    display:block;transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s}
+  .sb:hover{transform:translateY(-5px);border-color:var(--core)}
+  .sb .pg{position:relative;aspect-ratio:16/9;background:#0d0d10;overflow:hidden}
+  .sb .pg img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+  .sb:hover .pg img{transform:scale(1.04)}
+  .sb .pg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent 50%)}
+  .sb .pdf{position:absolute;top:12px;left:12px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;
+    color:var(--cyan);background:rgba(0,0,0,.5);backdrop-filter:blur(6px);padding:4px 9px;border-radius:6px;border:1px solid rgba(38,215,227,.3)}
+  .sb .open{position:absolute;right:12px;bottom:12px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);
+    backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;color:#fff;transition:.3s}
+  .sb:hover .open{background:var(--cta);border-color:var(--cta)}
+  .sb .cap{padding:16px 18px}
+  .sb .cap h4{font-size:16px;font-weight:600;margin-bottom:3px;letter-spacing:-.3px}
+  .sb .cap p{font-size:12px;color:var(--muted);font-weight:300}
+  /* empty placeholder frame (until PDFs arrive) */
+  .sb.soon .pg{display:grid;place-items:center;background:
+    repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,255,255,.025) 10px 20px),#0d0d10}
+  .sb.soon .pg span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--dim)}
+  @media(max-width:1100px){.sb-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:900px){.sb-intro{grid-template-columns:1fr;gap:26px}}
+  @media(max-width:520px){.sb-grid{grid-template-columns:1fr}.sb-steps{flex-direction:column;border-radius:16px}.sb-steps span{border-right:0;border-bottom:1px solid var(--line)}.sb-steps span:last-child{border-bottom:0}}
+
   /* ABOUT */
   .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
   .about h2.name{font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-1px;margin-bottom:6px}
@@ -255,10 +290,10 @@
 
   /* 6. 3D tilt + shine on cards */
   .tilt{transform-style:preserve-3d;will-change:transform}
-  .tilt .media::after,.svc::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
+  .tilt .media::after,.tilt .pg::before,.svc::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
     background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.10),transparent 45%);
     opacity:0;transition:opacity .4s}
-  .tilt:hover .media::after,.svc:hover::after{opacity:1}
+  .tilt:hover .media::after,.tilt:hover .pg::before,.svc:hover::after{opacity:1}
 
   /* small sheen sweep on primary CTA */
   .btn:not(.btn-ghost){position:relative;overflow:hidden}
@@ -372,7 +407,7 @@
   <a href="#top" class="logo"><img src="logo.png" alt="Remotion"></a>
   <div class="nav-links">
     <a href="#work">Work</a><a href="#quote">Pricing</a><a href="#services">Services</a>
-    <a href="#about">About</a><a href="#contact">Contact</a>
+    <a href="#storyboard">Process</a><a href="#about">About</a><a href="#contact">Contact</a>
   </div>
   <a href="#contact" class="btn btn-sm">Get in touch</a>
 </nav>
@@ -435,29 +470,43 @@
     <button class="active" data-f="all">All</button>
     <button data-f="ai">AI Ads</button>
     <button data-f="film">Short Films</button>
+    <button data-f="aiedit">AI Edit</button>
     <button data-f="edit">Editing</button>
     <button data-f="3d">3D &amp; Motion</button>
   </div>
   <div class="grid-h" id="gridH">
 
-    <!-- ===== LANDSCAPE — Short Films ===== -->
+    <!-- ===== LANDSCAPE: Short Films → AI Ads (16:9) → Editing ===== -->
+    <div class="frame reveal tilt" data-cat="film" data-yt="T6B4EzFahC4">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/T6B4EzFahC4/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Journey of Sultan &amp; Time</h3><p>Sharjah · AI short film · رحلة السلطان والزمان</p></div>
+    </div>
+    <div class="frame reveal tilt" data-cat="film" data-yt="qygAty2MA-8">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/qygAty2MA-8/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>The Scent of Bread</h3><p>Sharjah · AI short film · رائحة الخبز</p></div>
+    </div>
     <div class="frame reveal tilt" data-cat="film" data-yt="bNfLk5aOa8s">
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/bNfLk5aOa8s/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
       <div class="cap"><h3>Naguib Mahfouz</h3><p>AI short film · نجيب محفوظ في شوارع القاهرة</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="film" data-yt="T6B4EzFahC4">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/T6B4EzFahC4/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Journey of Sultan &amp; Time</h3><p>Sharjah · رحلة السلطان والزمان</p></div>
     </div>
     <div class="frame reveal tilt" data-cat="film" data-yt="--omk0iGxrU">
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/--omk0iGxrU/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
       <div class="cap"><h3>Ka'inat — The Djinn</h3><p>AI short · بودكاست كائنات · عفريت القرم</p></div>
     </div>
-
-    <!-- ===== LANDSCAPE — Editing / Events ===== -->
+    <div class="frame reveal tilt" data-cat="ai" data-yt="6B26y6fjDeo">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6B26y6fjDeo/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Phone Case — The Film</h3><p>AI product ad · كافر تليفون · landscape cut</p></div>
+    </div>
+    <div class="frame reveal tilt" data-cat="ai" data-yt="fZ9YOEwewg0">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/fZ9YOEwewg0/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Security &amp; Surveillance</h3><p>AI corporate ad · Dubai security company · كاميرات وحماية</p></div>
+    </div>
     <div class="frame reveal tilt" data-cat="edit" data-yt="QBz5AlHvMfA">
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/QBz5AlHvMfA/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
@@ -478,7 +527,17 @@
 
   <div class="grid-v" id="gridV">
 
-    <!-- ===== VERTICAL — AI Ads ===== -->
+    <!-- ===== VERTICAL: AI Ads → AI Edit → Editing → 3D ===== -->
+    <div class="frame v reveal tilt" data-cat="ai" data-yt="XKEUTkAD4u0">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/XKEUTkAD4u0/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Events Company Promo</h3><p>AI ad · شركة إيفنتات</p></div>
+    </div>
+    <div class="frame v reveal tilt" data-cat="ai" data-yt="DKmmxzyt1_k">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/DKmmxzyt1_k/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Phone Case — Reel</h3><p>AI product reel · كافر تليفون</p></div>
+    </div>
     <div class="frame v reveal tilt" data-cat="ai" data-yt="KR-bi2-rjg0">
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/KR-bi2-rjg0/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
@@ -509,8 +568,16 @@
         <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
       <div class="cap"><h3>Product Spot</h3><p>AI-generated product ad</p></div>
     </div>
-
-    <!-- ===== VERTICAL — 3D &amp; VFX ===== -->
+    <div class="frame v reveal tilt" data-cat="aiedit" data-yt="Yh1PEUSpo0Y">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Yh1PEUSpo0Y/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">AI EDIT</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Hybrid Cut</h3><p>Editing + AI scenes · مونتاج مع مشاهد AI</p></div>
+    </div>
+    <div class="frame v reveal tilt" data-cat="edit" data-yt="-SX5fNyM3AM">
+      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/-SX5fNyM3AM/hqdefault.jpg" alt="">
+        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+      <div class="cap"><h3>Automotive Cut</h3><p>Editing · color grade · سيارات</p></div>
+    </div>
     <div class="frame v reveal tilt" data-cat="3d" data-yt="kLhohEE5DDc">
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/kLhohEE5DDc/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">3D · VFX</span><div class="play"><span></span></div></div>
@@ -525,13 +592,6 @@
       <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/vHJY5YxVKH4/hqdefault.jpg" alt="">
         <div class="shade"></div><span class="tag">3D · MOTION</span><div class="play"><span></span></div></div>
       <div class="cap"><h3>Syria Logo Reveal</h3><p>3D motion · لوجو دعائي · سوريا</p></div>
-    </div>
-
-    <!-- ===== VERTICAL — Editing ===== -->
-    <div class="frame v reveal tilt" data-cat="edit" data-yt="-SX5fNyM3AM">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/-SX5fNyM3AM/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Automotive Cut</h3><p>Editing · color grade · سيارات</p></div>
     </div>
 
   </div>
@@ -576,11 +636,57 @@
   </div>
 </section>
 
+<!-- STORYBOARD -->
+<section class="sec wrap" id="storyboard">
+  <div class="sec-head reveal">
+    <h2>Story<span class="grad">boards</span></h2>
+    <span class="idx">[ PROCESS / 03 ]</span>
+  </div>
+  <div class="sb-intro">
+    <div class="reveal">
+      <h3>Every frame is <span class="em">approved</span><br>before a single one <span class="grad">moves.</span></h3>
+    </div>
+    <div class="reveal">
+      <p>Before any render, you get a full storyboard: every shot, angle, and beat drawn out as a PDF. You see your story, you shape it, you sign off — then it becomes cinema. No surprises, no wasted takes.</p>
+      <div class="sb-steps">
+        <span><b>01</b>Brief</span><span class="on"><b>02</b>Storyboard</span><span><b>03</b>Approve</span><span><b>04</b>Render</span>
+      </div>
+    </div>
+  </div>
+  <div class="sb-grid" id="sbGrid">
+    <!-- To add a storyboard: duplicate one <a class="sb"> block → href = the PDF in /storyboards, img src = its cover, then title/subtitle -->
+    <a class="sb reveal tilt" href="storyboards/traces-of-time.pdf" target="_blank" rel="noopener">
+      <div class="pg"><img src="storyboards/traces-of-time.webp" alt="Traces of Time — storyboard cover" loading="lazy">
+        <span class="pdf">PDF · 27 PAGES</span>
+        <span class="open"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span></div>
+      <div class="cap"><h4>Traces of Time</h4><p>MK Wedding Planner · reel storyboard · past &amp; present</p></div>
+    </a>
+    <a class="sb reveal tilt" href="storyboards/lights-flow.pdf" target="_blank" rel="noopener">
+      <div class="pg"><img src="storyboards/lights-flow.webp" alt="Lights Flow — storyboard cover" loading="lazy">
+        <span class="pdf">PDF · 10 PAGES</span>
+        <span class="open"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span></div>
+      <div class="cap"><h4>Lights Flow</h4><p>Al Mas Ballroom · 30s vertical film · from stone to celebration</p></div>
+    </a>
+    <a class="sb reveal tilt" href="storyboards/hyphen-the-line.pdf" target="_blank" rel="noopener">
+      <div class="pg"><img src="storyboards/hyphen-the-line.webp" alt="The Line — storyboard cover" loading="lazy">
+        <span class="pdf">PDF · 21 PAGES</span>
+        <span class="open"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span></div>
+      <div class="cap"><h4>The Line</h4><p>HYPHEN Flex Fit · 60s product film · iPhone case</p></div>
+    </a>
+    <a class="sb reveal tilt" href="storyboards/invisible-layer.pdf" target="_blank" rel="noopener">
+      <div class="pg"><img src="storyboards/invisible-layer.webp" alt="The Invisible Layer — storyboard cover" loading="lazy">
+        <span class="pdf">PDF · 33 PAGES</span>
+        <span class="open"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span></div>
+      <div class="cap"><h4>The Invisible Layer</h4><p>Convergint MEA · ports security film · 52s · 25 shots</p></div>
+    </a>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="sec wrap about" id="about">
   <div class="sec-head reveal">
     <h2>About</h2>
-    <span class="idx">[ ABOUT / 03 ]</span>
+    <span class="idx">[ ABOUT / 04 ]</span>
   </div>
   <div class="about-grid">
     <div class="reveal">
