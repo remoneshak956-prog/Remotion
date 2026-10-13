@@ -271,6 +271,69 @@
   .sec-head.reveal{transform:translateX(-24px)}
   .sec-head.reveal.in{transform:none}
 
+  /* ===== TEXT & NUMBER MOTION ===== */
+  /* hero meta labels: shimmer sweep after the counters finish */
+  .meta>div{position:relative}
+  .meta b{background:linear-gradient(90deg,#fff 0%,#fff 40%,var(--cyan) 50%,#fff 60%,#fff 100%);
+    background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    background-position:120% 0}
+  body.ready .meta b{animation:shimmer 2.2s 1.5s ease-in-out 1}
+  @keyframes shimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
+  .meta>div::after{content:"";position:absolute;left:0;bottom:-10px;width:0;height:1px;background:var(--grad);transition:width .8s .3s cubic-bezier(.2,.8,.2,1)}
+  body.ready .meta>div::after{width:38px}
+
+  /* "cinema." underline draws itself after the words land */
+  h1 .w.grad{position:relative}
+  h1 .w.grad::after{content:"";position:absolute;left:0;bottom:-.04em;height:.08em;width:0;border-radius:4px;
+    background:var(--grad);opacity:.9;box-shadow:0 0 18px rgba(14,148,234,.6)}
+  body.ready h1 .w.grad::after{animation:draw .8s 1.15s cubic-bezier(.2,.8,.2,1) forwards}
+  @keyframes draw{to{width:100%}}
+
+  /* captions under sections: letters slide up on reveal */
+  .svc h3,.cap h3{overflow:hidden}
+  .svc.reveal h3,.frame.reveal .cap h3{transform:translateY(12px);opacity:0;transition:transform .7s .15s cubic-bezier(.2,.8,.2,1),opacity .7s .15s}
+  .svc.reveal.in h3,.frame.reveal.in .cap h3{transform:none;opacity:1}
+
+  /* ===== PRICING CTA — the showpiece ===== */
+  .quote{position:relative;z-index:3;overflow:hidden;padding:140px 0;isolation:isolate}
+  .quote .aurora{position:absolute;inset:-20%;z-index:-2;filter:blur(70px);opacity:.55;
+    background:
+      radial-gradient(40% 50% at 20% 40%,rgba(38,215,227,.55),transparent 60%),
+      radial-gradient(35% 45% at 75% 35%,rgba(14,148,234,.6),transparent 60%),
+      radial-gradient(45% 50% at 55% 85%,rgba(45,108,152,.55),transparent 60%);
+    animation:aurora 16s ease-in-out infinite alternate}
+  @keyframes aurora{0%{transform:translate3d(-4%,-3%,0) rotate(0deg) scale(1)}50%{transform:translate3d(3%,4%,0) rotate(6deg) scale(1.08)}100%{transform:translate3d(-2%,5%,0) rotate(-4deg) scale(1.03)}}
+  .quote .veil{position:absolute;inset:0;z-index:-1;background:
+      linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 25%,rgba(0,0,0,.55) 75%,#000 100%)}
+  .quote .lines{position:absolute;inset:0;z-index:-1;opacity:.35;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask:radial-gradient(60% 60% at 50% 50%,#000,transparent);mask:radial-gradient(60% 60% at 50% 50%,#000,transparent)}
+  .quote-inner{text-align:center;max-width:980px;margin:0 auto;padding:0 28px}
+  .quote .eyebrow{justify-content:center;margin-bottom:28px}
+  .quote h2{font-size:clamp(36px,6.2vw,84px);font-weight:600;letter-spacing:-2.5px;line-height:1.02;margin-bottom:22px;
+    will-change:transform}
+  .quote h2 .em{font-style:italic;font-weight:300}
+  .quote p{color:var(--muted);font-weight:300;font-size:clamp(15px,1.5vw,19px);line-height:1.7;max-width:640px;margin:0 auto 40px}
+  .quote .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+  .quote .chips span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--cyan);border:1px solid rgba(38,215,227,.3);background:rgba(38,215,227,.06);padding:8px 14px;border-radius:100px;
+    backdrop-filter:blur(6px)}
+  .quote .cta-row{justify-content:center}
+  .btn-wa{background:#25D366;border-color:#25D366}
+  .btn-wa:hover{box-shadow:0 12px 38px rgba(37,211,102,.4)}
+  .quote .btn-ghost{background:rgba(0,0,0,.35);backdrop-filter:blur(8px);border-color:rgba(255,255,255,.18);color:#fff}
+  /* magnetic lift for the two CTAs */
+  .magnet{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+  /* big ghost word drifting behind */
+  .quote .ghost{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:-1;
+    font-size:clamp(120px,22vw,320px);font-weight:700;letter-spacing:-.04em;color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.07);white-space:nowrap;pointer-events:none;user-select:none;
+    animation:ghostDrift 14s ease-in-out infinite alternate}
+  @keyframes ghostDrift{from{transform:translate(-52%,-50%)}to{transform:translate(-48%,-50%)}}
+  @media(max-width:600px){.quote{padding:100px 0}.quote .ghost{display:none}}
+  @media(prefers-reduced-motion:reduce){.quote .aurora,.quote .ghost{animation:none}}
+
   @media(prefers-reduced-motion:reduce){
     .hero .w,.hero .eyebrow,.hero .sub,.hero .cta-row,.hero .meta,.reel{opacity:1!important;transform:none!important;filter:none!important}
     .loader{display:none}
@@ -308,7 +371,7 @@
 <nav id="nav">
   <a href="#top" class="logo"><img src="logo.png" alt="Remotion"></a>
   <div class="nav-links">
-    <a href="#work">Work</a><a href="#services">Services</a>
+    <a href="#work">Work</a><a href="#quote">Pricing</a><a href="#services">Services</a>
     <a href="#about">About</a><a href="#contact">Contact</a>
   </div>
   <a href="#contact" class="btn btn-sm">Get in touch</a>
@@ -474,6 +537,27 @@
   </div>
 </section>
 
+<!-- PRICING CTA -->
+<section class="quote" id="quote">
+  <div class="aurora"></div><div class="veil"></div><div class="lines"></div>
+  <div class="ghost" aria-hidden="true">REMOTION</div>
+  <div class="quote-inner">
+    <div class="eyebrow reveal"><span class="bar"></span>GET A QUOTE<span class="bar"></span></div>
+    <h2 class="reveal" id="quoteTitle">Want a price for <span class="em">your</span><br>ad or film? <span class="grad">Let's talk.</span></h2>
+    <p class="reveal">Tell me the duration you need — a 30s product spot, a 60s campaign, or a 3-5 min AI short film — and I'll send you a quote right away. No forms, no waiting.</p>
+    <div class="chips reveal">
+      <span>Ads · 15s / 30s / 60s</span><span>Short films · 3–5 min</span><span>Editing · per project</span><span>3D &amp; Motion</span>
+    </div>
+    <div class="cta-row reveal">
+      <a href="https://wa.me/971502528669?text=Hi%20Remon%2C%20I%27d%20like%20a%20quote%20for%20a%20video.%20Duration%3A%20" target="_blank" rel="noopener" class="btn btn-wa magnet">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.788-.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        Get a quote on WhatsApp <span class="arrow">→</span>
+      </a>
+      <a href="mailto:remoneshak956@gmail.com?subject=Quote%20request%20—%20Remotion" class="btn btn-ghost magnet">Email me instead</a>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICES -->
 <section class="sec wrap" id="services">
   <div class="sec-head reveal">
@@ -590,6 +674,25 @@
     (function tick(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(tick)})(t0);
   }),{threshold:.6});
   document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+  // 8. quote section: title parallax follows the cursor + magnetic buttons
+  const qSec=document.getElementById('quote'),qTitle=document.getElementById('quoteTitle');
+  if(qSec&&matchMedia('(hover:hover) and (pointer:fine)').matches){
+    let qx=0,qy=0,qtx=0,qty=0;
+    qSec.addEventListener('mousemove',e=>{
+      const r=qSec.getBoundingClientRect();
+      qtx=((e.clientX-r.left)/r.width-.5)*18; qty=((e.clientY-r.top)/r.height-.5)*12;
+    });
+    qSec.addEventListener('mouseleave',()=>{qtx=0;qty=0});
+    (function qloop(){qx+=(qtx-qx)*.08;qy+=(qty-qy)*.08;qTitle.style.transform=`translate3d(${qx}px,${qy}px,0)`;requestAnimationFrame(qloop)})();
+    document.querySelectorAll('.magnet').forEach(b=>{
+      b.addEventListener('mousemove',e=>{
+        const r=b.getBoundingClientRect();
+        b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.28}px) translateY(-2px)`;
+      });
+      b.addEventListener('mouseleave',()=>{b.style.transform=''});
+    });
+  }
 
   // 6. 3D tilt + cursor shine on cards (desktop only)
   if(matchMedia('(hover:hover) and (pointer:fine)').matches){
