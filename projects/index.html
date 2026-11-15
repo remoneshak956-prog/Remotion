@@ -162,12 +162,40 @@ tr:last-child td{border-bottom:0}
 .gate input:focus{border-color:var(--accent)}
 .gate .btn{width:100%;justify-content:center;padding:12px}
 .gate .err{color:var(--red);font-size:12.5px;min-height:18px;margin-top:10px}
+.team .money-only{display:none!important}
+.team .kpis{grid-template-columns:repeat(4,1fr)}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:11.5px;font-weight:500;padding:3px 9px;border-radius:7px;background:var(--surface2);border:1px solid var(--line2);color:var(--text);white-space:nowrap}
+.picker{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--bg);border:1px solid var(--line2);border-radius:10px}
+.pick{border:1px solid var(--line2);background:transparent;border-radius:99px;padding:5px 12px;font-size:12.5px;cursor:pointer;color:var(--muted);transition:.12s}
+.pick:hover{border-color:var(--muted)}
+.pick.on{background:var(--accent-soft);border-color:var(--accent);color:#fff}
+.fld .pick-add{flex:1;min-width:150px;border:0;background:transparent;padding:5px 6px;outline:none;width:auto}
+.role{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line2);color:var(--dim);font-family:"Poppins";letter-spacing:.06em;text-transform:uppercase}
+.fin{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:22px;position:relative;overflow:hidden}
+.fin::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:var(--grad)}
+.fin-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.fin-h b{font-size:15px}.fin-h .en{color:var(--dim);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.fin-h .per{color:var(--cyan);font-size:13px;font-weight:600}
+.fin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fin-t{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.fin-t .l{color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between}
+.fin-t .l .en{color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em}
+.fin-t .v{font-family:"Poppins";font-weight:700;font-size:20px;margin-top:6px;direction:ltr;text-align:right;line-height:1.35}
+.fin-t .v small{font-size:12px;color:var(--muted);font-weight:500;margin-inline-start:4px}
+.fin-t.in .v{color:var(--cyan)} .fin-t.owe .v{color:var(--amber)}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:14px}
+.mo{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;transition:.12s}
+.mo:hover{border-color:var(--line2)} .mo.act{border-color:var(--accent);background:var(--accent-soft)}
+.mo .n{font-size:11.5px;color:var(--muted)} .mo .a{font-family:"Poppins";font-size:11px;font-weight:600;margin-top:3px;direction:ltr}
+.mo .a.z{color:var(--dim);font-weight:400}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--line2);color:var(--text);padding:10px 18px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:60;font-size:13px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){.kpis,.team .kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){.fin-grid{grid-template-columns:repeat(2,1fr)}.months{grid-template-columns:repeat(6,1fr)}}
 @media(max-width:820px){
-  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kpis,.team .kpis{grid-template-columns:repeat(2,1fr)}
   .tablewrap.list{display:none}
   .cards.list{display:grid}
   .grid{grid-template-columns:1fr}
@@ -183,6 +211,7 @@ tr:last-child td{border-bottom:0}
       <div class="sub"><b>لوحة المشاريع</b><span class="en">Projects Dashboard</span></div>
     </div>
     <div class="hdr-actions">
+      <span class="role" id="roleTag" style="display:none"></span>
       <div class="sync" id="sync"><span class="dot"></span><span id="syncTxt">بيتصل…</span></div>
       <button class="btn primary" id="addBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
@@ -197,8 +226,19 @@ tr:last-child td{border-bottom:0}
     <div class="kpi hl"><div class="l">مشاريع شغالة <span class="en">Active</span></div><div class="v" id="kActive">0</div></div>
     <div class="kpi warn"><div class="l">متأخرة <span class="en">Overdue</span></div><div class="v" id="kLate">0</div></div>
     <div class="kpi"><div class="l">تسليم خلال ٧ أيام <span class="en">Due 7d</span></div><div class="v" id="kSoon">0</div></div>
-    <div class="kpi"><div class="l">فلوس لسه ماوصلتش <span class="en">Outstanding</span></div><div class="v money" id="kOwed">—</div></div>
+    <div class="kpi money-only"><div class="l">فلوس لسه ماوصلتش <span class="en">Outstanding</span></div><div class="v money" id="kOwed">—</div></div>
     <div class="kpi"><div class="l">متوسط الإنجاز <span class="en">Avg progress</span></div><div class="v" id="kAvg">0<small>%</small></div></div>
+  </section>
+
+  <section class="fin money-only" id="fin">
+    <div class="fin-h"><div><b>الحسابات</b> <span class="en">Income · Owner only</span></div><span class="per" id="finPer">كل الفترات</span></div>
+    <div class="fin-grid">
+      <div class="fin-t in"><div class="l">اتقبض <span class="en">Received</span></div><div class="v" id="fIn">0</div></div>
+      <div class="fin-t owe"><div class="l">ليّا (لسه) <span class="en">Outstanding</span></div><div class="v" id="fOwe">0</div></div>
+      <div class="fin-t"><div class="l">إجمالي الشغل <span class="en">Total value</span></div><div class="v" id="fTot">0</div></div>
+      <div class="fin-t"><div class="l">عدد المشاريع <span class="en">Projects</span></div><div class="v" id="fCnt">0</div></div>
+    </div>
+    <div class="months" id="months"></div>
   </section>
 
   <div class="toolbar">
@@ -206,8 +246,10 @@ tr:last-child td{border-bottom:0}
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" placeholder="دوّر بالعميل أو اسم الشغلانة…">
     </div>
+    <select class="f" id="fYear"><option value="">كل السنين</option></select>
+    <select class="f" id="fMonth"><option value="">كل الشهور</option></select>
     <select class="f" id="fStage"><option value="">كل المراحل</option></select>
-    <select class="f" id="fPay">
+    <select class="f money-only" id="fPay">
       <option value="">كل حالات الدفع</option>
       <option value="unpaid">مدفعش</option>
       <option value="deposit">دفع عربون</option>
@@ -229,10 +271,10 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr>
           <th>العميل<span class="en">Client</span></th>
-          <th>الشغلانة<span class="en">Project</span></th>
+          <th>الشغلانة<span class="en">Services</span></th>
           <th>وصلت لإيه<span class="en">Stage</span></th>
           <th>الإنجاز<span class="en">Progress</span></th>
-          <th>الفلوس<span class="en">Payment</span></th>
+          <th class="money-only">الفلوس<span class="en">Payment</span></th>
           <th>التسليم<span class="en">Deadline</span></th>
           <th>الداتا فين<span class="en">Files</span></th>
         </tr></thead>
@@ -252,20 +294,16 @@ tr:last-child td{border-bottom:0}
     <div class="hint">كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.</div>
     <div class="grid">
       <div class="fld"><label>العميل <span class="en">Client</span></label><input name="client" required placeholder="مثلاً: MK Wedding Planner"></div>
-      <div class="fld"><label>اسم الشغلانة <span class="en">Project name</span></label><input name="name" required placeholder="مثلاً: فيديو افتتاح القاعة"></div>
-      <div class="fld"><label>الشغلانة إيه <span class="en">Type of work</span></label>
-        <input name="type" list="types" placeholder="اختار أو اكتب">
-        <datalist id="types">
-          <option value="AI Short Film"><option value="Product Ad"><option value="Event / Corporate Ad"><option value="Projection Mapping"><option value="Motion Graphics"><option value="Editing / مونتاج"><option value="Branding / هوية"><option value="Social Media Content">
-        </datalist>
-      </div>
       <div class="fld"><label>وصلت لإيه <span class="en">Stage</span></label><select name="stage" id="stageSel"></select></div>
+      <div class="fld full"><label>الشغلانة <span class="en">Services — اختار أكتر من حاجة</span></label>
+        <div class="picker" id="picker"></div>
+      </div>
       <div class="fld full"><label>خلص منه قد إيه <span class="en">Progress — <span class="rangeval" id="pv">0%</span></span></label><input type="range" name="progress" min="0" max="100" step="5" value="0" id="pr"></div>
       <div class="fld"><label>معاد التسليم <span class="en">Deadline</span></label><input type="date" name="due"></div>
-      <div class="fld"><label>استلمت فلوس؟ <span class="en">Payment status</span></label>
+      <div class="fld money-only"><label>استلمت فلوس؟ <span class="en">Payment status</span></label>
         <select name="pay"><option value="unpaid">لأ — مدفعش</option><option value="deposit">عربون / جزء</option><option value="paid">آه — مدفوع بالكامل</option></select>
       </div>
-      <div class="fld full"><label>المبالغ <span class="en">Total · Received · Currency</span></label>
+      <div class="fld full money-only"><label>المبالغ <span class="en">Total · Received · Currency</span></label>
         <div class="money-row">
           <input name="total" type="number" min="0" step="any" placeholder="الإجمالي">
           <input name="paid" type="number" min="0" step="any" placeholder="اللي وصل">
@@ -315,9 +353,19 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
 const stageOf = k => STAGES.find(s=>s.k===k) || STAGES[0];
 const fmt = n => Number(n||0).toLocaleString("en-US",{maximumFractionDigits:0});
 
-let items = [], PIN = "", ME = "", online = false, editing = null, view = "list";
+let items = [], PIN = "", ME = "", ROLE = "", online = false, editing = null, view = "list", picked = [];
+const SERVICES = ["AI Short Film","Product Ad","Event / Corporate Ad","Projection Mapping","Motion Graphics","3D / VFX","Editing / مونتاج","Branding / هوية","Social Media Content","Photography / تصوير"];
+const splitNames = s => String(s||"").split(" + ").map(x=>x.trim()).filter(Boolean);
+const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+function pdate(p){ if(p.due) return String(p.due).slice(0,10); if(p.createdAt){const d=new Date(+p.createdAt);if(!isNaN(d))return d.toISOString().slice(0,10)} return ""; }
+const pYear = p => pdate(p).slice(0,4), pMonth = p => pdate(p) ? +pdate(p).slice(5,7) : 0;
+function moneyLines(o){const k=Object.keys(o).filter(c=>o[c]);return k.length?k.map(c=>`${fmt(o[c])}<small>${c}</small>`).join("<br>"):"0"}
+const tagsHTML = s => `<div class="tags">${splitNames(s).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`;
 
 // --- fill selects
+$("#fMonth").innerHTML += MONTHS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join("");
+function fillYears(){const ys=[...new Set(items.map(pYear).filter(Boolean).concat(String(new Date().getFullYear())))].sort().reverse();
+  const cur=$("#fYear").value; $("#fYear").innerHTML=`<option value="">كل السنين</option>`+ys.map(y=>`<option${y===cur?" selected":""}>${y}</option>`).join("");}
 $("#fStage").innerHTML += STAGES.map(s=>`<option value="${s.k}">${s.ar}</option>`).join("");
 $("#stageSel").innerHTML = STAGES.map(s=>`<option value="${s.k}">${s.ar} — ${s.en}</option>`).join("");
 
@@ -356,32 +404,38 @@ function dueCell(p){
 
 // --- render
 function filtered(){
+  const fy=$("#fYear").value, fm=$("#fMonth").value;
   const q=$("#q").value.trim().toLowerCase(), fs=$("#fStage").value, fp=$("#fPay").value, sh=$("#fShow").value;
   return items.filter(p=>{
     if(sh==="active" && isDone(p)) return false;
     if(sh==="done" && !isDone(p)) return false;
+    if(fy && pYear(p)!==fy) return false;
+    if(fm && pMonth(p)!==+fm) return false;
     if(fs && p.stage!==fs) return false;
     if(fp && p.pay!==fp) return false;
-    if(q && !(`${p.client} ${p.name} ${p.type}`.toLowerCase().includes(q))) return false;
+    if(q && !(`${p.client} ${p.name}`.toLowerCase().includes(q))) return false;
     return true;
   }).sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999"));
 }
 function render(){
   // KPIs
-  const act=items.filter(p=>!isDone(p)&&p.stage!=="hold");
+  const fy0=$("#fYear").value, fm0=$("#fMonth").value;
+  const scope=items.filter(p=>(!fy0||pYear(p)===fy0)&&(!fm0||pMonth(p)===+fm0));
+  const act=scope.filter(p=>!isDone(p)&&p.stage!=="hold");
   $("#kActive").textContent=act.length;
   $("#kLate").textContent=act.filter(p=>p.due&&daysLeft(p.due)<0).length;
   $("#kSoon").textContent=act.filter(p=>{const n=daysLeft(p.due);return n!==null&&n>=0&&n<=7}).length;
   $("#kAvg").innerHTML=(act.length?Math.round(act.reduce((s,p)=>s+(+p.progress||0),0)/act.length):0)+"<small>%</small>";
-  const owed={}; items.forEach(p=>{const t=+p.total||0,pd=+p.paid||0; if(p.pay!=="paid"&&t>pd){const c=p.cur||"AED";owed[c]=(owed[c]||0)+(t-pd)}});
+  const owed={}; scope.forEach(p=>{const t=+p.total||0,pd=+p.paid||0; if(p.pay!=="paid"&&t>pd){const c=p.cur||"AED";owed[c]=(owed[c]||0)+(t-pd)}});
   const ok=Object.keys(owed); $("#kOwed").innerHTML=ok.length?ok.map(c=>`${fmt(owed[c])}<small>${c}</small>`).join("<br>"):"0";
+  fillYears(); renderFin();
 
   const list=filtered();
   // table
   $("#tbody").innerHTML=list.map(p=>`<tr class="row" data-id="${p.id}">
     <td><div class="client">${esc(p.client)}</div></td>
-    <td><div class="proj">${esc(p.name)}</div><div class="type">${esc(p.type||"")}</div></td>
-    <td>${stageChip(p)}</td><td>${progCell(p)}</td><td>${payCell(p)}</td><td>${dueCell(p)}</td>
+    <td>${tagsHTML(p.name)}</td>
+    <td>${stageChip(p)}</td><td>${progCell(p)}</td><td class="money-only">${payCell(p)}</td><td>${dueCell(p)}</td>
     <td class="data">${dataCell(p.data)}</td></tr>`).join("");
   $("#emptyT").style.display=list.length?"none":"block";
   // cards
@@ -391,11 +445,27 @@ function render(){
   $("#board").innerHTML=cols.map(s=>{const its=list.filter(p=>(p.stage||"brief")===s.k);
     return `<div class="col"><h4>${s.ar} <span class="n">${its.length}</span></h4>${its.map(cardHTML).join("")}</div>`}).join("");
 }
+function sums(list){const r={in:{},owe:{},tot:{},n:0};list.forEach(p=>{const t=+p.total||0,pd=Math.min(+p.paid||0,t||Infinity),c=p.cur||"AED";
+  if(!t&&!pd)return; r.n++; r.tot[c]=(r.tot[c]||0)+t; r.in[c]=(r.in[c]||0)+(+p.paid||0); if(p.pay!=="paid"&&t>pd) r.owe[c]=(r.owe[c]||0)+(t-pd);});return r}
+function renderFin(){
+  if(ROLE!=="owner") return;
+  const fy=$("#fYear").value, fm=$("#fMonth").value;
+  const per=items.filter(p=>(!fy||pYear(p)===fy)&&(!fm||pMonth(p)===+fm));
+  const r=sums(per);
+  $("#fIn").innerHTML=moneyLines(r.in); $("#fOwe").innerHTML=moneyLines(r.owe); $("#fTot").innerHTML=moneyLines(r.tot); $("#fCnt").textContent=per.length;
+  $("#finPer").textContent=(fm?MONTHS[fm-1]+" ":"")+(fy||(fm?"(كل السنين)":"كل الفترات"));
+  const y=fy||String(new Date().getFullYear());
+  $("#months").innerHTML=MONTHS.map((m,i)=>{const s=sums(items.filter(p=>pYear(p)===y&&pMonth(p)===i+1));const ks=Object.keys(s.in).filter(c=>s.in[c]);
+    const a=ks.length?ks.map(c=>fmt(s.in[c])+" "+c).join("<br>"):"—";
+    return `<div class="mo${fm==i+1&&(!fy||fy===y)?" act":""}" data-m="${i+1}" data-y="${y}"><div class="n">${m}</div><div class="a${ks.length?"":" z"}">${a}</div></div>`}).join("");
+}
+$("#months").addEventListener("click",e=>{const m=e.target.closest(".mo");if(!m)return;
+  if($("#fMonth").value===m.dataset.m&&$("#fYear").value===m.dataset.y){$("#fMonth").value=""}else{$("#fYear").value=m.dataset.y;$("#fMonth").value=m.dataset.m}render()});
 function cardHTML(p){
   return `<div class="card" data-id="${p.id}">
-    <div class="top"><div><div class="proj">${esc(p.name)}</div><div class="type">${esc(p.client)}${p.type?" · "+esc(p.type):""}</div></div>${stageChip(p)}</div>
+    <div class="top"><div><div class="proj">${esc(p.client)}</div><div style="margin-top:6px">${tagsHTML(p.name)}</div></div>${stageChip(p)}</div>
     ${progCell(p)}
-    <div class="foot"><div>${payCell(p)}</div><div>${dueCell(p)}</div></div>
+    <div class="foot"><div class="money-only">${payCell(p)}</div><div>${dueCell(p)}</div></div>
     ${p.data?`<div class="data" style="margin-top:10px">${dataCell(p.data)}</div>`:""}
   </div>`;
 }
@@ -404,7 +474,7 @@ function cardHTML(p){
 $("#viewTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;view=b.dataset.v;
   document.querySelectorAll("#viewTabs button").forEach(x=>x.classList.toggle("act",x===b));
   $("#listView").style.display=view==="list"?"block":"none"; $("#board").style.display=view==="board"?"flex":"none";});
-["#q","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
+["#q","#fYear","#fMonth","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
 
 // --- clicks
 document.addEventListener("click",async e=>{
@@ -413,13 +483,24 @@ document.addEventListener("click",async e=>{
   const r=e.target.closest("[data-id]"); if(r) openModal(items.find(p=>p.id===r.dataset.id));
 });
 
+// --- services picker (multi-select)
+function renderPicker(){
+  const all=[...SERVICES,...picked.filter(x=>!SERVICES.includes(x))];
+  $("#picker").innerHTML=all.map(x=>`<button type="button" class="pick${picked.includes(x)?" on":""}" data-s="${esc(x)}">${esc(x)}</button>`).join("")
+    +`<input class="pick-add" id="pickAdd" placeholder="+ حاجة تانية… واضغط Enter">`;
+}
+function addCustom(){const i=$("#pickAdd");const v=i?i.value.trim().replace(/\s*\+\s*/g," "):"";if(v&&!picked.includes(v))picked.push(v);return v}
+$("#picker").addEventListener("click",e=>{const b=e.target.closest(".pick");if(!b)return;const x=b.dataset.s;picked=picked.includes(x)?picked.filter(y=>y!==x):[...picked,x];renderPicker()});
+$("#picker").addEventListener("keydown",e=>{if(e.target.id==="pickAdd"&&e.key==="Enter"){e.preventDefault();if(addCustom()){renderPicker();$("#pickAdd").focus()}}});
+
 // --- modal
 const F=$("#form");
 function openModal(p){
   editing=p||null; F.reset(); $("#confirm").classList.remove("show"); $("#delBtn").style.display=p?"":"none";
   $("#mTitle").textContent=p?"تعديل المشروع":"مشروع جديد";
   const d=p||{stage:"brief",pay:"unpaid",progress:0,cur:"AED"};
-  ["client","name","type","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
+  ["client","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
+  picked=splitNames(d.name); renderPicker();
   $("#pv").textContent=(F.progress.value||0)+"%";
   $("#updated").textContent="";
   if(p&&p.updatedAt){const t=new Date(p.updatedAt).toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
@@ -438,7 +519,10 @@ F.paid.addEventListener("input",()=>{const t=+F.total.value||0,pd=+F.paid.value|
 
 F.addEventListener("submit",async e=>{
   e.preventDefault();
-  const o={}; ["client","name","type","stage","due","pay","cur","data","details"].forEach(k=>o[k]=F.elements[k].value.trim());
+  addCustom();
+  if(!picked.length){ toast("اختار الشغلانة الأول"); return; }
+  const o={}; ["client","stage","due","pay","cur","data","details"].forEach(k=>o[k]=F.elements[k].value.trim());
+  o.name=picked.join(" + ");
   o.progress=+F.progress.value||0; o.total=F.total.value===""?null:+F.total.value; o.paid=F.paid.value===""?null:+F.paid.value;
   o.updatedAt=Date.now(); o.updatedBy=ME;
   const id=editing?editing.id:("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
@@ -477,6 +561,9 @@ async function api(fn,...args){
     setSync("off","مش متصل"); $("#banner").classList.add("show"); throw new Error(res.error||"error");
   }
   online=true; setSync("on","متزامن"); $("#banner").classList.remove("show");
+  if(res.role && res.role!==ROLE){ ROLE=res.role; document.body.classList.toggle("team",ROLE!=="owner");
+    const t=$("#roleTag"); t.style.display=""; t.textContent=ROLE==="owner"?"Owner":"Team"; }
+  setTimeout(renderFin,0);
   return res.items;
 }
 function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}
