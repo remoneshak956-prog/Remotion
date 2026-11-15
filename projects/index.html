@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A0A0A">
+<title>Remotion — Projects Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#0A0A0A; --void:#000000; --surface:#111111; --surface2:#171717; --line:#1E1E1E; --line2:#2B2B2B;
+  --text:#FFFFFF; --body:#AAAAAA; --muted:#AAAAAA; --dim:#666666;
+  --accent:#055EF6; --mid:#0E94EA; --cyan:#26D7E3; --deep:#2D6C98;
+  --accent-soft:rgba(5,94,246,.14); --accent-line:rgba(5,94,246,.55);
+  --cyan-soft:rgba(38,215,227,.12);
+  --grad:linear-gradient(135deg,#26D7E3 0%,#0E94EA 50%,#2D6C98 100%);
+  --red:#FF5D5D; --red-soft:rgba(255,93,93,.12);
+  --amber:#F4B740; --amber-soft:rgba(244,183,64,.12);
+  --blue:#0E94EA; --blue-soft:rgba(14,148,234,.14);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text)}
+body{font-family:"IBM Plex Sans Arabic","Poppins",system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:100vh;
+  }
+.en{font-family:"Poppins",sans-serif;letter-spacing:.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
+
+/* Header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:22px;margin-bottom:26px;position:relative}
+header::after{content:"";position:absolute;bottom:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,#2D6C98 20%,#0E94EA 50%,#26D7E3 80%,transparent)}
+.brand{display:flex;align-items:center;gap:14px}
+.wm{display:inline-flex;align-items:baseline;font-family:"Poppins",sans-serif;font-weight:600;color:#fff;letter-spacing:-.005em;line-height:1;direction:ltr}
+.wm .o{width:.98em;height:.98em;margin:0 .03em 0 .07em;transform:translateY(.13em);flex:none}
+.wm.logo{font-size:30px}
+.wm.big{font-size:40px;margin-bottom:26px}
+.brand .sub{border-inline-start:1px solid var(--line2);padding-inline-start:14px;color:var(--muted);font-size:13px}
+.brand .sub b{color:var(--text);font-weight:700;display:block;font-size:15px}
+.brand .sub .en{color:var(--dim);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.hdr-actions{display:flex;gap:10px;align-items:center}
+.sync{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;padding:7px 12px;border:1px solid var(--line);border-radius:99px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--dim)}
+.sync.on .dot{background:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft)}
+.sync.off .dot{background:var(--amber)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--surface2);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--grad);color:#fff;border-color:transparent;font-weight:600}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--red);border-color:rgba(255,93,93,.35);background:transparent}
+.btn.sm{padding:6px 11px;font-size:12.5px;border-radius:8px}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.kpi .l{color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:8px}
+.kpi .l .en{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.kpi .v{font-family:"Poppins";font-weight:700;font-size:28px;margin-top:6px;direction:ltr;text-align:right}
+.kpi .v small{font-size:13px;color:var(--muted);font-weight:500;margin-inline-start:4px}
+.kpi.hl{border-color:var(--accent-line)}
+.kpi.hl::after{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--grad)}
+.kpi.warn .v{color:var(--red)}
+.kpi .v.money{font-size:20px;line-height:1.35;padding-top:5px}
+
+/* Toolbar */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 38px 10px 14px;outline:none}
+.search input:focus{border-color:var(--accent-line)}
+.search svg{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--dim)}
+select.f{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;cursor:pointer}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px}
+.tabs button{border:0;background:transparent;padding:7px 12px;border-radius:7px;cursor:pointer;color:var(--muted);font-size:13px}
+.tabs button.act{background:var(--surface2);color:var(--text)}
+
+/* Table */
+.tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{font-weight:500;color:var(--muted);font-size:12px;text-align:right;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface2);white-space:nowrap}
+th .en{display:block;color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em}
+td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.row{cursor:pointer;transition:background .12s}
+tr.row:hover{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:0}
+.client{font-weight:600}
+.proj{font-weight:600}
+.type{color:var(--muted);font-size:12.5px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:500;white-space:nowrap;border:1px solid transparent}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.c-stage{background:var(--blue-soft);color:var(--blue)}
+.c-done{background:var(--cyan-soft);color:var(--cyan)}
+.c-hold{background:rgba(139,147,158,.12);color:var(--muted)}
+.c-paid{background:var(--cyan-soft);color:var(--cyan)}
+.c-dep{background:var(--amber-soft);color:var(--amber)}
+.c-unpaid{background:var(--red-soft);color:var(--red)}
+.money-sub{font-family:"Poppins";font-size:11.5px;color:var(--dim);margin-top:4px;direction:ltr;text-align:right}
+.prog{display:flex;align-items:center;gap:10px;min-width:120px}
+.bar{flex:1;height:6px;background:var(--line2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.prog span{font-family:"Poppins";font-size:12px;font-weight:600;width:36px;direction:ltr;text-align:left}
+.due{font-family:"Poppins";font-size:13px;direction:ltr;text-align:right;white-space:nowrap}
+.due-rel{font-size:11.5px;margin-top:2px;color:var(--muted)}
+.due-rel.late{color:var(--red)} .due-rel.soon{color:var(--amber)}
+.data a,.data .path{display:inline-flex;align-items:center;gap:6px;color:var(--mid);text-decoration:none;font-size:12.5px;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.data .path{color:var(--muted);direction:ltr;font-family:"Poppins"}
+.data a:hover{text-decoration:underline}
+.copy{background:none;border:0;cursor:pointer;color:var(--dim);padding:2px;margin-inline-start:4px}
+.copy:hover{color:var(--mid)}
+
+/* Cards (mobile + board) */
+.cards{display:none;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;transition:.15s}
+.card:hover{border-color:var(--line2)}
+.card .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:10px}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+
+/* Board */
+.board{display:none;gap:12px;overflow-x:auto;padding-bottom:8px}
+.col{min-width:260px;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.col h4{font-size:13px;font-weight:600;display:flex;justify-content:space-between;margin-bottom:10px;padding:0 4px}
+.col h4 .n{font-family:"Poppins";color:var(--dim)}
+.col .card{background:var(--surface2);margin-bottom:8px;padding:12px}
+
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty .big{width:44px;height:44px;border-radius:50%;margin:0 auto 14px;background:conic-gradient(from 200deg,#26D7E3,#0E94EA,#055EF6,#26D7E3);-webkit-mask:radial-gradient(circle,transparent 12px,#000 13px);mask:radial-gradient(circle,transparent 12px,#000 13px)}
+
+/* Modal */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;z-index:50}
+.ov.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--line2);border-radius:18px;width:100%;max-width:720px;padding:26px}
+.modal h3{font-size:18px;margin-bottom:4px}
+.modal .hint{color:var(--muted);font-size:12.5px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+.fld label .en{color:var(--dim);font-size:11px}
+.fld input,.fld select,.fld textarea{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;outline:none;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--accent)}
+.fld textarea{min-height:110px;resize:vertical}
+.fld input[type=range]{padding:0;accent-color:var(--accent);background:transparent;border:0;height:28px}
+.rangeval{font-family:"Poppins";font-weight:600;color:var(--cyan)}
+.money-row{display:grid;grid-template-columns:1fr 1fr 100px;gap:10px}
+.mfoot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:10px;flex-wrap:wrap}
+.mfoot .r{display:flex;gap:8px}
+.confirm{display:none;align-items:center;gap:8px;color:var(--red);font-size:13px}
+.confirm.show{display:flex}
+.updated{color:var(--dim);font-size:11.5px;margin-top:14px}
+
+.banner{display:none;background:var(--amber-soft);border:1px solid rgba(244,183,64,.3);color:var(--amber);padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:13px}
+.banner.show{display:block}
+.gate{position:fixed;inset:0;background:var(--void);display:flex;align-items:center;justify-content:center;z-index:80;padding:20px}
+.gate.hide{display:none}
+.gate .box{width:100%;max-width:360px;text-align:center}
+
+.gate p{color:var(--muted);font-size:13px;margin-bottom:18px}
+.gate input{width:100%;background:var(--surface);border:1px solid var(--line2);border-radius:10px;padding:12px 14px;outline:none;margin-bottom:10px;text-align:center}
+.gate input:focus{border-color:var(--accent)}
+.gate .btn{width:100%;justify-content:center;padding:12px}
+.gate .err{color:var(--red);font-size:12.5px;min-height:18px;margin-top:10px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface2);border:1px solid var(--line2);color:var(--text);padding:10px 18px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:60;font-size:13px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .tablewrap.list{display:none}
+  .cards.list{display:grid}
+  .grid{grid-template-columns:1fr}
+  .wrap{padding:20px 14px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="wm logo" aria-label="Remotion">Remoti<svg class="o" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="wmg1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1FE6EA"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#055EF6"/></linearGradient></defs><circle cx="50" cy="50" r="40.3" fill="none" stroke="url(#wmg1)" stroke-width="19.4"/></svg>n</span>
+      <div class="sub"><b>لوحة المشاريع</b><span class="en">Projects Dashboard</span></div>
+    </div>
+    <div class="hdr-actions">
+      <div class="sync" id="sync"><span class="dot"></span><span id="syncTxt">بيتصل…</span></div>
+      <button class="btn primary" id="addBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+        مشروع جديد
+      </button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner">مش قادر يوصل للشيت دلوقتي — اتأكد من النت وجرّب تعمل Refresh.</div>
+
+  <section class="kpis">
+    <div class="kpi hl"><div class="l">مشاريع شغالة <span class="en">Active</span></div><div class="v" id="kActive">0</div></div>
+    <div class="kpi warn"><div class="l">متأخرة <span class="en">Overdue</span></div><div class="v" id="kLate">0</div></div>
+    <div class="kpi"><div class="l">تسليم خلال ٧ أيام <span class="en">Due 7d</span></div><div class="v" id="kSoon">0</div></div>
+    <div class="kpi"><div class="l">فلوس لسه ماوصلتش <span class="en">Outstanding</span></div><div class="v money" id="kOwed">—</div></div>
+    <div class="kpi"><div class="l">متوسط الإنجاز <span class="en">Avg progress</span></div><div class="v" id="kAvg">0<small>%</small></div></div>
+  </section>
+
+  <div class="toolbar">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" placeholder="دوّر بالعميل أو اسم الشغلانة…">
+    </div>
+    <select class="f" id="fStage"><option value="">كل المراحل</option></select>
+    <select class="f" id="fPay">
+      <option value="">كل حالات الدفع</option>
+      <option value="unpaid">مدفعش</option>
+      <option value="deposit">دفع عربون</option>
+      <option value="paid">مدفوع بالكامل</option>
+    </select>
+    <select class="f" id="fShow">
+      <option value="active">الشغال بس</option>
+      <option value="all">الكل</option>
+      <option value="done">المسلَّم بس</option>
+    </select>
+    <div class="tabs" id="viewTabs">
+      <button data-v="list" class="act">جدول</button>
+      <button data-v="board">مراحل</button>
+    </div>
+  </div>
+
+  <div id="listView">
+    <div class="tablewrap list">
+      <table>
+        <thead><tr>
+          <th>العميل<span class="en">Client</span></th>
+          <th>الشغلانة<span class="en">Project</span></th>
+          <th>وصلت لإيه<span class="en">Stage</span></th>
+          <th>الإنجاز<span class="en">Progress</span></th>
+          <th>الفلوس<span class="en">Payment</span></th>
+          <th>التسليم<span class="en">Deadline</span></th>
+          <th>الداتا فين<span class="en">Files</span></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="emptyT" style="display:none"><div class="big"></div>مفيش مشاريع هنا لسه — دوس <b>مشروع جديد</b>.</div>
+    </div>
+    <div class="cards list" id="cards"></div>
+  </div>
+  <div class="board" id="board"></div>
+</div>
+
+<!-- Modal -->
+<div class="ov" id="ov">
+  <form class="modal" id="form" autocomplete="off">
+    <h3 id="mTitle">مشروع جديد</h3>
+    <div class="hint">كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.</div>
+    <div class="grid">
+      <div class="fld"><label>العميل <span class="en">Client</span></label><input name="client" required placeholder="مثلاً: MK Wedding Planner"></div>
+      <div class="fld"><label>اسم الشغلانة <span class="en">Project name</span></label><input name="name" required placeholder="مثلاً: فيديو افتتاح القاعة"></div>
+      <div class="fld"><label>الشغلانة إيه <span class="en">Type of work</span></label>
+        <input name="type" list="types" placeholder="اختار أو اكتب">
+        <datalist id="types">
+          <option value="AI Short Film"><option value="Product Ad"><option value="Event / Corporate Ad"><option value="Projection Mapping"><option value="Motion Graphics"><option value="Editing / مونتاج"><option value="Branding / هوية"><option value="Social Media Content">
+        </datalist>
+      </div>
+      <div class="fld"><label>وصلت لإيه <span class="en">Stage</span></label><select name="stage" id="stageSel"></select></div>
+      <div class="fld full"><label>خلص منه قد إيه <span class="en">Progress — <span class="rangeval" id="pv">0%</span></span></label><input type="range" name="progress" min="0" max="100" step="5" value="0" id="pr"></div>
+      <div class="fld"><label>معاد التسليم <span class="en">Deadline</span></label><input type="date" name="due"></div>
+      <div class="fld"><label>استلمت فلوس؟ <span class="en">Payment status</span></label>
+        <select name="pay"><option value="unpaid">لأ — مدفعش</option><option value="deposit">عربون / جزء</option><option value="paid">آه — مدفوع بالكامل</option></select>
+      </div>
+      <div class="fld full"><label>المبالغ <span class="en">Total · Received · Currency</span></label>
+        <div class="money-row">
+          <input name="total" type="number" min="0" step="any" placeholder="الإجمالي">
+          <input name="paid" type="number" min="0" step="any" placeholder="اللي وصل">
+          <select name="cur"><option>AED</option><option>SAR</option><option>EGP</option><option>USD</option></select>
+        </div>
+      </div>
+      <div class="fld full"><label>الداتا فين <span class="en">Files / Drive link</span></label><input name="data" dir="ltr" placeholder="https://drive.google.com/…  أو  D:\Projects\Client\…"></div>
+      <div class="fld full"><label>تفاصيل المشروع <span class="en">Brief & notes</span></label><textarea name="details" placeholder="البريف، المطلوب، عدد الفيديوهات، المقاسات، ملاحظات العميل…"></textarea></div>
+    </div>
+    <div class="updated" id="updated"></div>
+    <div class="mfoot">
+      <div>
+        <button type="button" class="btn danger sm" id="delBtn">حذف</button>
+        <span class="confirm" id="confirm">متأكد؟ <button type="button" class="btn danger sm" id="delYes">آه احذف</button><button type="button" class="btn ghost sm" id="delNo">لأ</button></span>
+      </div>
+      <div class="r">
+        <button type="button" class="btn ghost" id="cancel">إلغاء</button>
+        <button type="submit" class="btn primary" id="saveBtn">حفظ</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+<div class="gate" id="gate"><form class="box" id="gateForm" autocomplete="off">
+  <span class="wm big" aria-label="Remotion">Remoti<svg class="o" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="wmg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1FE6EA"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#055EF6"/></linearGradient></defs><circle cx="50" cy="50" r="40.3" fill="none" stroke="url(#wmg2)" stroke-width="19.4"/></svg>n</span>
+  <p>لوحة المشاريع — Projects Dashboard</p>
+  <input id="gName" placeholder="اسمك (Your name)" required>
+  <input id="gPin" type="password" inputmode="numeric" placeholder="الرقم السري (PIN)" required dir="ltr">
+  <button class="btn primary" type="submit">دخول</button>
+  <div class="err" id="gErr"></div>
+</form></div>
+
+<script>
+const STAGES = [
+  {k:"brief",  ar:"بريف واتفاق",       en:"Brief"},
+  {k:"script", ar:"سكريبت / كونسبت",   en:"Script"},
+  {k:"pre",    ar:"تحضير / ستوري بورد", en:"Pre-prod"},
+  {k:"prod",   ar:"إنتاج / جينيريشن",   en:"Production"},
+  {k:"edit",   ar:"مونتاج",             en:"Editing"},
+  {k:"review", ar:"مراجعة العميل",      en:"Review"},
+  {k:"done",   ar:"اتسلّم",             en:"Delivered"},
+  {k:"hold",   ar:"متوقف",              en:"On hold"},
+];
+const PAY = {unpaid:{ar:"مدفعش",c:"c-unpaid"},deposit:{ar:"عربون",c:"c-dep"},paid:{ar:"مدفوع",c:"c-paid"}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stageOf = k => STAGES.find(s=>s.k===k) || STAGES[0];
+const fmt = n => Number(n||0).toLocaleString("en-US",{maximumFractionDigits:0});
+
+let items = [], PIN = "", ME = "", online = false, editing = null, view = "list";
+
+// --- fill selects
+$("#fStage").innerHTML += STAGES.map(s=>`<option value="${s.k}">${s.ar}</option>`).join("");
+$("#stageSel").innerHTML = STAGES.map(s=>`<option value="${s.k}">${s.ar} — ${s.en}</option>`).join("");
+
+// --- helpers
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function daysLeft(due){ if(!due) return null; const d=new Date(due+"T00:00:00"); return Math.round((d-today())/864e5); }
+function relTxt(n){
+  if(n===null) return "";
+  if(n<0) return `متأخر ${-n} يوم`;
+  if(n===0) return "النهارده";
+  if(n===1) return "بكرة";
+  return `فاضل ${n} يوم`;
+}
+function isDone(p){return p.stage==="done"}
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("show"),1800)}
+function dataCell(v){
+  if(!v) return `<span style="color:var(--dim)">—</span>`;
+  const isUrl=/^https?:[/][/]/i.test(v.trim());
+  const ico=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`;
+  const cp=`<button class="copy" data-copy="${esc(v)}" title="نسخ"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>`;
+  return isUrl ? `<a href="${esc(v.trim())}" target="_blank" rel="noopener">${ico}فتح الفولدر</a>${cp}` : `<span class="path" title="${esc(v)}">${ico}${esc(v)}</span>${cp}`;
+}
+function payCell(p){
+  const P=PAY[p.pay]||PAY.unpaid;
+  const sub = p.total ? `<div class="money-sub">${fmt(p.paid)} / ${fmt(p.total)} ${esc(p.cur||"AED")}</div>` : "";
+  return `<span class="chip ${P.c}">${P.ar}</span>${sub}`;
+}
+function stageChip(p){const s=stageOf(p.stage);const c=s.k==="done"?"c-done":s.k==="hold"?"c-hold":"c-stage";return `<span class="chip ${c}">${s.ar}</span>`}
+function progCell(p){const v=Math.max(0,Math.min(100,+p.progress||0));return `<div class="prog"><div class="bar"><i style="width:${v}%"></i></div><span>${v}%</span></div>`}
+function dueCell(p){
+  if(!p.due) return `<span style="color:var(--dim)">—</span>`;
+  const n=daysLeft(p.due); const cls=isDone(p)?"":n<0?"late":n<=3?"soon":"";
+  const d=new Date(p.due+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+  return `<div class="due">${d}</div>${isDone(p)?"":`<div class="due-rel ${cls}">${relTxt(n)}</div>`}`;
+}
+
+// --- render
+function filtered(){
+  const q=$("#q").value.trim().toLowerCase(), fs=$("#fStage").value, fp=$("#fPay").value, sh=$("#fShow").value;
+  return items.filter(p=>{
+    if(sh==="active" && isDone(p)) return false;
+    if(sh==="done" && !isDone(p)) return false;
+    if(fs && p.stage!==fs) return false;
+    if(fp && p.pay!==fp) return false;
+    if(q && !(`${p.client} ${p.name} ${p.type}`.toLowerCase().includes(q))) return false;
+    return true;
+  }).sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999"));
+}
+function render(){
+  // KPIs
+  const act=items.filter(p=>!isDone(p)&&p.stage!=="hold");
+  $("#kActive").textContent=act.length;
+  $("#kLate").textContent=act.filter(p=>p.due&&daysLeft(p.due)<0).length;
+  $("#kSoon").textContent=act.filter(p=>{const n=daysLeft(p.due);return n!==null&&n>=0&&n<=7}).length;
+  $("#kAvg").innerHTML=(act.length?Math.round(act.reduce((s,p)=>s+(+p.progress||0),0)/act.length):0)+"<small>%</small>";
+  const owed={}; items.forEach(p=>{const t=+p.total||0,pd=+p.paid||0; if(p.pay!=="paid"&&t>pd){const c=p.cur||"AED";owed[c]=(owed[c]||0)+(t-pd)}});
+  const ok=Object.keys(owed); $("#kOwed").innerHTML=ok.length?ok.map(c=>`${fmt(owed[c])}<small>${c}</small>`).join("<br>"):"0";
+
+  const list=filtered();
+  // table
+  $("#tbody").innerHTML=list.map(p=>`<tr class="row" data-id="${p.id}">
+    <td><div class="client">${esc(p.client)}</div></td>
+    <td><div class="proj">${esc(p.name)}</div><div class="type">${esc(p.type||"")}</div></td>
+    <td>${stageChip(p)}</td><td>${progCell(p)}</td><td>${payCell(p)}</td><td>${dueCell(p)}</td>
+    <td class="data">${dataCell(p.data)}</td></tr>`).join("");
+  $("#emptyT").style.display=list.length?"none":"block";
+  // cards
+  $("#cards").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty"><div class="big"></div>مفيش مشاريع هنا لسه.</div>`;
+  // board
+  const cols=STAGES.filter(s=>$("#fShow").value!=="active"||s.k!=="done");
+  $("#board").innerHTML=cols.map(s=>{const its=list.filter(p=>(p.stage||"brief")===s.k);
+    return `<div class="col"><h4>${s.ar} <span class="n">${its.length}</span></h4>${its.map(cardHTML).join("")}</div>`}).join("");
+}
+function cardHTML(p){
+  return `<div class="card" data-id="${p.id}">
+    <div class="top"><div><div class="proj">${esc(p.name)}</div><div class="type">${esc(p.client)}${p.type?" · "+esc(p.type):""}</div></div>${stageChip(p)}</div>
+    ${progCell(p)}
+    <div class="foot"><div>${payCell(p)}</div><div>${dueCell(p)}</div></div>
+    ${p.data?`<div class="data" style="margin-top:10px">${dataCell(p.data)}</div>`:""}
+  </div>`;
+}
+
+// --- view switch
+$("#viewTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;view=b.dataset.v;
+  document.querySelectorAll("#viewTabs button").forEach(x=>x.classList.toggle("act",x===b));
+  $("#listView").style.display=view==="list"?"block":"none"; $("#board").style.display=view==="board"?"flex":"none";});
+["#q","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
+
+// --- clicks
+document.addEventListener("click",async e=>{
+  const c=e.target.closest(".copy"); if(c){e.stopPropagation();try{await navigator.clipboard.writeText(c.dataset.copy);toast("اتنسخ ✓")}catch{toast("مقدرتش أنسخ")}return}
+  if(e.target.closest("a")) return;
+  const r=e.target.closest("[data-id]"); if(r) openModal(items.find(p=>p.id===r.dataset.id));
+});
+
+// --- modal
+const F=$("#form");
+function openModal(p){
+  editing=p||null; F.reset(); $("#confirm").classList.remove("show"); $("#delBtn").style.display=p?"":"none";
+  $("#mTitle").textContent=p?"تعديل المشروع":"مشروع جديد";
+  const d=p||{stage:"brief",pay:"unpaid",progress:0,cur:"AED"};
+  ["client","name","type","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
+  $("#pv").textContent=(F.progress.value||0)+"%";
+  $("#updated").textContent="";
+  if(p&&p.updatedAt){const t=new Date(p.updatedAt).toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
+    $("#updated").textContent=`آخر تعديل: ${t}`;
+    if(p.updatedBy) $("#updated").textContent=`آخر تعديل: ${t} — ${p.updatedBy}`;}
+  $("#ov").classList.add("show"); setTimeout(()=>F.client.focus(),50);
+}
+function closeModal(){$("#ov").classList.remove("show");editing=null}
+$("#addBtn").onclick=()=>openModal(null);
+$("#cancel").onclick=closeModal;
+$("#ov").addEventListener("mousedown",e=>{if(e.target.id==="ov")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+$("#pr").addEventListener("input",()=>$("#pv").textContent=$("#pr").value+"%");
+F.stage.addEventListener("change",()=>{if(F.stage.value==="done"){F.progress.value=100;$("#pv").textContent="100%"}});
+F.paid.addEventListener("input",()=>{const t=+F.total.value||0,pd=+F.paid.value||0;if(t&&pd>=t)F.pay.value="paid";else if(pd>0)F.pay.value="deposit"});
+
+F.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const o={}; ["client","name","type","stage","due","pay","cur","data","details"].forEach(k=>o[k]=F.elements[k].value.trim());
+  o.progress=+F.progress.value||0; o.total=F.total.value===""?null:+F.total.value; o.paid=F.paid.value===""?null:+F.paid.value;
+  o.updatedAt=Date.now(); o.updatedBy=ME;
+  const id=editing?editing.id:("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+  if(!editing) o.createdAt=Date.now();
+  $("#saveBtn").disabled=true;
+  try{
+    const rec={...(editing?editing:{}),...o,id};
+    items=await api("saveProject",rec); render();
+    closeModal(); toast("اتحفظ ✓");
+  }catch(err){ toast("الحفظ فشل — جرّب تاني"); console.log(err); }
+  $("#saveBtn").disabled=false;
+});
+function strip(p){const {id,...r}=p;return r}
+$("#delBtn").onclick=()=>$("#confirm").classList.add("show");
+$("#delNo").onclick=()=>$("#confirm").classList.remove("show");
+$("#delYes").onclick=async()=>{
+  if(!editing) return; const id=editing.id;
+  try{ items=await api("deleteProject",id); render(); closeModal(); toast("اتحذف"); }
+  catch(err){toast("الحذف فشل");console.log(err)}
+};
+
+// --- Google Sheets backend (Apps Script JSON API)
+function setSync(state,txt){const s=$("#sync");s.className="sync "+state;$("#syncTxt").textContent=txt}
+const API="https://script.google.com/macros/s/AKfycbyzxQCqbSbSgjYGAIB3fTqUBvHbWxZ57qNFPkbI8qLP-8M6_kcasjJjkkYVHc8pTKlsHA/exec";
+async function call(body){
+  const r=await fetch(API,{method:"POST",credentials:"omit",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({...body,pin:PIN})});
+  return r.json();
+}
+async function api(fn,...args){
+  const body = fn==="getProjects"?{action:"get"}:fn==="saveProject"?{action:"save",item:args[0]}:{action:"delete",id:args[0]};
+  let res;
+  try{ res=await call(body); }
+  catch(e){ setSync("off","مش متصل"); $("#banner").classList.add("show"); throw e; }
+  if(!res.ok){
+    if(res.error==="PIN"){ lockOut(); throw new Error("PIN"); }
+    setSync("off","مش متصل"); $("#banner").classList.add("show"); throw new Error(res.error||"error");
+  }
+  online=true; setSync("on","متزامن"); $("#banner").classList.remove("show");
+  return res.items;
+}
+function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}
+function load(k){try{return localStorage.getItem(k)||""}catch{return ""}}
+function lockOut(){store("rm_pin",null);PIN="";$("#gate").classList.remove("hide");$("#gErr").textContent="الرقم السري غلط"}
+async function refresh(){try{items=await api("getProjects");render()}catch(e){console.log(e)}}
+async function enter(){
+  $("#gErr").textContent="";
+  try{ items=await api("getProjects"); $("#gate").classList.add("hide"); render(); }
+  catch(e){ if(!String(e&&e.message||e).includes("PIN")) $("#gErr").textContent="مش قادر يوصل — جرّب تاني"; }
+}
+$("#gateForm").addEventListener("submit",e=>{e.preventDefault();ME=$("#gName").value.trim();PIN=$("#gPin").value.trim();store("rm_name",ME);store("rm_pin",PIN);enter()});
+render();
+ME=load("rm_name"); PIN=load("rm_pin"); $("#gName").value=ME;
+if(ME&&PIN) enter();
+setInterval(()=>{ if(PIN && !$("#ov").classList.contains("show") && document.visibilityState==="visible") refresh(); },20000);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&PIN)refresh()});
+</script>
+</body>
+</html>
