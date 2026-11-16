@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Remotion — AI Video Creator & Editor in Dubai | AI Ads, Short Films, Motion</title>
-<meta name="description" content="Remotion — AI video creator & editor in Dubai. AI-generated ads, short films, video editing, 3D & motion graphics for UAE and MENA brands. Rated 5.0 by clients. Get a quote on WhatsApp.">
+<meta name="description" content="Remotion — AI video creator & editor in Dubai. AI-generated ads, short films, video editing, 3D & motion graphics for UAE and MENA brands. Get a quote on WhatsApp.">
 <meta name="keywords" content="AI video Dubai, AI ads UAE, AI short film, video editor Dubai, motion graphics Dubai, AI commercial, Remotion, Remon Eshak">
 <link rel="canonical" href="https://myremotion.com/">
-<meta property="og:type" content="website"><meta property="og:title" content="Remotion — AI Video Creator & Editor in Dubai"><meta property="og:description" content="AI ads, short films, editing & motion graphics for UAE & MENA brands."><meta property="og:url" content="https://myremotion.com/"><meta property="og:image" content="https://myremotion.com/remon-2025.jpg">
+<meta property="og:type" content="website"><meta property="og:title" content="Remotion — AI Video Creator & Editor in Dubai"><meta property="og:description" content="AI ads, short films, editing & motion graphics for UAE & MENA brands."><meta property="og:url" content="https://myremotion.com/"><meta property="og:image" content="https://myremotion.com/og-remotion.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://myremotion.com/og-remotion.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -29,13 +29,7 @@
   "areaServed":["AE","SA","EG","MENA"],
   "sameAs":["https://instagram.com/remotion2025","https://tiktok.com/@remotion2025","https://linkedin.com/in/remoneshak"],
   "priceRange":"$$",
-  "knowsAbout":["AI video generation","Video editing","Motion graphics","3D animation","VFX","Short films","Product ads"],
-  "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","bestRating":"5","reviewCount":"3"},
-  "review":[
-    {"@type":"Review","author":{"@type":"Organization","name":"MK Wedding Planner"},"reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"reviewBody":"Remon turned our ballroom concept into a cinematic film before we'd even finished construction. The storyboard stage made approvals effortless."},
-    {"@type":"Review","author":{"@type":"Organization","name":"HYPHEN"},"reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"reviewBody":"A 60-second product film delivered in days, not weeks — and it looked like a studio production."},
-    {"@type":"Review","author":{"@type":"Organization","name":"Convergint MEA"},"reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"reviewBody":"Professional from brief to delivery. The AI visuals matched our brand tone perfectly and the final cut needed almost no changes."}
-  ]
+  "knowsAbout":["AI video generation","Video editing","Motion graphics","3D animation","VFX","Short films","Product ads"]
 }
 </script>
 <style>
@@ -47,7 +41,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--void);color:var(--white);font-family:'Poppins',sans-serif;
+  body{background:var(--void);color:var(--white);font-family:'Poppins','IBM Plex Sans Arabic',sans-serif;
     overflow-x:hidden;-webkit-font-smoothing:antialiased}
   ::selection{background:var(--core);color:#000}
   a{text-decoration:none;color:inherit}
@@ -178,6 +172,92 @@
   .frame .cap h3{font-size:16px;font-weight:600;margin-bottom:3px;letter-spacing:-.3px}
   .frame .cap p{font-size:12px;color:var(--muted);font-weight:300}
 
+  /* ===== WORK — CHAPTERS + CINEMA MODE ===== */
+  .chap-nav{position:sticky;top:0;z-index:40;display:flex;gap:8px;padding:12px 0;margin:-6px 0 34px;
+    background:linear-gradient(to bottom,rgba(0,0,0,.92) 70%,transparent);transition:top .45s cubic-bezier(.2,.8,.2,1);
+    overflow-x:auto;scrollbar-width:none}
+  .chap-nav::-webkit-scrollbar{display:none}
+  nav:not(.hide) ~ section .chap-nav{top:66px}
+  .chap-nav a{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:13px;color:var(--muted);
+    border:1px solid var(--line);background:rgba(10,10,10,.7);backdrop-filter:blur(10px);padding:10px 16px;border-radius:100px;transition:.3s}
+  .chap-nav a b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;color:var(--cyan);letter-spacing:1px}
+  .chap-nav a i{font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:11px;color:var(--dim)}
+  .chap-nav a:hover{color:#fff;border-color:var(--dim)}
+  .chap-nav a.on{color:#fff;border-color:var(--core);background:rgba(14,148,234,.12)}
+  .chap{padding:26px 0 70px;scroll-margin-top:120px}
+  .chap + .chap{border-top:1px solid var(--line);padding-top:56px}
+  .chap:last-child{padding-bottom:0}
+  .chap-head{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:end;margin-bottom:30px}
+  .chap-no{font-size:clamp(54px,7vw,96px);font-weight:600;line-height:.8;letter-spacing:-.04em;color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.22)}
+  .chap-t h3{font-size:clamp(24px,3vw,36px);font-weight:600;letter-spacing:-1px;line-height:1.05;margin-bottom:8px}
+  .chap-t p{color:var(--muted);font-weight:300;font-size:14px;line-height:1.6;max-width:520px}
+  .chap-count{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+  .chap-count b{color:var(--cyan);font-weight:500}
+  .frame{cursor:pointer;outline:none}
+  .frame:focus-visible{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(38,215,227,.35)}
+  .chap-grid{display:grid;gap:16px;margin-top:16px}
+  .chap-grid.cols-1{grid-template-columns:1fr}.chap-grid.cols-2{grid-template-columns:repeat(2,1fr)}.chap-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  /* featured piece: big picture + a text panel */
+  .frame.feat{display:grid;grid-template-columns:1.65fr 1fr}
+  .frame.feat .cap{display:flex;flex-direction:column;justify-content:flex-end;padding:34px;
+    background:radial-gradient(120% 90% at 100% 0,rgba(14,148,234,.14),transparent 60%)}
+  .frame.feat .cap::before{content:"FEATURED";font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--cyan);margin-bottom:auto}
+  .frame.feat .cap h3{font-size:clamp(24px,2.6vw,36px);letter-spacing:-1px;line-height:1.08;margin-bottom:10px;overflow:visible}
+  .frame.feat .cap p{font-size:14px;line-height:1.6}
+  .frame.feat .play span{width:76px;height:76px}
+  .watch{margin-top:24px;display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#fff}
+  .watch i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--cta);transition:transform .3s}
+  .frame.feat:hover .watch i{transform:translateX(5px)}
+  .frame.v.feat{grid-template-columns:260px 1fr;max-width:760px}
+  @media(max-width:900px){.frame.v.feat{grid-template-columns:minmax(150px,42%) 1fr}}
+  /* vertical rail */
+  .rail-wrap{position:relative;margin-top:16px}
+  .rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 0 14px;scrollbar-width:none;
+    -webkit-mask:linear-gradient(90deg,#000 calc(100% - 70px),transparent);mask:linear-gradient(90deg,#000 calc(100% - 70px),transparent)}
+  .rail.end,.rail.fit{-webkit-mask:none;mask:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail .frame{flex:0 0 clamp(190px,19.2vw,232px);scroll-snap-align:start}
+  .rail-btn{position:absolute;top:calc(50% - 40px);z-index:5;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+    background:rgba(0,0,0,.65);backdrop-filter:blur(8px);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:.3s;display:grid;place-items:center;padding-bottom:3px}
+  .rail-btn:hover{background:var(--cta);border-color:var(--cta)}
+  .rail-btn.prev{left:-14px}.rail-btn.next{right:-14px}
+  .rail-btn[hidden]{display:none}
+  /* cinema mode */
+  .cine{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.94);backdrop-filter:blur(18px);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:18px;padding:64px 70px 26px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+  .cine.open{opacity:1;visibility:visible}
+  .cine-stage{position:relative;background:#000;border-radius:14px;overflow:hidden;border:1px solid #23232a;
+    box-shadow:0 0 120px rgba(14,148,234,.22);aspect-ratio:16/9;width:min(100%,calc((100vh - 210px)*16/9));transform:scale(.96);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .cine.open .cine-stage{transform:none}
+  .cine.v .cine-stage{aspect-ratio:9/16;width:auto;height:min(100%,calc(100vh - 210px))}
+  .cine-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .cine-bar{display:flex;align-items:center;gap:22px;width:min(100%,1100px);justify-content:space-between}
+  .cine-info{min-width:0}
+  .cine-info small{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2.5px;color:var(--cyan);text-transform:uppercase}
+  .cine-info h4{font-size:19px;font-weight:600;letter-spacing:-.4px;margin:4px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cine-info p{font-size:12px;color:var(--muted);font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cine-ctl{display:flex;align-items:center;gap:12px;flex:none}
+  .cine-ctl span{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:1px;min-width:62px;text-align:center}
+  .cine-ctl button,.cine-x{width:44px;height:44px;border-radius:50%;border:1px solid #2a2a30;background:#0d0d10;color:#fff;font-size:18px;cursor:pointer;transition:.3s}
+  .cine-ctl button:hover,.cine-x:hover{background:var(--cta);border-color:var(--cta)}
+  .cine-x{position:absolute;top:16px;right:20px}
+  .cine-brand{position:absolute;top:26px;left:28px;height:20px;opacity:.75}
+  body.cine-on{overflow:hidden}
+  @media(max-width:900px){
+    .frame.feat{grid-template-columns:1fr}.frame.feat .cap{padding:22px}.frame.feat .cap::before{margin-bottom:12px}
+    .chap-grid.cols-3{grid-template-columns:repeat(2,1fr)}
+    .chap-head{grid-template-columns:auto 1fr;gap:16px}.chap-count{grid-column:2}
+    .rail-btn{display:none}
+    .cine{padding:60px 14px 18px}
+  }
+  @media(max-width:560px){
+    .chap-grid.cols-3,.chap-grid.cols-2{grid-template-columns:1fr}
+    .rail .frame{flex-basis:58vw}
+    .cine-bar{flex-direction:column;align-items:stretch;gap:12px}.cine-ctl{justify-content:space-between}
+    .cine-info h4{white-space:normal}
+  }
+
   /* SERVICES */
   .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
   .svc{padding:34px;border:1px solid var(--line);border-radius:16px;background:var(--surface);
@@ -254,6 +334,20 @@
   @media(max-width:1000px){.tm-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:760px){.tm-head{grid-template-columns:1fr;gap:22px}.tm-score{width:max-content}}
   @media(max-width:560px){.tm-grid{grid-template-columns:1fr}}
+
+  /* BRANDS */
+  .br-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .br{padding:30px 26px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px;
+    min-height:128px;justify-content:flex-end;transition:background .4s}
+  .br:nth-child(4n){border-right:0}.br:nth-last-child(-n+4){border-bottom:0}
+  .br:hover{background:rgba(255,255,255,.03)}
+  .br b{font-size:18px;font-weight:600;letter-spacing:-.4px}
+  .br span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--dim)}
+  .br-next b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .br-next span{color:var(--cyan)}
+  @media(max-width:820px){.br-grid{grid-template-columns:repeat(2,1fr)}
+    .br:nth-child(4n){border-right:1px solid var(--line)}.br:nth-child(2n){border-right:0}
+    .br:nth-last-child(-n+4){border-bottom:1px solid var(--line)}.br:nth-last-child(-n+2){border-bottom:0}}
 
   /* ABOUT */
   .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
@@ -468,6 +562,37 @@
     .exp-row{grid-template-columns:1fr;gap:4px}
     .reel-frame{width:min(86vw,340px)}
   }
+  /* ===== LANGUAGE + RTL ===== */
+  .nav-end{display:flex;align-items:center;gap:12px}
+  .lang{font-family:'IBM Plex Sans Arabic','Poppins',sans-serif;font-size:13px;font-weight:500;color:var(--muted);background:transparent;
+    border:1px solid var(--line);border-radius:100px;padding:9px 16px;cursor:pointer;transition:.3s;line-height:1.2}
+  .lang:hover{color:#fff;border-color:var(--core)}
+  .sb-steps em{font-style:normal}
+  html[dir=rtl] [data-ar]{font-family:'Poppins','IBM Plex Sans Arabic',sans-serif!important}
+  html[dir=rtl] *{letter-spacing:0!important}
+  html[dir=rtl] h1{line-height:1.22}
+  html[dir=rtl] h2,html[dir=rtl] h3{line-height:1.3!important}
+  html[dir=rtl] .em{font-style:normal}
+  html[dir=rtl] .hero .sub,html[dir=rtl] .about p,html[dir=rtl] .svc p{line-height:1.95}
+  html[dir=rtl] .loader,html[dir=rtl] .marquee,html[dir=rtl] .cine,html[dir=rtl] .rail,html[dir=rtl] .reel{direction:ltr}
+  html[dir=rtl] .rail .cap{direction:rtl}
+  html[dir=rtl] .cinfo a.val{direction:ltr;unicode-bidi:isolate;display:inline-block}
+  html[dir=rtl] .btn:hover .arrow{transform:translateX(-4px)}
+  html[dir=rtl] .watch i{transform:scaleX(-1)}
+  html[dir=rtl] .frame.feat:hover .watch i{transform:scaleX(-1) translateX(5px)}
+  html[dir=rtl] .frame.feat .cap::before{content:"عمل مميّز"}
+  html[dir=rtl] .frame.feat .cap{background:radial-gradient(120% 90% at 0 0,rgba(14,148,234,.14),transparent 60%)}
+  html[dir=rtl] .sec-head.reveal{transform:translateX(24px)}
+  html[dir=rtl] .sec-head.reveal.in{transform:none}
+  html[dir=rtl] .sb-steps span{border-right:0;border-left:1px solid var(--line)}
+  html[dir=rtl] .sb-steps span:last-child{border-left:0}
+  html[dir=rtl] .br{border-right:0;border-left:1px solid var(--line)}
+  html[dir=rtl] .br:nth-child(4n){border-left:0}
+  html[dir=rtl] h1 .w.grad::after{left:auto;right:0}
+  html[dir=rtl] .meta>div::after{left:auto;right:0}
+  @media(max-width:820px){html[dir=rtl] .br:nth-child(4n){border-left:1px solid var(--line)}html[dir=rtl] .br:nth-child(2n){border-left:0}}
+  @media(max-width:520px){.lang{padding:8px 12px}.nav-end .btn-sm{padding:9px 14px}}
+  @media(max-width:1300px){.sec.wrap{padding-left:20px;padding-right:20px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -485,18 +610,18 @@
 <nav id="nav">
   <a href="#top" class="logo"><img src="remotion-logo.png" alt="Remotion"></a>
   <div class="nav-links">
-    <a href="#work">Work</a><a href="#quote">Pricing</a><a href="#services">Services</a>
-    <a href="#storyboard">Process</a><a href="#reviews">Reviews</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <a href="#work" data-ar='الأعمال'>Work</a><a href="#quote" data-ar='الأسعار'>Pricing</a><a href="#services" data-ar='الخدمات'>Services</a>
+    <a href="#storyboard" data-ar='طريقة العمل'>Process</a><a href="#brands" data-ar='العلامات'>Brands</a><a href="#about" data-ar='عنّي'>About</a><a href="#contact" data-ar='تواصل'>Contact</a>
   </div>
-  <a href="#contact" class="btn btn-sm">Get in touch</a>
+  <div class="nav-end"><button class="lang" id="langBtn" aria-label="Switch language">عربي</button><a href="#contact" class="btn btn-sm" data-ar='تواصل معي'>Get in touch</a></div>
 </nav>
 
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="hero-grid wrap">
     <div class="hero-text">
-      <div class="eyebrow"><span class="dot"></span><span class="bar"></span>AI · FILM · VFX · DUBAI</div>
-      <h1>
+      <div class="eyebrow"><span class="dot"></span><span class="bar"></span><span data-ar='ذكاء اصطناعي · أفلام · مؤثرات · دبي'>AI · FILM · VFX · DUBAI</span></div>
+      <h1 data-ar='<span class="w" style="animation-delay:.05s">أصنع</span> <span class="w" style="animation-delay:.14s">محتوى</span><br><span class="w" style="animation-delay:.23s">يشبه</span> <span class="w grad" style="animation-delay:.34s">السينما.</span>'>
         <span class="w" style="animation-delay:.25s">I</span>
         <span class="w" style="animation-delay:.32s">make</span>
         <span class="w" style="animation-delay:.39s">content</span><br>
@@ -505,15 +630,15 @@
         <span class="w" style="animation-delay:.60s">like</span>
         <span class="w grad" style="animation-delay:.70s">cinema.</span>
       </h1>
-      <p class="sub">AI-generated ads, short films, and cinematic motion for UAE &amp; MENA brands — concept to final cut, one creator, full pipeline.</p>
+      <p class="sub" data-ar='إعلانات وأفلام قصيرة وموشن سينمائي بالذكاء الاصطناعي لعلامات الإمارات والمنطقة — من الفكرة إلى النسخة النهائية، صانع واحد وخط إنتاج كامل.'>AI-generated ads, short films, and cinematic motion for UAE &amp; MENA brands — concept to final cut, one creator, full pipeline.</p>
       <div class="cta-row">
-        <a href="#work" class="btn">View the work <span class="arrow">→</span></a>
-        <a href="#contact" class="btn btn-ghost">Start a project</a>
+        <a href="#work" class="btn" data-ar='شاهد الأعمال <span class="arrow">←</span>'>View the work <span class="arrow">→</span></a>
+        <a href="#contact" class="btn btn-ghost" data-ar='ابدأ مشروعك'>Start a project</a>
       </div>
       <div class="meta">
-        <div><b><span class="count" data-to="5">0</span>+</b><span>YEARS IN POST</span></div>
-        <div><b>UAE · EGY</b><span>BASED &amp; AVAILABLE</span></div>
-        <div><b>AI · EDITING · MOTION</b><span>FULL STACK</span></div>
+        <div><b><span class="count" data-to="5">0</span>+</b><span data-ar='سنوات في المجال'>YEARS IN POST</span></div>
+        <div><b>UAE · EGY</b><span data-ar='متواجد ومتاح'>BASED &amp; AVAILABLE</span></div>
+        <div><b>AI · EDITING · MOTION</b><span data-ar='خط إنتاج كامل'>FULL STACK</span></div>
       </div>
     </div>
 
@@ -528,141 +653,212 @@
       </div>
     </div>
   </div>
-  <div class="scroll-hint"><span>SCROLL</span><span class="ln"></span></div>
+  <div class="scroll-hint"><span data-ar='مرّر'>SCROLL</span><span class="ln"></span></div>
 </header>
 
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
-    <span>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
+    <span data-ar='إعلانات AI<i></i>أفلام قصيرة<i></i>مونتاج<i></i>3D وموشن<i></i>مؤثرات بصرية<i></i>دبي · الإمارات<i></i>الرؤية تلتقي بالتوليد<i></i>'>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
+    <span data-ar='إعلانات AI<i></i>أفلام قصيرة<i></i>مونتاج<i></i>3D وموشن<i></i>مؤثرات بصرية<i></i>دبي · الإمارات<i></i>الرؤية تلتقي بالتوليد<i></i>'>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
   </div>
 </div>
 
 <!-- WORK -->
 <section class="sec wrap" id="work">
   <div class="sec-head reveal">
-    <h2>Selected <span class="grad">Work</span></h2>
+    <h2 data-ar='أعمال <span class="grad">مختارة</span>'>Selected <span class="grad">Work</span></h2>
     <span class="idx">[ WORK / 01 ]</span>
   </div>
-  <div class="filters reveal">
-    <button class="active" data-f="all">All</button>
-    <button data-f="ai">AI Ads</button>
-    <button data-f="film">Short Films</button>
-    <button data-f="aiedit">AI Edit</button>
-    <button data-f="edit">Editing</button>
-    <button data-f="3d">3D &amp; Motion</button>
-  </div>
-  <div class="grid-h" id="gridH">
 
-    <!-- ===== LANDSCAPE: Short Films → AI Ads (16:9) → Editing ===== -->
-    <div class="frame reveal tilt" data-cat="film" data-yt="T6B4EzFahC4">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/T6B4EzFahC4/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Journey of Sultan &amp; Time</h3><p>Sharjah · AI short film · رحلة السلطان والزمان</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="film" data-yt="qygAty2MA-8">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/qygAty2MA-8/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>The Scent of Bread</h3><p>Sharjah · AI short film · رائحة الخبز</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="film" data-yt="bNfLk5aOa8s">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/bNfLk5aOa8s/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Naguib Mahfouz</h3><p>AI short film · نجيب محفوظ في شوارع القاهرة</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="film" data-yt="--omk0iGxrU">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/--omk0iGxrU/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Ka'inat — The Djinn</h3><p>AI short · بودكاست كائنات · عفريت القرم</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="ai" data-yt="6B26y6fjDeo">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6B26y6fjDeo/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Phone Case — The Film</h3><p>AI product ad · كافر تليفون · landscape cut</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="ai" data-yt="fZ9YOEwewg0">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/fZ9YOEwewg0/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Security &amp; Surveillance</h3><p>AI corporate ad · Dubai security company · كاميرات وحماية</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="edit" data-yt="QBz5AlHvMfA">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/QBz5AlHvMfA/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Gulfood Dubai</h3><p>Event film · Dubai</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="edit" data-yt="6AKrq4lJeMk">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6AKrq4lJeMk/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>MBR Library</h3><p>Event film · Mohammed Bin Rashid Library</p></div>
-    </div>
-    <div class="frame reveal tilt" data-cat="edit" data-yt="2goFv5sdk7I">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/2goFv5sdk7I/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Arab Health</h3><p>Event coverage · Dubai</p></div>
-    </div>
-
+  <!-- chapter index: jumps to a chapter and highlights the one in view -->
+  <div class="chap-nav" id="chapNav" role="navigation" aria-label="Work chapters">
+    <a href="#ch-film" data-ch="ch-film"><b>01</b><span data-ar='أفلام قصيرة'>Short Films</span><i>04</i></a>
+    <a href="#ch-ads" data-ch="ch-ads"><b>02</b><span data-ar='إعلانات AI'>AI Ads</span><i>10</i></a>
+    <a href="#ch-aiedit" data-ch="ch-aiedit"><b>03</b><span data-ar='مونتاج AI'>AI Edit</span><i>01</i></a>
+    <a href="#ch-edit" data-ch="ch-edit"><b>04</b><span data-ar='مونتاج وفعاليات'>Editing &amp; Events</span><i>05</i></a>
+    <a href="#ch-3d" data-ch="ch-3d"><b>05</b><span data-ar='3D ومؤثرات'>3D &amp; VFX</span><i>03</i></a>
   </div>
 
-  <div class="grid-v" id="gridV">
+  <!-- HOW TO ADD A VIDEO: copy one <div class="frame ..."> block inside the right chapter, change data-yt (YouTube ID, also inside the img src), the tag, title and caption. Vertical videos: class "frame v" inside a .rail. Landscape: class "frame" inside a .chap-grid. -->
 
-    <!-- ===== VERTICAL: AI Ads → AI Edit → Editing → 3D ===== -->
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="XKEUTkAD4u0">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/XKEUTkAD4u0/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Events Company Promo</h3><p>AI ad · شركة إيفنتات</p></div>
+  <div class="chap" id="ch-film">
+    <header class="chap-head reveal">
+      <span class="chap-no">01</span>
+      <div class="chap-t"><h3 data-ar='أفلام قصيرة'>Short Films</h3><p data-ar='أفلام قصيرة بالذكاء الاصطناعي — قصة وإيقاع وصوت تُبنى لقطة بلقطة، لشاشات تستحق أكثر من مجرد تمرير.'>Narrative AI shorts — story, pacing and sound shaped frame by frame, for screens that deserve more than a feed.</p></div>
+      <span class="chap-count"><b>04</b> <span data-ar='أعمال'>works</span></span>
+    </header>
+      <div class="frame feat reveal tilt" data-cat="film" data-yt="T6B4EzFahC4" tabindex="0" role="button" aria-label="Play Journey of Sultan &amp; Time">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/T6B4EzFahC4/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Journey of Sultan &amp; Time</h3><p>Sharjah · AI short film · رحلة السلطان والزمان</p><span class="watch"><span data-ar='شاهد الفيلم'>Watch the film</span> <i>→</i></span></div>
+      </div>
+    <div class="chap-grid cols-3">
+      <div class="frame reveal tilt" data-cat="film" data-yt="qygAty2MA-8" tabindex="0" role="button" aria-label="Play The Scent of Bread">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/qygAty2MA-8/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>The Scent of Bread</h3><p>Sharjah · AI short film · رائحة الخبز</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="film" data-yt="bNfLk5aOa8s" tabindex="0" role="button" aria-label="Play Naguib Mahfouz">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/bNfLk5aOa8s/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Naguib Mahfouz</h3><p>AI short film · نجيب محفوظ في شوارع القاهرة</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="film" data-yt="--omk0iGxrU" tabindex="0" role="button" aria-label="Play Ka'inat — The Djinn">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/--omk0iGxrU/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">SHORT FILM</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Ka'inat — The Djinn</h3><p>AI short · بودكاست كائنات · عفريت القرم</p></div>
+      </div>
     </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="DKmmxzyt1_k">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/DKmmxzyt1_k/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Phone Case — Reel</h3><p>AI product reel · كافر تليفون</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="KR-bi2-rjg0">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/KR-bi2-rjg0/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Ka'inat Podcast</h3><p>AI promo · بودكاست كائنات</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="_P2lcySOfF0">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/_P2lcySOfF0/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>The Nativity</h3><p>AI ad · ميلاد السيد المسيح</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="xM8e7wQUdVc">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/xM8e7wQUdVc/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Ka'inat — Episode Drop</h3><p>AI ad · حلقة بودكاست كائنات</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="qceEnAiF12Y">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/qceEnAiF12Y/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Sharjah Film Teaser</h3><p>AI ad · إعلان فيلم الشارقة</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="cwBqdq2Mefg">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/cwBqdq2Mefg/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Naguib Mahfouz Teaser</h3><p>AI ad · إعلان فيلم نجيب محفوظ</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="ai" data-yt="u5TpL0YUTaY">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/u5TpL0YUTaY/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Product Spot</h3><p>AI-generated product ad</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="aiedit" data-yt="Yh1PEUSpo0Y">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Yh1PEUSpo0Y/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">AI EDIT</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Hybrid Cut</h3><p>Editing + AI scenes · مونتاج مع مشاهد AI</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="edit" data-yt="-SX5fNyM3AM">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/-SX5fNyM3AM/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Automotive Cut</h3><p>Editing · color grade · سيارات</p></div>
-    </div>
-    <div class="frame v reveal tilt" data-cat="3d" data-yt="kLhohEE5DDc">
-      <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/kLhohEE5DDc/hqdefault.jpg" alt="">
-        <div class="shade"></div><span class="tag">3D · VFX</span><div class="play"><span></span></div></div>
-      <div class="cap"><h3>Dubai Frame VFX</h3><p>VFX compositing · فريم دبي</p></div>
-    </div>
+  </div>
 
+  <div class="chap" id="ch-ads">
+    <header class="chap-head reveal">
+      <span class="chap-no">02</span>
+      <div class="chap-t"><h3 data-ar='إعلانات AI'>AI Ads</h3><p data-ar='إعلانات منتجات وعلامات وحملات تُولَّد مشهداً بمشهد. نسخ طولية للسوشيال ميديا و16:9 للشاشات.'>Product, brand and campaign spots generated scene by scene. Vertical cuts for social, 16:9 for screens.</p></div>
+      <span class="chap-count"><b>10</b> <span data-ar='أعمال'>works</span></span>
+    </header>
+    <div class="rail-wrap reveal">
+      <button class="rail-btn prev" aria-label="Scroll left">‹</button>
+      <div class="rail">
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="XKEUTkAD4u0" tabindex="0" role="button" aria-label="Play Events Company Promo">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/XKEUTkAD4u0/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Events Company Promo</h3><p>AI ad · شركة إيفنتات</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="DKmmxzyt1_k" tabindex="0" role="button" aria-label="Play Phone Case — Reel">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/DKmmxzyt1_k/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Phone Case — Reel</h3><p>AI product reel · كافر تليفون</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="KR-bi2-rjg0" tabindex="0" role="button" aria-label="Play Ka'inat Podcast">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/KR-bi2-rjg0/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Ka'inat Podcast</h3><p>AI promo · بودكاست كائنات</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="_P2lcySOfF0" tabindex="0" role="button" aria-label="Play The Nativity">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/_P2lcySOfF0/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>The Nativity</h3><p>AI ad · ميلاد السيد المسيح</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="xM8e7wQUdVc" tabindex="0" role="button" aria-label="Play Ka'inat — Episode Drop">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/xM8e7wQUdVc/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Ka'inat — Episode Drop</h3><p>AI ad · حلقة بودكاست كائنات</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="qceEnAiF12Y" tabindex="0" role="button" aria-label="Play Sharjah Film Teaser">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/qceEnAiF12Y/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Sharjah Film Teaser</h3><p>AI ad · إعلان فيلم الشارقة</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="cwBqdq2Mefg" tabindex="0" role="button" aria-label="Play Naguib Mahfouz Teaser">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/cwBqdq2Mefg/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Naguib Mahfouz Teaser</h3><p>AI ad · إعلان فيلم نجيب محفوظ</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="ai" data-yt="u5TpL0YUTaY" tabindex="0" role="button" aria-label="Play Product Spot">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/u5TpL0YUTaY/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Product Spot</h3><p>AI-generated product ad</p></div>
+      </div>
+      </div>
+      <button class="rail-btn next" aria-label="Scroll right">›</button>
+    </div>
+    <div class="chap-grid cols-2">
+      <div class="frame reveal tilt" data-cat="ai" data-yt="6B26y6fjDeo" tabindex="0" role="button" aria-label="Play Phone Case — The Film">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6B26y6fjDeo/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Phone Case — The Film</h3><p>AI product ad · كافر تليفون · landscape cut</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="ai" data-yt="fZ9YOEwewg0" tabindex="0" role="button" aria-label="Play Security &amp; Surveillance">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/fZ9YOEwewg0/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Security &amp; Surveillance</h3><p>AI corporate ad · Dubai security company · كاميرات وحماية</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chap" id="ch-aiedit">
+    <header class="chap-head reveal">
+      <span class="chap-no">03</span>
+      <div class="chap-t"><h3 data-ar='مونتاج AI'>AI Edit</h3><p data-ar='لقطات حقيقية مع مشاهد مولّدة بالذكاء الاصطناعي — في فيلم واحد متصل.'>Real footage cut together with AI-generated scenes — one seamless film.</p></div>
+      <span class="chap-count"><b>01</b> <span data-ar='عمل'>work</span></span>
+    </header>
+      <div class="frame v feat reveal tilt" data-cat="aiedit" data-yt="Yh1PEUSpo0Y" tabindex="0" role="button" aria-label="Play Hybrid Cut">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Yh1PEUSpo0Y/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI EDIT</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Hybrid Cut</h3><p>Editing + AI scenes · مونتاج مع مشاهد AI</p><span class="watch"><span data-ar='شاهد المونتاج'>Watch the cut</span> <i>→</i></span></div>
+      </div>
+  </div>
+
+  <div class="chap" id="ch-edit">
+    <header class="chap-head reveal">
+      <span class="chap-no">04</span>
+      <div class="chap-t"><h3 data-ar='مونتاج وفعاليات'>Editing &amp; Events</h3><p data-ar='أفلام فعاليات، إيقاع وصوت وألوان — الحرفة التي تجعل اللقطة تصل.'>Event films, pacing, sound and color — the craft that makes footage land.</p></div>
+      <span class="chap-count"><b>05</b> <span data-ar='أعمال'>works</span></span>
+    </header>
+      <div class="frame feat reveal tilt" data-cat="edit" data-yt="QBz5AlHvMfA" tabindex="0" role="button" aria-label="Play Gulfood Dubai">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/QBz5AlHvMfA/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Gulfood Dubai</h3><p>Event film · Dubai</p><span class="watch"><span data-ar='شاهد الفيلم'>Watch the film</span> <i>→</i></span></div>
+      </div>
+    <div class="chap-grid cols-3">
+      <div class="frame reveal tilt" data-cat="edit" data-yt="6AKrq4lJeMk" tabindex="0" role="button" aria-label="Play MBR Library">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6AKrq4lJeMk/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>MBR Library</h3><p>Event film · Mohammed Bin Rashid Library</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="edit" data-yt="2goFv5sdk7I" tabindex="0" role="button" aria-label="Play Arab Health">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/2goFv5sdk7I/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Arab Health</h3><p>Event coverage · Dubai</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="edit" data-yt="zk-JTGDpNrc" tabindex="0" role="button" aria-label="Play Family Festival 2026">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/zk-JTGDpNrc/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Family Festival 2026</h3><p>Event film · مونتاج فعالية</p></div>
+      </div>
+    </div>
+    <div class="rail-wrap reveal">
+      <button class="rail-btn prev" aria-label="Scroll left">‹</button>
+      <div class="rail">
+      <div class="frame v reveal tilt" data-cat="edit" data-yt="-SX5fNyM3AM" tabindex="0" role="button" aria-label="Play Automotive Cut">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/-SX5fNyM3AM/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Automotive Cut</h3><p>Editing · color grade · سيارات</p></div>
+      </div>
+      </div>
+      <button class="rail-btn next" aria-label="Scroll right">›</button>
+    </div>
+  </div>
+
+  <div class="chap" id="ch-3d">
+    <header class="chap-head reveal">
+      <span class="chap-no">05</span>
+      <div class="chap-t"><h3 data-ar='3D ومؤثرات'>3D &amp; VFX</h3><p data-ar='كومبوزيتنغ و3D ومؤثرات بصرية داخل لقطات حقيقية.'>Compositing, 3D and visual effects built into real shots.</p></div>
+      <span class="chap-count"><b>03</b> <span data-ar='أعمال'>works</span></span>
+    </header>
+    <div class="rail-wrap reveal">
+      <button class="rail-btn prev" aria-label="Scroll left">‹</button>
+      <div class="rail">
+      <div class="frame v reveal tilt" data-cat="3d" data-yt="kLhohEE5DDc" tabindex="0" role="button" aria-label="Play Dubai Frame VFX">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/kLhohEE5DDc/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">3D · VFX</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Dubai Frame VFX</h3><p>VFX compositing · فريم دبي</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="3d" data-yt="Ss-RDEpThCI" tabindex="0" role="button" aria-label="Play 3D Ring">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Ss-RDEpThCI/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">3D · PRODUCT</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>3D Ring</h3><p>3D ring design · Blender · خاتم</p></div>
+      </div>
+      <div class="frame v reveal tilt" data-cat="3d" data-yt="IE6SnVc3fck" tabindex="0" role="button" aria-label="Play Final Serum">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/IE6SnVc3fck/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">3D · PRODUCT</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Final Serum</h3><p>3D product visual · سيروم</p></div>
+      </div>
+      </div>
+      <button class="rail-btn next" aria-label="Scroll right">›</button>
+    </div>
   </div>
 </section>
 
@@ -671,18 +867,18 @@
   <div class="aurora"></div><div class="veil"></div><div class="lines"></div>
   <div class="ghost" aria-hidden="true">REMOTION</div>
   <div class="quote-inner">
-    <div class="eyebrow reveal"><span class="bar"></span>GET A QUOTE<span class="bar"></span></div>
-    <h2 class="reveal" id="quoteTitle">Ad, film, edit, shoot<br>or motion? <span class="grad">Let's talk.</span></h2>
-    <p class="reveal">AI ads, short films, video editing, shooting, or motion graphics — tell me what you need and the duration, and I'll send you a quote right away. No forms, no waiting.</p>
+    <div class="eyebrow reveal"><span class="bar"></span><span data-ar='اطلب عرض سعر'>GET A QUOTE</span><span class="bar"></span></div>
+    <h2 class="reveal" id="quoteTitle" data-ar='إعلان، فيلم، مونتاج، تصوير<br>أو موشن؟ <span class="grad">لنتحدث.</span>'>Ad, film, edit, shoot<br>or motion? <span class="grad">Let's talk.</span></h2>
+    <p class="reveal" data-ar='إعلانات AI، أفلام قصيرة، مونتاج، تصوير أو موشن جرافيك — أخبرني بما تحتاجه والمدة المطلوبة، وسأرسل لك السعر مباشرة. بلا نماذج وبلا انتظار.'>AI ads, short films, video editing, shooting, or motion graphics — tell me what you need and the duration, and I'll send you a quote right away. No forms, no waiting.</p>
     <div class="chips reveal">
-      <span>AI Ads · 15s / 30s / 60s</span><span>Short films · 3–5 min</span><span>Video editing</span><span>Shooting</span><span>Motion graphics · 3D</span>
+      <span data-ar='إعلانات AI · 15 / 30 / 60 ثانية'>AI Ads · 15s / 30s / 60s</span><span data-ar='أفلام قصيرة · 3–5 دقائق'>Short films · 3–5 min</span><span data-ar='مونتاج فيديو'>Video editing</span><span data-ar='تصوير'>Shooting</span><span data-ar='موشن جرافيك · 3D'>Motion graphics · 3D</span>
     </div>
     <div class="cta-row reveal">
       <a href="https://wa.me/971502528669?text=Hi%20Remon%2C%20I%27d%20like%20a%20quote%20for%20a%20video.%20Duration%3A%20" target="_blank" rel="noopener" class="btn btn-wa magnet">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.788-.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-        Get a quote on WhatsApp <span class="arrow">→</span>
+        <span data-ar='اطلب السعر عبر واتساب <span class="arrow">←</span>'>Get a quote on WhatsApp <span class="arrow">→</span></span>
       </a>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=remoneshak956@gmail.com&su=Quote%20request%20%E2%80%94%20Remotion&body=Hi%20Remon%2C%0A%0AI%27d%20like%20a%20quote%20for%3A%0AType%3A%20%0ADuration%3A%20%0A" target="_blank" rel="noopener" class="btn btn-ghost magnet">Email me instead</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=remoneshak956@gmail.com&su=Quote%20request%20%E2%80%94%20Remotion&body=Hi%20Remon%2C%0A%0AI%27d%20like%20a%20quote%20for%3A%0AType%3A%20%0ADuration%3A%20%0A" target="_blank" rel="noopener" class="btn btn-ghost magnet" data-ar='أو راسلني بالبريد'>Email me instead</a>
     </div>
   </div>
 </section>
@@ -690,35 +886,35 @@
 <!-- SERVICES -->
 <section class="sec wrap" id="services">
   <div class="sec-head reveal">
-    <h2>What I <span class="grad">deliver</span></h2>
+    <h2 data-ar='ما <span class="grad">أقدّمه</span>'>What I <span class="grad">deliver</span></h2>
     <span class="idx">[ SERVICES / 02 ]</span>
   </div>
   <div class="svc-grid">
-    <div class="svc reveal tilt"><div class="no">01</div><h3>AI Ads</h3>
-      <p>Cinematic AI-generated commercials built scene by scene — from concept and prompt design to final grade. Agency quality, one-creator speed.</p></div>
-    <div class="svc reveal tilt"><div class="no">02</div><h3>Short Films</h3>
-      <p>Narrative AI shorts with real editorial craft. Story, pacing, sound, and color tuned frame by frame so it feels like streaming, not a feed.</p></div>
-    <div class="svc reveal tilt"><div class="no">03</div><h3>Editing &amp; Post</h3>
-      <p>End-to-end post-production — cut, sound design, color, and finishing in Premiere &amp; After Effects. The polish that makes footage land.</p></div>
-    <div class="svc reveal tilt"><div class="no">04</div><h3>3D &amp; Motion</h3>
-      <p>Product 3D, motion graphics, VFX, and projection mapping. From jewelry renders to National Day installations and event visuals.</p></div>
+    <div class="svc reveal tilt"><div class="no">01</div><h3 data-ar='إعلانات AI'>AI Ads</h3>
+      <p data-ar='إعلانات سينمائية مولّدة بالذكاء الاصطناعي تُبنى مشهداً بمشهد — من الفكرة وتصميم البرومبت إلى التلوين النهائي. جودة وكالة وسرعة صانع واحد.'>Cinematic AI-generated commercials built scene by scene — from concept and prompt design to final grade. Agency quality, one-creator speed.</p></div>
+    <div class="svc reveal tilt"><div class="no">02</div><h3 data-ar='أفلام قصيرة'>Short Films</h3>
+      <p data-ar='أفلام قصيرة بالذكاء الاصطناعي بحرفة مونتاج حقيقية. القصة والإيقاع والصوت واللون تُضبط لقطة بلقطة.'>Narrative AI shorts with real editorial craft. Story, pacing, sound, and color tuned frame by frame so it feels like streaming, not a feed.</p></div>
+    <div class="svc reveal tilt"><div class="no">03</div><h3 data-ar='مونتاج وبوست برودكشن'>Editing &amp; Post</h3>
+      <p data-ar='بوست برودكشن كامل — قص، تصميم صوت، تلوين وتشطيب على Premiere و After Effects. اللمسة التي تجعل اللقطة تصل.'>End-to-end post-production — cut, sound design, color, and finishing in Premiere &amp; After Effects. The polish that makes footage land.</p></div>
+    <div class="svc reveal tilt"><div class="no">04</div><h3 data-ar='3D وموشن'>3D &amp; Motion</h3>
+      <p data-ar='منتجات 3D، موشن جرافيك، مؤثرات بصرية وبروجكشن مابينغ — من مجسمات المجوهرات إلى عروض اليوم الوطني والفعاليات.'>Product 3D, motion graphics, VFX, and projection mapping. From jewelry renders to National Day installations and event visuals.</p></div>
   </div>
 </section>
 
 <!-- STORYBOARD -->
 <section class="sec wrap" id="storyboard">
   <div class="sec-head reveal">
-    <h2>Story<span class="grad">boards</span></h2>
+    <h2 data-ar='ستوري <span class="grad">بورد</span>'>Story<span class="grad">boards</span></h2>
     <span class="idx">[ PROCESS / 03 ]</span>
   </div>
   <div class="sb-intro">
     <div class="reveal">
-      <h3>Every frame is <span class="em">approved</span><br>before a single one <span class="grad">moves.</span></h3>
+      <h3 data-ar='كل لقطة <span class="em">تُعتمد</span><br>قبل أن تتحرك <span class="grad">واحدة.</span>'>Every frame is <span class="em">approved</span><br>before a single one <span class="grad">moves.</span></h3>
     </div>
     <div class="reveal">
-      <p>Before any render, you get a full storyboard: every shot, angle, and beat drawn out as a PDF. You see your story, you shape it, you sign off — then it becomes cinema. No surprises, no wasted takes.</p>
+      <p data-ar='قبل أي رندر، تستلم ستوري بورد كاملاً: كل لقطة وزاوية ولحظة مرسومة في ملف PDF. ترى قصتك، تعدّل عليها، وتعتمدها — ثم تتحول إلى سينما. بلا مفاجآت وبلا لقطات مهدرة.'>Before any render, you get a full storyboard: every shot, angle, and beat drawn out as a PDF. You see your story, you shape it, you sign off — then it becomes cinema. No surprises, no wasted takes.</p>
       <div class="sb-steps">
-        <span><b>01</b>Brief</span><span class="on"><b>02</b>Storyboard</span><span><b>03</b>Approve</span><span><b>04</b>Render</span>
+        <span><b>01</b><em data-ar='البريف'>Brief</em></span><span class="on"><b>02</b><em data-ar='ستوري بورد'>Storyboard</em></span><span><b>03</b><em data-ar='الاعتماد'>Approve</em></span><span><b>04</b><em data-ar='الرندر'>Render</em></span>
       </div>
     </div>
   </div>
@@ -751,77 +947,48 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="sec wrap" id="reviews">
+<!-- BRANDS -->
+<section class="sec wrap" id="brands">
   <div class="sec-head reveal">
-    <h2>Client <span class="grad">Reviews</span></h2>
-    <span class="idx">[ REVIEWS / 04 ]</span>
+    <h2 data-ar='علامات <span class="grad">وفعاليات</span>'>Brands &amp; <span class="grad">Events</span></h2>
+    <span class="idx">[ BRANDS / 04 ]</span>
   </div>
-  <div class="tm-head">
-    <h3 class="reveal">What clients say <span class="em">after</span><br>the final <span class="grad">cut.</span></h3>
-    <div class="tm-score reveal">
-      <b>5.0</b>
-      <div><span class="stars">★★★★★</span><small>Based on client reviews</small></div>
-    </div>
+  <div class="br-grid">
+    <div class="br reveal"><b>MK Wedding Planner</b><span data-ar='أفلام أعراس · ستوري بورد'>Wedding films · storyboards</span></div>
+    <div class="br reveal"><b>HYPHEN</b><span data-ar='فيلم منتج · 60 ثانية'>Product film · 60s</span></div>
+    <div class="br reveal"><b>Convergint MEA</b><span data-ar='فيلم أمن الموانئ'>Ports security film</span></div>
+    <div class="br reveal"><b>Ka'inat Podcast</b><span data-ar='أفلام وإعلانات AI'>AI shorts &amp; promos</span></div>
+    <div class="br reveal"><b>Gulfood</b><span data-ar='فيلم فعالية · دبي'>Event film · Dubai</span></div>
+    <div class="br reveal"><b>Arab Health</b><span data-ar='تغطية فعالية · دبي'>Event coverage · Dubai</span></div>
+    <div class="br reveal"><b>MBR Library</b><span data-ar='فيلم فعالية · دبي'>Event film · Dubai</span></div>
+    <a class="br br-next reveal" href="#quote"><b data-ar='علامتك التالية'>Your brand next</b><span data-ar='اطلب عرض سعر ←'>Get a quote →</span></a>
   </div>
-
-  <!-- To add a review: duplicate one <article class="tm"> block. Keep stars as ★ characters. -->
-  <div class="tm-grid" id="tmGrid">
-
-    <article class="tm reveal">
-      <span class="q">“</span>
-      <div class="stars">★★★★★</div>
-      <p>Remon turned our ballroom concept into a cinematic film before we'd even finished construction. The storyboard stage made approvals effortless — we knew exactly what we were getting.</p>
-      <div class="who"><span class="av">MK</span><div><b>MK Wedding Planner</b><span>Al Mas Ballroom · Dubai</span></div></div>
-    </article>
-
-    <article class="tm reveal">
-      <span class="q">“</span>
-      <div class="stars">★★★★★</div>
-      <p>A 60-second product film delivered in days, not weeks — and it looked like a studio production. Clear communication, fast revisions, and a result our whole team was proud to publish.</p>
-      <div class="who"><span class="av">H</span><div><b>HYPHEN</b><span>Flex Fit · Product film</span></div></div>
-    </article>
-
-    <article class="tm reveal">
-      <span class="q">“</span>
-      <div class="stars">★★★★★</div>
-      <p>Professional from brief to delivery. The AI visuals matched our brand tone perfectly and the final cut needed almost no changes. We've already booked the next project.</p>
-      <div class="who"><span class="av">C</span><div><b>Convergint MEA</b><span>Ports security film · Dubai</span></div></div>
-    </article>
-
-  </div>
-
-  <div class="tm-cta reveal">
-    <p>Worked with me? A short review on Google helps other brands find Remotion — and it takes 30 seconds.</p>
-    <!-- REPLACE the href below with your Google review link once the Business Profile is live -->
-    <a id="gReview" href="https://g.page/r/REPLACE_WITH_YOUR_PLACE_ID/review" target="_blank" rel="noopener" class="btn btn-g magnet">
-      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Leave a review on Google
-    </a>
-  </div>
+  <!-- CLIENT REVIEWS: when a client sends you their own words, add them here as
+       <article class="tm reveal"><span class="q">“</span><p>THEIR WORDS</p><div class="who"><span class="av">AB</span><div><b>NAME</b><span>COMPANY</span></div></div></article>
+       inside a <div class="tm-grid">. Only real quotes. -->
 </section>
 
 <!-- ABOUT -->
 <section class="sec wrap about" id="about">
   <div class="sec-head reveal">
-    <h2>About</h2>
+    <h2 data-ar='عنّي'>About</h2>
     <span class="idx">[ ABOUT / 05 ]</span>
   </div>
   <div class="about-grid">
     <div class="reveal">
       <h2 class="name">Remon Eshak Fayez</h2>
-      <div class="role">AI Video Creator &amp; Editor · Egypt &amp; UAE</div>
-      <p>With five years in the industry, I craft AI-powered ads and short films that blend advanced technology with real editorial skill. From concept to final cut, I deliver content that stops the scroll and tells stories that last.</p>
-      <p>Remotion is a one-person creative studio in Dubai delivering cinematic, AI-powered content at agency speed and quality — for brands, agencies, and producers across the UAE &amp; MENA.</p>
+      <div class="role" data-ar='صانع فيديو بالذكاء الاصطناعي ومونتير · مصر والإمارات'>AI Video Creator &amp; Editor · Egypt &amp; UAE</div>
+      <p data-ar='بخبرة خمس سنوات في المجال، أصنع إعلانات وأفلاماً قصيرة بالذكاء الاصطناعي تجمع بين التقنية المتقدمة وحرفة المونتاج الحقيقية. من الفكرة إلى النسخة النهائية، أقدّم محتوى يوقف التمرير ويحكي قصصاً تبقى.'>With five years in the industry, I craft AI-powered ads and short films that blend advanced technology with real editorial skill. From concept to final cut, I deliver content that stops the scroll and tells stories that last.</p>
+      <p data-ar='Remotion استوديو إبداعي لشخص واحد في دبي، يقدّم محتوى سينمائياً بالذكاء الاصطناعي بسرعة وجودة الوكالات — للعلامات والوكالات والمنتجين في الإمارات والمنطقة.'>Remotion is a one-person creative studio in Dubai delivering cinematic, AI-powered content at agency speed and quality — for brands, agencies, and producers across the UAE &amp; MENA.</p>
       <div class="tools">
         <span>Premiere Pro</span><span>After Effects</span><span>Photoshop</span>
         <span>Kling</span><span>Nano Banana Pro</span><span>Seedance</span>
         <span>Higgsfield</span><span>Hedra</span><span>ElevenLabs</span>
       </div>
       <div class="exp">
-        <div class="exp-row"><div class="yr">2024 — NOW</div><div><h4>Senior Video Editor — AI Ads &amp; Short Films</h4><p>Zee Visual Dazzle · Dubai, UAE</p></div></div>
-        <div class="exp-row"><div class="yr">2022 — 2024</div><div><h4>Senior 3D &amp; Motion Graphic</h4><p>Twasool · Saudi Arabia (Remote)</p></div></div>
-        <div class="exp-row"><div class="yr">2019 — 2022</div><div><h4>Freelance Video Editor &amp; Motion</h4><p>Egypt</p></div></div>
+        <div class="exp-row"><div class="yr" data-ar='2024 — الآن'>2024 — NOW</div><div><h4 data-ar='مونتير أول — إعلانات AI وأفلام قصيرة'>Senior Video Editor — AI Ads &amp; Short Films</h4><p data-ar='Zee Visual Dazzle · دبي، الإمارات'>Zee Visual Dazzle · Dubai, UAE</p></div></div>
+        <div class="exp-row"><div class="yr">2022 — 2024</div><div><h4 data-ar='مصمم 3D وموشن جرافيك أول'>Senior 3D &amp; Motion Graphic</h4><p data-ar='Twasool · السعودية (عن بُعد)'>Twasool · Saudi Arabia (Remote)</p></div></div>
+        <div class="exp-row"><div class="yr">2019 — 2022</div><div><h4 data-ar='مونتير وموشن جرافيك مستقل'>Freelance Video Editor &amp; Motion</h4><p data-ar='مصر'>Egypt</p></div></div>
       </div>
     </div>
     <div class="portrait reveal">
@@ -834,12 +1001,12 @@
 <section class="sec wrap contact" id="contact">
   <div class="contact-grid">
     <div class="reveal">
-      <div class="eyebrow" style="margin-bottom:24px"><span class="bar"></span>LET'S TALK</div>
-      <h2><span class="em">Stay</span> in<br><span class="grad">Touch.</span></h2>
-      <p class="avail">Based in Egypt &amp; UAE.<br>Available for projects worldwide.</p>
+      <div class="eyebrow" style="margin-bottom:24px"><span class="bar"></span><span data-ar='لنتحدث'>LET'S TALK</span></div>
+      <h2 data-ar='<span class="em">ابقَ</span> على<br><span class="grad">تواصل.</span>'><span class="em">Stay</span> in<br><span class="grad">Touch.</span></h2>
+      <p class="avail" data-ar='مقيم بين مصر والإمارات.<br>متاح لمشاريع في أي مكان.'>Based in Egypt &amp; UAE.<br>Available for projects worldwide.</p>
       <div class="cinfo">
-        <div><div class="lbl">EMAIL</div><a class="val" href="mailto:remoneshak956@gmail.com">remoneshak956@gmail.com</a></div>
-        <div><div class="lbl">PHONE</div>
+        <div><div class="lbl" data-ar='البريد'>EMAIL</div><a class="val" href="mailto:remoneshak956@gmail.com">remoneshak956@gmail.com</a></div>
+        <div><div class="lbl" data-ar='الهاتف'>PHONE</div>
           <div class="phone-row">
             <a class="val" href="tel:+971502528669">+971 50 252 8669</a>
             <a class="wa" href="https://wa.me/971502528669" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -848,24 +1015,35 @@
             </a>
           </div>
         </div>
-        <div><div class="lbl">INSTAGRAM</div><a class="val" href="https://instagram.com/remotion2025" target="_blank">@remotion2025</a></div>
-        <div><div class="lbl">TIKTOK</div><a class="val" href="https://tiktok.com/@remotion2025" target="_blank">@remotion2025</a></div>
+        <div><div class="lbl" data-ar='إنستغرام'>INSTAGRAM</div><a class="val" href="https://instagram.com/remotion2025" target="_blank">@remotion2025</a></div>
+        <div><div class="lbl" data-ar='تيك توك'>TIKTOK</div><a class="val" href="https://tiktok.com/@remotion2025" target="_blank">@remotion2025</a></div>
       </div>
     </div>
     <div class="ccard reveal">
       <div class="q">“</div>
-      <h3>Let's create something <b>remarkable together.</b></h3>
-      <div class="svcs">AI Ads · Short Films · Editing · 3D &amp; Motion</div>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=remoneshak956@gmail.com&su=Project%20inquiry%20%E2%80%94%20Remotion" target="_blank" rel="noopener" class="btn">Get in touch <span class="arrow">→</span></a>
+      <h3 data-ar='لنصنع شيئاً <b>يستحق المشاهدة.</b>'>Let's create something <b>remarkable together.</b></h3>
+      <div class="svcs" data-ar='إعلانات AI · أفلام قصيرة · مونتاج · 3D وموشن'>AI Ads · Short Films · Editing · 3D &amp; Motion</div>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=remoneshak956@gmail.com&su=Project%20inquiry%20%E2%80%94%20Remotion" target="_blank" rel="noopener" class="btn" data-ar='تواصل معي <span class="arrow">←</span>'>Get in touch <span class="arrow">→</span></a>
     </div>
   </div>
   <footer>
     <div class="foot">
       <img src="remotion-logo.png" alt="Remotion">
-      <span>VISION MEETS GENERATION · © 2025 · myremotion.com</span>
+      <span>VISION MEETS GENERATION · © 2026 · myremotion.com</span>
     </div>
   </footer>
 </section>
+
+<!-- CINEMA MODE (video viewer) -->
+<div class="cine" id="cine" role="dialog" aria-modal="true" aria-label="Video player">
+  <img class="cine-brand" src="remotion-logo.png" alt="Remotion">
+  <button class="cine-x" id="cineX" aria-label="Close">✕</button>
+  <div class="cine-stage" id="cineStage"></div>
+  <div class="cine-bar">
+    <div class="cine-info"><small id="cineTag"></small><h4 id="cineTitle"></h4><p id="cineSub"></p></div>
+    <div class="cine-ctl"><button id="cinePrev" aria-label="Previous">←</button><span id="cineCount"></span><button id="cineNext" aria-label="Next">→</button></div>
+  </div>
+</div>
 
 <script>
   const glow=document.getElementById('glow');
@@ -935,31 +1113,77 @@
   const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
 
-  const btns=document.querySelectorAll('.filters button'),frames=document.querySelectorAll('.frame');
-  const gridH=document.getElementById('gridH'),gridV=document.getElementById('gridV');
-  btns.forEach(b=>b.onclick=()=>{
-    btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');
-    const f=b.dataset.f;
-    frames.forEach(fr=>fr.style.display=(f==='all'||fr.dataset.cat===f)?'':'none');
-    [gridH,gridV].forEach(g=>{
-      const any=[...g.querySelectorAll('.frame')].some(fr=>fr.style.display!=='none');
-      g.style.display=any?'':'none';
-    });
+  // ===== WORK: chapters, rails, cinema mode =====
+  const works=[...document.querySelectorAll('.frame[data-yt]')];
+  const cine=document.getElementById('cine'),stage=document.getElementById('cineStage');
+  let cur=-1,lastFocus=null;
+  function show(i){
+    cur=(i+works.length)%works.length; const w=works[cur],v=w.classList.contains('v');
+    cine.classList.toggle('v',v);
+    stage.innerHTML='<iframe src="https://www.youtube.com/embed/'+w.dataset.yt+'?autoplay=1&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="'+w.querySelector('h3').textContent.replace(/"/g,'')+'"></iframe>';
+    document.getElementById('cineTag').textContent=w.querySelector('.tag').textContent+' · '+w.closest('.chap').querySelector('.chap-t h3').textContent;
+    document.getElementById('cineTitle').textContent=w.querySelector('h3').textContent;
+    document.getElementById('cineSub').textContent=w.querySelector('.cap p').textContent;
+    document.getElementById('cineCount').textContent=String(cur+1).padStart(2,'0')+' / '+String(works.length).padStart(2,'0');
+  }
+  function openCine(i){lastFocus=document.activeElement;show(i);cine.classList.add('open');document.body.classList.add('cine-on');document.getElementById('cineX').focus()}
+  function closeCine(){cine.classList.remove('open');document.body.classList.remove('cine-on');stage.innerHTML='';if(lastFocus)lastFocus.focus()}
+  works.forEach((w,i)=>{
+    w.addEventListener('click',()=>openCine(i));
+    w.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCine(i)}});
+  });
+  document.getElementById('cineX').onclick=closeCine;
+  document.getElementById('cinePrev').onclick=()=>show(cur-1);
+  document.getElementById('cineNext').onclick=()=>show(cur+1);
+  cine.addEventListener('click',e=>{if(e.target===cine)closeCine()});
+  addEventListener('keydown',e=>{
+    if(!cine.classList.contains('open'))return;
+    if(e.key==='Escape')closeCine(); else if(e.key==='ArrowRight')show(cur+1); else if(e.key==='ArrowLeft')show(cur-1);
   });
 
-  // click a work frame -> load & play its YouTube video inside the frame
-  frames.forEach(fr=>{
-    const id=fr.dataset.yt; if(!id) return;
-    const media=fr.querySelector('.media');
-    media.addEventListener('click',()=>{
-      if(media.querySelector('iframe')) return;
-      const f=document.createElement('iframe');
-      f.src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1&modestbranding=1';
-      f.allow='autoplay; encrypted-media; fullscreen';
-      f.setAttribute('allowfullscreen','');
-      media.appendChild(f);
-    });
+  // rails: arrows scroll one "page"; hide arrows/fade when there is nothing more to scroll
+  document.querySelectorAll('.rail-wrap').forEach(wr=>{
+    const r=wr.querySelector('.rail'),pv=wr.querySelector('.prev'),nx=wr.querySelector('.next');
+    const upd=()=>{
+      const max=r.scrollWidth-r.clientWidth;
+      r.classList.toggle('fit',max<4); r.classList.toggle('end',r.scrollLeft>=max-4);
+      pv.hidden=r.scrollLeft<4; nx.hidden=r.scrollLeft>=max-4;
+    };
+    pv.onclick=()=>r.scrollBy({left:-r.clientWidth*.8,behavior:'smooth'});
+    nx.onclick=()=>r.scrollBy({left:r.clientWidth*.8,behavior:'smooth'});
+    r.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
   });
+
+  // chapter index highlights the chapter in view
+  const chLinks=[...document.querySelectorAll('#chapNav a')];
+  const spy=new IntersectionObserver(es=>es.forEach(x=>{
+    if(x.isIntersecting)chLinks.forEach(a=>a.classList.toggle('on',a.dataset.ch===x.target.id));
+  }),{rootMargin:'-35% 0px -60% 0px'});
+  document.querySelectorAll('.chap').forEach(c=>spy.observe(c));
+
+  // ===== sharper thumbnails: use YouTube's vertical / HD stills when they exist, otherwise keep the default =====
+  works.forEach(w=>{
+    const img=w.querySelector('.thumb'),id=w.dataset.yt,v=w.classList.contains('v');
+    const t=new Image();
+    t.onload=()=>{ if(v ? t.naturalHeight>t.naturalWidth : t.naturalWidth>=1000) img.src=t.src; };
+    t.src='https://i.ytimg.com/vi/'+id+(v?'/oar2.jpg':'/maxresdefault.jpg');
+  });
+
+  // ===== language: English <-> Arabic (remembers the visitor's choice; ?lang=ar opens in Arabic) =====
+  const langBtn=document.getElementById('langBtn');
+  const tr=[...document.querySelectorAll('[data-ar]')].map(el=>({el,en:el.innerHTML,ar:el.dataset.ar}));
+  function setLang(l,save){
+    const isAr=l==='ar', d=document.documentElement;
+    d.lang=isAr?'ar':'en'; d.dir=isAr?'rtl':'ltr';
+    tr.forEach(t=>{t.el.innerHTML=isAr?t.ar:t.en});
+    langBtn.textContent=isAr?'English':'عربي';
+    if(save){try{localStorage.setItem('remotion-lang',l)}catch(e){}}
+    dispatchEvent(new Event('resize'));
+  }
+  langBtn.onclick=()=>setLang(document.documentElement.dir==='rtl'?'en':'ar',true);
+  let startLang=null;
+  try{startLang=new URLSearchParams(location.search).get('lang')||localStorage.getItem('remotion-lang')}catch(e){}
+  if(startLang==='ar')setLang('ar',false);
 </script>
 </body>
 </html>
