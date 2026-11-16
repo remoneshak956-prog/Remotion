@@ -171,6 +171,9 @@ tr:last-child td{border-bottom:0}
 .pick:hover{border-color:var(--muted)}
 .pick.on{background:var(--accent-soft);border-color:var(--accent);color:#fff}
 .fld .pick-add{flex:1;min-width:150px;border:0;background:transparent;padding:5px 6px;outline:none;width:auto}
+.who{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:3px 9px 3px 4px;border-radius:99px;background:var(--surface2);border:1px solid var(--line2);white-space:nowrap}
+.who i{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:10.5px;font-weight:700;background:var(--line2);color:var(--text);font-family:"Poppins"}
+.who.me i{background:var(--grad);color:#fff}
 .role{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line2);color:var(--dim);font-family:"Poppins";letter-spacing:.06em;text-transform:uppercase}
 .fin{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:22px;position:relative;overflow:hidden}
 .fin::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:var(--grad)}
@@ -248,6 +251,7 @@ tr:last-child td{border-bottom:0}
     </div>
     <select class="f" id="fYear"><option value="">كل السنين</option></select>
     <select class="f" id="fMonth"><option value="">كل الشهور</option></select>
+    <select class="f" id="fWho"><option value="">كل الناس</option></select>
     <select class="f" id="fStage"><option value="">كل المراحل</option></select>
     <select class="f money-only" id="fPay">
       <option value="">كل حالات الدفع</option>
@@ -272,6 +276,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr>
           <th>العميل<span class="en">Client</span></th>
           <th>الشغلانة<span class="en">Services</span></th>
+          <th>مين شغال<span class="en">Assigned</span></th>
           <th>وصلت لإيه<span class="en">Stage</span></th>
           <th>الإنجاز<span class="en">Progress</span></th>
           <th class="money-only">الفلوس<span class="en">Payment</span></th>
@@ -297,6 +302,9 @@ tr:last-child td{border-bottom:0}
       <div class="fld"><label>وصلت لإيه <span class="en">Stage</span></label><select name="stage" id="stageSel"></select></div>
       <div class="fld full"><label>الشغلانة <span class="en">Services — اختار أكتر من حاجة</span></label>
         <div class="picker" id="picker"></div>
+      </div>
+      <div class="fld full"><label>مين شغال عليه <span class="en">Assigned to — ممكن أكتر من حد</span></label>
+        <div class="picker" id="whoPicker"></div>
       </div>
       <div class="fld full"><label>خلص منه قد إيه <span class="en">Progress — <span class="rangeval" id="pv">0%</span></span></label><input type="range" name="progress" min="0" max="100" step="5" value="0" id="pr"></div>
       <div class="fld"><label>معاد التسليم <span class="en">Deadline</span></label><input type="date" name="due"></div>
@@ -360,6 +368,11 @@ const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","
 function pdate(p){ if(p.due) return String(p.due).slice(0,10); if(p.createdAt){const d=new Date(+p.createdAt);if(!isNaN(d))return d.toISOString().slice(0,10)} return ""; }
 const pYear = p => pdate(p).slice(0,4), pMonth = p => pdate(p) ? +pdate(p).slice(5,7) : 0;
 function moneyLines(o){const k=Object.keys(o).filter(c=>o[c]);return k.length?k.map(c=>`${fmt(o[c])}<small>${c}</small>`).join("<br>"):"0"}
+const OWNER_NAME = "Remon";
+let whoPicked = [];
+const initials = n => String(n).trim().split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase();
+const whoHTML = s => { const ns=splitNames(s); return ns.length?`<div class="tags">${ns.map(n=>`<span class="who${n===OWNER_NAME?" me":""}"><i>${esc(initials(n))}</i>${esc(n)}</span>`).join("")}</div>`:`<span style="color:var(--dim)">—</span>`; };
+function allPeople(){ const s=new Set([OWNER_NAME]); items.forEach(p=>splitNames(p.assignee).forEach(n=>s.add(n))); if(ME) s.add(ME); return [...s]; }
 const tagsHTML = s => `<div class="tags">${splitNames(s).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`;
 
 // --- fill selects
@@ -404,13 +417,14 @@ function dueCell(p){
 
 // --- render
 function filtered(){
-  const fy=$("#fYear").value, fm=$("#fMonth").value;
+  const fy=$("#fYear").value, fm=$("#fMonth").value, fw=$("#fWho").value;
   const q=$("#q").value.trim().toLowerCase(), fs=$("#fStage").value, fp=$("#fPay").value, sh=$("#fShow").value;
   return items.filter(p=>{
     if(sh==="active" && isDone(p)) return false;
     if(sh==="done" && !isDone(p)) return false;
     if(fy && pYear(p)!==fy) return false;
     if(fm && pMonth(p)!==+fm) return false;
+    if(fw && !splitNames(p.assignee).includes(fw)) return false;
     if(fs && p.stage!==fs) return false;
     if(fp && p.pay!==fp) return false;
     if(q && !(`${p.client} ${p.name}`.toLowerCase().includes(q))) return false;
@@ -420,7 +434,8 @@ function filtered(){
 function render(){
   // KPIs
   const fy0=$("#fYear").value, fm0=$("#fMonth").value;
-  const scope=items.filter(p=>(!fy0||pYear(p)===fy0)&&(!fm0||pMonth(p)===+fm0));
+  const fw0=$("#fWho").value;
+  const scope=items.filter(p=>(!fy0||pYear(p)===fy0)&&(!fm0||pMonth(p)===+fm0)&&(!fw0||splitNames(p.assignee).includes(fw0)));
   const act=scope.filter(p=>!isDone(p)&&p.stage!=="hold");
   $("#kActive").textContent=act.length;
   $("#kLate").textContent=act.filter(p=>p.due&&daysLeft(p.due)<0).length;
@@ -428,13 +443,14 @@ function render(){
   $("#kAvg").innerHTML=(act.length?Math.round(act.reduce((s,p)=>s+(+p.progress||0),0)/act.length):0)+"<small>%</small>";
   const owed={}; scope.forEach(p=>{const t=+p.total||0,pd=+p.paid||0; if(p.pay!=="paid"&&t>pd){const c=p.cur||"AED";owed[c]=(owed[c]||0)+(t-pd)}});
   const ok=Object.keys(owed); $("#kOwed").innerHTML=ok.length?ok.map(c=>`${fmt(owed[c])}<small>${c}</small>`).join("<br>"):"0";
-  fillYears(); renderFin();
+  fillYears(); fillWho(); renderFin();
 
   const list=filtered();
   // table
   $("#tbody").innerHTML=list.map(p=>`<tr class="row" data-id="${p.id}">
     <td><div class="client">${esc(p.client)}</div></td>
     <td>${tagsHTML(p.name)}</td>
+    <td>${whoHTML(p.assignee)}</td>
     <td>${stageChip(p)}</td><td>${progCell(p)}</td><td class="money-only">${payCell(p)}</td><td>${dueCell(p)}</td>
     <td class="data">${dataCell(p.data)}</td></tr>`).join("");
   $("#emptyT").style.display=list.length?"none":"block";
@@ -464,6 +480,7 @@ $("#months").addEventListener("click",e=>{const m=e.target.closest(".mo");if(!m)
 function cardHTML(p){
   return `<div class="card" data-id="${p.id}">
     <div class="top"><div><div class="proj">${esc(p.client)}</div><div style="margin-top:6px">${tagsHTML(p.name)}</div></div>${stageChip(p)}</div>
+    <div style="margin-bottom:10px">${whoHTML(p.assignee)}</div>
     ${progCell(p)}
     <div class="foot"><div class="money-only">${payCell(p)}</div><div>${dueCell(p)}</div></div>
     ${p.data?`<div class="data" style="margin-top:10px">${dataCell(p.data)}</div>`:""}
@@ -474,7 +491,7 @@ function cardHTML(p){
 $("#viewTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;view=b.dataset.v;
   document.querySelectorAll("#viewTabs button").forEach(x=>x.classList.toggle("act",x===b));
   $("#listView").style.display=view==="list"?"block":"none"; $("#board").style.display=view==="board"?"flex":"none";});
-["#q","#fYear","#fMonth","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
+["#q","#fYear","#fMonth","#fWho","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
 
 // --- clicks
 document.addEventListener("click",async e=>{
@@ -493,6 +510,17 @@ function addCustom(){const i=$("#pickAdd");const v=i?i.value.trim().replace(/\s*
 $("#picker").addEventListener("click",e=>{const b=e.target.closest(".pick");if(!b)return;const x=b.dataset.s;picked=picked.includes(x)?picked.filter(y=>y!==x):[...picked,x];renderPicker()});
 $("#picker").addEventListener("keydown",e=>{if(e.target.id==="pickAdd"&&e.key==="Enter"){e.preventDefault();if(addCustom()){renderPicker();$("#pickAdd").focus()}}});
 
+// --- assignee picker
+function fillWho(){const cur=$("#fWho").value;$("#fWho").innerHTML=`<option value="">كل الناس</option>`+allPeople().map(n=>`<option${n===cur?" selected":""}>${esc(n)}</option>`).join("");}
+function renderWho(){
+  const all=[...new Set([...allPeople(),...whoPicked])];
+  $("#whoPicker").innerHTML=all.map(x=>`<button type="button" class="pick${whoPicked.includes(x)?" on":""}" data-w="${esc(x)}">${esc(x)}${x===OWNER_NAME?" (Owner)":""}</button>`).join("")
+    +`<input class="pick-add" id="whoAdd" placeholder="+ اسم حد تاني… واضغط Enter">`;
+}
+function addWho(){const i=$("#whoAdd");const v=i?i.value.trim().replace(/\s*\+\s*/g," "):"";if(v&&!whoPicked.includes(v))whoPicked.push(v);return v}
+$("#whoPicker").addEventListener("click",e=>{const b=e.target.closest(".pick");if(!b)return;const x=b.dataset.w;whoPicked=whoPicked.includes(x)?whoPicked.filter(y=>y!==x):[...whoPicked,x];renderWho()});
+$("#whoPicker").addEventListener("keydown",e=>{if(e.target.id==="whoAdd"&&e.key==="Enter"){e.preventDefault();if(addWho()){renderWho();$("#whoAdd").focus()}}});
+
 // --- modal
 const F=$("#form");
 function openModal(p){
@@ -501,6 +529,7 @@ function openModal(p){
   const d=p||{stage:"brief",pay:"unpaid",progress:0,cur:"AED"};
   ["client","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
   picked=splitNames(d.name); renderPicker();
+  whoPicked=p?splitNames(d.assignee):[ROLE==="owner"?OWNER_NAME:(ME||OWNER_NAME)]; renderWho();
   $("#pv").textContent=(F.progress.value||0)+"%";
   $("#updated").textContent="";
   if(p&&p.updatedAt){const t=new Date(p.updatedAt).toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
@@ -523,6 +552,7 @@ F.addEventListener("submit",async e=>{
   if(!picked.length){ toast("اختار الشغلانة الأول"); return; }
   const o={}; ["client","stage","due","pay","cur","data","details"].forEach(k=>o[k]=F.elements[k].value.trim());
   o.name=picked.join(" + ");
+  addWho(); o.assignee=whoPicked.join(" + ");
   o.progress=+F.progress.value||0; o.total=F.total.value===""?null:+F.total.value; o.paid=F.paid.value===""?null:+F.paid.value;
   o.updatedAt=Date.now(); o.updatedBy=ME;
   const id=editing?editing.id:("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
