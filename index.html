@@ -47,10 +47,10 @@
   a{text-decoration:none;color:inherit}
   img{display:block;max-width:100%}
 
-  .glow{position:fixed;width:55vw;height:55vw;max-width:700px;max-height:700px;border-radius:50%;
-    pointer-events:none;z-index:1;opacity:.45;
-    background:radial-gradient(circle,rgba(14,148,234,.26)0%,rgba(38,215,227,.09)35%,transparent 70%);
-    transform:translate(-50%,-50%);transition:transform .25s cubic-bezier(.2,.8,.2,1);left:70%;top:40%}
+  .glow{position:fixed;left:0;top:0;width:66vw;height:66vw;max-width:880px;max-height:880px;border-radius:50%;
+    pointer-events:none;z-index:1;opacity:.95;will-change:transform;
+    background:radial-gradient(circle,rgba(14,148,234,.50) 0%,rgba(38,215,227,.20) 28%,rgba(14,148,234,.07) 50%,transparent 70%);
+    transform:translate3d(70vw,40vh,0) translate(-50%,-50%)}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.022;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -562,6 +562,80 @@
     .exp-row{grid-template-columns:1fr;gap:4px}
     .reel-frame{width:min(86vw,340px)}
   }
+  /* ===== CURSOR — the logo ring ===== */
+  .spot{position:fixed;left:0;top:0;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:55;opacity:0;
+    mix-blend-mode:screen;will-change:transform;transition:opacity .5s;
+    background:radial-gradient(circle,rgba(14,148,234,.30) 0%,rgba(38,215,227,.12) 38%,transparent 70%)}
+  .cur,.cur-dot{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;opacity:0;will-change:transform}
+  .cur{width:36px;height:36px;transition:opacity .3s,width .4s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1)}
+  .cur svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 7px rgba(14,148,234,.65))}
+  .cur circle{fill:rgba(14,148,234,0);stroke:url(#cug);stroke-width:14;transition:stroke-width .4s,fill .4s}
+  .cur span{position:absolute;inset:0;display:grid;place-items:center;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:2.5px;
+    padding-left:2.5px;color:#fff;opacity:0;transform:scale(.4);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
+  .cur-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);transition:opacity .25s}
+  html.cur-on .cur.is-on,html.cur-on .cur-dot.is-on,html.cur-on .spot.is-on{opacity:1}
+  .cur.is-link{width:58px;height:58px}.cur.is-link circle{stroke-width:8;fill:rgba(14,148,234,.14)}
+  .cur.is-play{width:88px;height:88px}.cur.is-play circle{stroke-width:5;fill:rgba(0,0,0,.45)}
+  .cur.is-play span{opacity:1;transform:none}
+  html.cur-on .cur.is-play ~ .cur-dot{opacity:0}
+  .cur.is-down{width:26px;height:26px}.cur.is-down.is-play{width:74px;height:74px}
+  html.cur-on,html.cur-on *{cursor:none!important}
+  html[dir=rtl] .cur span{padding-left:0}
+
+  /* ===== SCROLL — the ring travels with the page and draws itself ===== */
+  .orbit{position:fixed;left:50%;top:50%;width:min(80vh,max(62vw,360px));aspect-ratio:1;pointer-events:none;z-index:1;
+    overflow:visible;will-change:transform;transform:translate(-50%,-50%) rotate(-90deg)}
+  .orbit circle{fill:none}
+  .orbit .trk{stroke:rgba(255,255,255,.045);stroke-width:.35}
+  .orbit .arc{stroke:url(#obg);stroke-width:5;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;opacity:.28}
+  .hero{z-index:3}
+  /* hero drifts apart as you leave it */
+  @media(min-width:961px){
+    .hero-text{transform:translate3d(0,calc(var(--hp,0)*-80px),0);opacity:calc(1 - var(--hp,0)*1.2);will-change:transform}
+    .reel-frame{transform:translate3d(0,calc(var(--hp,0)*50px),0) scale(calc(1 - var(--hp,0)*.08)) rotate(calc(var(--hp,0)*-3deg))}
+    .scroll-hint{opacity:calc(1 - var(--hp,0)*5)}
+  }
+  /* marquee leans with scroll speed */
+  .marquee-track span{will-change:transform}
+  .marquee{--sk:0deg}.marquee-track{transform-origin:50% 50%}
+  .marquee-skew{transform:skewX(var(--sk))}
+  /* chapter numbers fill up with the brand gradient as they rise */
+  .chap-no{background:linear-gradient(to top,#26D7E3,#0E94EA 55%,#2D6C98) no-repeat 50% 100%/100% calc(var(--f,0)*100%);
+    -webkit-background-clip:text;background-clip:text}
+  /* cards open like a shutter while the still settles */
+  .frame.reveal{opacity:1;transform:none;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .5s,background-color .5s}
+  .frame.reveal:not(.in){border-color:transparent;background-color:transparent}
+  .frame.reveal>.media,.frame.reveal>.cap{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s cubic-bezier(.65,0,.2,1);transition-delay:inherit}
+  .frame.reveal.in>.media,.frame.reveal.in>.cap{clip-path:inset(0)}
+  .frame.reveal:not(.in) .media .thumb{transform:scale(1.3)}
+  .frame.reveal .media .thumb{transition:transform 1.5s cubic-bezier(.2,.8,.2,1)}
+  /* section rule draws in */
+  .sec-head{position:relative}
+  .sec-head::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--grad);
+    transition:width 1.3s .25s cubic-bezier(.2,.8,.2,1)}
+  .sec-head.in::after{width:min(240px,45%)}
+  html[dir=rtl] .sec-head::after{left:auto;right:0}
+
+  /* format label: one row per aspect ratio, widescreen always first */
+  .fmt{display:flex;align-items:center;gap:12px;margin-top:40px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+  .chap-head + .fmt{margin-top:0}
+  .fmt .ar{flex:none;width:24px;height:14px;border:1.5px solid var(--cyan);border-radius:3px;box-shadow:0 0 10px rgba(38,215,227,.35)}
+  .fmt .ar.v{width:12px;height:20px}
+  .fmt b{color:#fff;font-weight:500}
+  .fmt em{flex:1;height:1px;background:linear-gradient(90deg,#2a2a30,transparent)}
+  .fmt small{font-size:11px;color:var(--dim);letter-spacing:2px}
+  .fmt + .frame{margin-top:16px}
+  html[dir=rtl] .fmt em{background:linear-gradient(270deg,#2a2a30,transparent)}
+
+  @media(hover:none){.glow{opacity:.6}}
+  @media(prefers-reduced-motion:reduce){
+    .orbit{display:none}
+    .frame.reveal>.media,.frame.reveal>.cap{clip-path:none!important}.frame.reveal .media .thumb{transform:none!important}
+    .hero-text,.reel-frame{transform:none!important;opacity:1!important}
+  }
+
   /* ===== LANGUAGE + RTL ===== */
   .nav-end{display:flex;align-items:center;gap:12px}
   .lang{font-family:'IBM Plex Sans Arabic','Poppins',sans-serif;font-size:13px;font-weight:500;color:var(--muted);background:transparent;
@@ -605,6 +679,10 @@
 </div>
 <div class="progress" id="progress"></div>
 <div class="glow" id="glow"></div>
+<svg class="orbit" id="orbit" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="obg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#26D7E3"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#2D6C98"/></linearGradient></defs><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" id="orbitArc" cx="50" cy="50" r="44" pathLength="100"/></svg>
+<div class="spot" id="spot" aria-hidden="true"></div>
+<div class="cur" id="cur" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><linearGradient id="cug" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#26D7E3"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#2D6C98"/></linearGradient></defs><circle cx="50" cy="50" r="42"/></svg><span data-ar='تشغيل'>PLAY</span></div>
+<div class="cur-dot" id="curDot" aria-hidden="true"></div>
 <div class="grain"></div>
 
 <nav id="nav">
@@ -658,10 +736,10 @@
 
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
+  <div class="marquee-skew" id="mqSkew"><div class="marquee-track" id="mqTrack">
     <span data-ar='إعلانات AI<i></i>أفلام قصيرة<i></i>مونتاج<i></i>3D وموشن<i></i>مؤثرات بصرية<i></i>دبي · الإمارات<i></i>الرؤية تلتقي بالتوليد<i></i>'>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
     <span data-ar='إعلانات AI<i></i>أفلام قصيرة<i></i>مونتاج<i></i>3D وموشن<i></i>مؤثرات بصرية<i></i>دبي · الإمارات<i></i>الرؤية تلتقي بالتوليد<i></i>'>AI Ads<i></i>Short Films<i></i>Video Editing<i></i>3D &amp; Motion<i></i>VFX<i></i>Dubai · UAE<i></i>Vision meets generation<i></i></span>
-  </div>
+  </div></div>
 </div>
 
 <!-- WORK -->
@@ -674,7 +752,7 @@
   <!-- chapter index: jumps to a chapter and highlights the one in view -->
   <div class="chap-nav" id="chapNav" role="navigation" aria-label="Work chapters">
     <a href="#ch-film" data-ch="ch-film"><b>01</b><span data-ar='أفلام قصيرة'>Short Films</span><i>04</i></a>
-    <a href="#ch-ads" data-ch="ch-ads"><b>02</b><span data-ar='إعلانات AI'>AI Ads</span><i>10</i></a>
+    <a href="#ch-spots" data-ch="ch-spots"><b>02</b><span data-ar='إعلانات AI'>AI Ads</span><i>10</i></a>
     <a href="#ch-aiedit" data-ch="ch-aiedit"><b>03</b><span data-ar='مونتاج AI'>AI Edit</span><i>01</i></a>
     <a href="#ch-edit" data-ch="ch-edit"><b>04</b><span data-ar='مونتاج وفعاليات'>Editing &amp; Events</span><i>05</i></a>
     <a href="#ch-3d" data-ch="ch-3d"><b>05</b><span data-ar='3D ومؤثرات'>3D &amp; VFX</span><i>03</i></a>
@@ -712,12 +790,26 @@
     </div>
   </div>
 
-  <div class="chap" id="ch-ads">
+  <div class="chap" id="ch-spots">
     <header class="chap-head reveal">
       <span class="chap-no">02</span>
       <div class="chap-t"><h3 data-ar='إعلانات AI'>AI Ads</h3><p data-ar='إعلانات منتجات وعلامات وحملات تُولَّد مشهداً بمشهد. نسخ طولية للسوشيال ميديا و16:9 للشاشات.'>Product, brand and campaign spots generated scene by scene. Vertical cuts for social, 16:9 for screens.</p></div>
       <span class="chap-count"><b>10</b> <span data-ar='أعمال'>works</span></span>
     </header>
+    <div class="fmt reveal"><i class="ar"></i><b>16:9</b><span data-ar='عرضي'>Widescreen</span><em></em><small>02</small></div>
+    <div class="chap-grid cols-2">
+      <div class="frame reveal tilt" data-cat="ai" data-yt="6B26y6fjDeo" tabindex="0" role="button" aria-label="Play Phone Case — The Film">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6B26y6fjDeo/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Phone Case — The Film</h3><p>AI product ad · كافر تليفون · landscape cut</p></div>
+      </div>
+      <div class="frame reveal tilt" data-cat="ai" data-yt="fZ9YOEwewg0" tabindex="0" role="button" aria-label="Play Security &amp; Surveillance">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/fZ9YOEwewg0/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Security &amp; Surveillance</h3><p>AI corporate ad · Dubai security company · كاميرات وحماية</p></div>
+      </div>
+    </div>
+    <div class="fmt reveal"><i class="ar v"></i><b>9:16</b><span data-ar='طولي · ريلز'>Vertical · Reels</span><em></em><small>08</small></div>
     <div class="rail-wrap reveal">
       <button class="rail-btn prev" aria-label="Scroll left">‹</button>
       <div class="rail">
@@ -764,18 +856,6 @@
       </div>
       <button class="rail-btn next" aria-label="Scroll right">›</button>
     </div>
-    <div class="chap-grid cols-2">
-      <div class="frame reveal tilt" data-cat="ai" data-yt="6B26y6fjDeo" tabindex="0" role="button" aria-label="Play Phone Case — The Film">
-        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/6B26y6fjDeo/hqdefault.jpg" alt="">
-          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
-        <div class="cap"><h3>Phone Case — The Film</h3><p>AI product ad · كافر تليفون · landscape cut</p></div>
-      </div>
-      <div class="frame reveal tilt" data-cat="ai" data-yt="fZ9YOEwewg0" tabindex="0" role="button" aria-label="Play Security &amp; Surveillance">
-        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/fZ9YOEwewg0/hqdefault.jpg" alt="">
-          <div class="shade"></div><span class="tag">AI AD · 16:9</span><div class="play"><span></span></div></div>
-        <div class="cap"><h3>Security &amp; Surveillance</h3><p>AI corporate ad · Dubai security company · كاميرات وحماية</p></div>
-      </div>
-    </div>
   </div>
 
   <div class="chap" id="ch-aiedit">
@@ -797,6 +877,7 @@
       <div class="chap-t"><h3 data-ar='مونتاج وفعاليات'>Editing &amp; Events</h3><p data-ar='أفلام فعاليات، إيقاع وصوت وألوان — الحرفة التي تجعل اللقطة تصل.'>Event films, pacing, sound and color — the craft that makes footage land.</p></div>
       <span class="chap-count"><b>05</b> <span data-ar='أعمال'>works</span></span>
     </header>
+    <div class="fmt reveal"><i class="ar"></i><b>16:9</b><span data-ar='عرضي'>Widescreen</span><em></em><small>04</small></div>
       <div class="frame feat reveal tilt" data-cat="edit" data-yt="QBz5AlHvMfA" tabindex="0" role="button" aria-label="Play Gulfood Dubai">
         <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/QBz5AlHvMfA/hqdefault.jpg" alt="">
           <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
@@ -819,6 +900,7 @@
         <div class="cap"><h3>Family Festival 2026</h3><p>Event film · مونتاج فعالية</p></div>
       </div>
     </div>
+    <div class="fmt reveal"><i class="ar v"></i><b>9:16</b><span data-ar='طولي · ريلز'>Vertical · Reels</span><em></em><small>01</small></div>
     <div class="rail-wrap reveal">
       <button class="rail-btn prev" aria-label="Scroll left">‹</button>
       <div class="rail">
@@ -1046,10 +1128,69 @@
 </div>
 
 <script>
-  const glow=document.getElementById('glow');
-  let tx=70,ty=40,cx=70,cy=40;
-  addEventListener('mousemove',e=>{tx=e.clientX/innerWidth*100;ty=e.clientY/innerHeight*100});
-  (function loop(){cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;glow.style.left=cx+'%';glow.style.top=cy+'%';requestAnimationFrame(loop)})();
+  // ===== pointer + scroll engine: one loop drives the glow, the ring cursor and every scroll-linked move =====
+  const glow=document.getElementById('glow'),spot=document.getElementById('spot'),curEl=document.getElementById('cur'),curDot=document.getElementById('curDot');
+  const finePtr=matchMedia('(hover:hover) and (pointer:fine)').matches,lowMo=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+  let mx=innerWidth*.7,my=innerHeight*.4,gx=mx,gy=my,rx=mx,ry=my,sx=mx,sy=my,seen=false;
+  addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    if(!finePtr)return;
+    if(!seen){seen=true;rx=sx=mx;ry=sy=my}
+    curEl.classList.add('is-on');curDot.classList.add('is-on');spot.classList.add('is-on');
+  },{passive:true});
+  if(finePtr){
+    document.documentElement.classList.add('cur-on');
+    const hideCur=()=>{curEl.classList.remove('is-on');curDot.classList.remove('is-on');spot.classList.remove('is-on')};
+    document.addEventListener('mouseover',e=>{
+      const t=e.target; if(!t||!t.closest)return;
+      if(t.tagName==='IFRAME'){hideCur();return}
+      curEl.classList.toggle('is-play',!!t.closest('.frame[data-yt]'));
+      curEl.classList.toggle('is-link',!!t.closest('a,button,[role=button],.sb,.br'));
+    });
+    document.documentElement.addEventListener('mouseleave',hideCur);
+    addEventListener('blur',hideCur);
+    addEventListener('mousedown',()=>curEl.classList.add('is-down'));
+    addEventListener('mouseup',()=>curEl.classList.remove('is-down'));
+  }
+  const heroEl=document.getElementById('top'),orbit=document.getElementById('orbit'),orbitArc=document.getElementById('orbitArc');
+  const mqSkew=document.getElementById('mqSkew'),mqTrack=document.getElementById('mqTrack'),chapNos=[...document.querySelectorAll('.chap-no')];
+  let pY=-1,vel=0,lastFY=scrollY,mqAnim=null,docH=1;
+  const measure=()=>{docH=Math.max(1,document.documentElement.scrollHeight-innerHeight);pY=-1};
+  addEventListener('resize',measure);addEventListener('load',measure);setInterval(measure,1500);measure();
+  (function frame(){
+    gx+=(mx-gx)*.09;gy+=(my-gy)*.09;
+    glow.style.transform='translate3d('+gx.toFixed(1)+'px,'+gy.toFixed(1)+'px,0) translate(-50%,-50%)';
+    if(finePtr&&seen){
+      sx+=(mx-sx)*.16;sy+=(my-sy)*.16;rx+=(mx-rx)*.24;ry+=(my-ry)*.24;
+      spot.style.transform='translate3d('+sx.toFixed(1)+'px,'+sy.toFixed(1)+'px,0) translate(-50%,-50%)';
+      curEl.style.transform='translate3d('+rx.toFixed(1)+'px,'+ry.toFixed(1)+'px,0) translate(-50%,-50%)';
+      curDot.style.transform='translate3d('+mx+'px,'+my+'px,0) translate(-50%,-50%)';
+    }
+    if(!lowMo){
+      const y=scrollY,vh=innerHeight;
+      vel+=((y-lastFY)-vel)*.14;lastFY=y;
+      if(Math.abs(vel)>.05||mqSkew.style.getPropertyValue('--sk')){
+        const v=Math.abs(vel)<.05?0:vel;
+        mqSkew.style.setProperty('--sk',v?clamp(v*-.45,-10,10).toFixed(2)+'deg':'');
+        if(!mqAnim&&mqTrack.getAnimations)mqAnim=mqTrack.getAnimations()[0]||null;
+        if(mqAnim)mqAnim.playbackRate=1+Math.min(7,Math.abs(v)*.3);
+      }
+      if(y!==pY){
+        pY=y;
+        const p=clamp(y/docH,0,1);
+        heroEl.style.setProperty('--hp',clamp(y/(vh*.85),0,1).toFixed(3));
+        orbitArc.style.strokeDashoffset=(100-p*100).toFixed(2);
+        orbit.style.transform='translate3d('+(Math.sin(p*Math.PI*3)*30).toFixed(2)+'vw,'+(Math.cos(p*Math.PI*2)*-7).toFixed(2)+'vh,0) translate(-50%,-50%) rotate('+(p*420-90).toFixed(1)+'deg) scale('+(.86+.3*Math.sin(p*Math.PI)).toFixed(3)+')';
+        for(const n of chapNos){
+          const r=n.getBoundingClientRect();
+          if(r.bottom<-200||r.top>vh+200)continue;
+          n.style.setProperty('--f',clamp((vh*.94-r.top)/(vh*.5),0,1).toFixed(3));
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  })();
 
   // ===== MOTION LAYER =====
   // 1. loader -> then start hero entrance
@@ -1110,8 +1251,12 @@
     });
   }
 
-  const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
+  const io=new IntersectionObserver(es=>{let k=0;es.forEach(x=>{
+    if(!x.isIntersecting)return; const el=x.target; io.unobserve(el);
+    el.style.transitionDelay=(Math.min(k++,6)*90)+'ms'; el.classList.add('in');
+    setTimeout(()=>{el.style.transitionDelay=''},1900);
+  })},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
   // ===== WORK: chapters, rails, cinema mode =====
   const works=[...document.querySelectorAll('.frame[data-yt]')];
