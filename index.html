@@ -48,8 +48,8 @@
   img{display:block;max-width:100%}
 
   .glow{position:fixed;left:0;top:0;width:66vw;height:66vw;max-width:880px;max-height:880px;border-radius:50%;
-    pointer-events:none;z-index:1;opacity:.95;will-change:transform;
-    background:radial-gradient(circle,rgba(14,148,234,.50) 0%,rgba(38,215,227,.20) 28%,rgba(14,148,234,.07) 50%,transparent 70%);
+    pointer-events:none;z-index:1;opacity:.8;will-change:transform;
+    background:radial-gradient(circle,rgba(14,148,234,.34) 0%,rgba(38,215,227,.13) 28%,rgba(14,148,234,.045) 50%,transparent 70%);
     transform:translate3d(70vw,40vh,0) translate(-50%,-50%)}
   .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.022;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -162,6 +162,7 @@
   .frame .tag{position:absolute;top:12px;left:12px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:10px;
     letter-spacing:2px;color:var(--cyan);text-transform:uppercase;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);
     padding:4px 9px;border-radius:6px;border:1px solid rgba(38,215,227,.3)}
+  .frame .tag.mix{color:#000;background:var(--grad);border-color:transparent;font-weight:500;backdrop-filter:none}
   .play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;transition:opacity .4s}
   .play span{width:54px;height:54px;border-radius:50%;background:rgba(0,0,0,.4);
     backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:.3s}
@@ -565,7 +566,7 @@
   /* ===== CURSOR — the logo ring ===== */
   .spot{position:fixed;left:0;top:0;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:55;opacity:0;
     mix-blend-mode:screen;will-change:transform;transition:opacity .5s;
-    background:radial-gradient(circle,rgba(14,148,234,.30) 0%,rgba(38,215,227,.12) 38%,transparent 70%)}
+    background:radial-gradient(circle,rgba(14,148,234,.17) 0%,rgba(38,215,227,.065) 38%,transparent 70%)}
   .cur,.cur-dot{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;opacity:0;will-change:transform}
   .cur{width:36px;height:36px;transition:opacity .3s,width .4s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1)}
   .cur svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 7px rgba(14,148,234,.65))}
@@ -629,7 +630,7 @@
   .fmt + .frame{margin-top:16px}
   html[dir=rtl] .fmt em{background:linear-gradient(270deg,#2a2a30,transparent)}
 
-  @media(hover:none){.glow{opacity:.6}}
+  @media(hover:none){.glow{opacity:.55}}
   @media(prefers-reduced-motion:reduce){
     .orbit{display:none}
     .frame.reveal>.media,.frame.reveal>.cap{clip-path:none!important}.frame.reveal .media .thumb{transform:none!important}
@@ -753,9 +754,8 @@
   <div class="chap-nav" id="chapNav" role="navigation" aria-label="Work chapters">
     <a href="#ch-film" data-ch="ch-film"><b>01</b><span data-ar='أفلام قصيرة'>Short Films</span><i>04</i></a>
     <a href="#ch-spots" data-ch="ch-spots"><b>02</b><span data-ar='إعلانات AI'>AI Ads</span><i>10</i></a>
-    <a href="#ch-aiedit" data-ch="ch-aiedit"><b>03</b><span data-ar='مونتاج AI'>AI Edit</span><i>01</i></a>
-    <a href="#ch-edit" data-ch="ch-edit"><b>04</b><span data-ar='مونتاج وفعاليات'>Editing &amp; Events</span><i>05</i></a>
-    <a href="#ch-3d" data-ch="ch-3d"><b>05</b><span data-ar='3D ومؤثرات'>3D &amp; VFX</span><i>03</i></a>
+    <a href="#ch-edit" data-ch="ch-edit"><b>03</b><span data-ar='مونتاج وفعاليات'>Editing &amp; Events</span><i>06</i></a>
+    <a href="#ch-3d" data-ch="ch-3d"><b>04</b><span data-ar='3D ومؤثرات'>3D &amp; VFX</span><i>03</i></a>
   </div>
 
   <!-- HOW TO ADD A VIDEO: copy one <div class="frame ..."> block inside the right chapter, change data-yt (YouTube ID, also inside the img src), the tag, title and caption. Vertical videos: class "frame v" inside a .rail. Landscape: class "frame" inside a .chap-grid. -->
@@ -858,24 +858,11 @@
     </div>
   </div>
 
-  <div class="chap" id="ch-aiedit">
-    <header class="chap-head reveal">
-      <span class="chap-no">03</span>
-      <div class="chap-t"><h3 data-ar='مونتاج AI'>AI Edit</h3><p data-ar='لقطات حقيقية مع مشاهد مولّدة بالذكاء الاصطناعي — في فيلم واحد متصل.'>Real footage cut together with AI-generated scenes — one seamless film.</p></div>
-      <span class="chap-count"><b>01</b> <span data-ar='عمل'>work</span></span>
-    </header>
-      <div class="frame v feat reveal tilt" data-cat="aiedit" data-yt="Yh1PEUSpo0Y" tabindex="0" role="button" aria-label="Play Hybrid Cut">
-        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Yh1PEUSpo0Y/hqdefault.jpg" alt="">
-          <div class="shade"></div><span class="tag">AI EDIT</span><div class="play"><span></span></div></div>
-        <div class="cap"><h3>Hybrid Cut</h3><p>Editing + AI scenes · مونتاج مع مشاهد AI</p><span class="watch"><span data-ar='شاهد المونتاج'>Watch the cut</span> <i>→</i></span></div>
-      </div>
-  </div>
-
   <div class="chap" id="ch-edit">
     <header class="chap-head reveal">
-      <span class="chap-no">04</span>
-      <div class="chap-t"><h3 data-ar='مونتاج وفعاليات'>Editing &amp; Events</h3><p data-ar='أفلام فعاليات، إيقاع وصوت وألوان — الحرفة التي تجعل اللقطة تصل.'>Event films, pacing, sound and color — the craft that makes footage land.</p></div>
-      <span class="chap-count"><b>05</b> <span data-ar='أعمال'>works</span></span>
+      <span class="chap-no">03</span>
+      <div class="chap-t"><h3 data-ar='مونتاج وفعاليات'>Editing &amp; Events</h3><p data-ar='أفلام فعاليات، إيقاع وصوت وألوان — ومونتاج هجين يدمج اللقطات الحقيقية مع مشاهد مولّدة بالذكاء الاصطناعي.'>Event films, pacing, sound and color — plus hybrid cuts where real footage meets AI-generated scenes.</p></div>
+      <span class="chap-count"><b>06</b> <span data-ar='أعمال'>works</span></span>
     </header>
     <div class="fmt reveal"><i class="ar"></i><b>16:9</b><span data-ar='عرضي'>Widescreen</span><em></em><small>04</small></div>
       <div class="frame feat reveal tilt" data-cat="edit" data-yt="QBz5AlHvMfA" tabindex="0" role="button" aria-label="Play Gulfood Dubai">
@@ -900,10 +887,15 @@
         <div class="cap"><h3>Family Festival 2026</h3><p>Event film · مونتاج فعالية</p></div>
       </div>
     </div>
-    <div class="fmt reveal"><i class="ar v"></i><b>9:16</b><span data-ar='طولي · ريلز'>Vertical · Reels</span><em></em><small>01</small></div>
+    <div class="fmt reveal"><i class="ar v"></i><b>9:16</b><span data-ar='طولي · ريلز'>Vertical · Reels</span><em></em><small>02</small></div>
     <div class="rail-wrap reveal">
       <button class="rail-btn prev" aria-label="Scroll left">‹</button>
       <div class="rail">
+      <div class="frame v reveal tilt" data-cat="edit" data-yt="Yh1PEUSpo0Y" tabindex="0" role="button" aria-label="Play Hybrid Cut">
+        <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/Yh1PEUSpo0Y/hqdefault.jpg" alt="">
+          <div class="shade"></div><span class="tag mix">EDIT + AI SCENES</span><div class="play"><span></span></div></div>
+        <div class="cap"><h3>Hybrid Cut</h3><p data-ar='مونتاج لقطات حقيقية + مشاهد مولّدة بالـ AI'>Real footage edit + AI-generated scenes</p></div>
+      </div>
       <div class="frame v reveal tilt" data-cat="edit" data-yt="-SX5fNyM3AM" tabindex="0" role="button" aria-label="Play Automotive Cut">
         <div class="media"><img class="thumb" loading="lazy" src="https://i.ytimg.com/vi/-SX5fNyM3AM/hqdefault.jpg" alt="">
           <div class="shade"></div><span class="tag">EDITING</span><div class="play"><span></span></div></div>
@@ -916,7 +908,7 @@
 
   <div class="chap" id="ch-3d">
     <header class="chap-head reveal">
-      <span class="chap-no">05</span>
+      <span class="chap-no">04</span>
       <div class="chap-t"><h3 data-ar='3D ومؤثرات'>3D &amp; VFX</h3><p data-ar='كومبوزيتنغ و3D ومؤثرات بصرية داخل لقطات حقيقية.'>Compositing, 3D and visual effects built into real shots.</p></div>
       <span class="chap-count"><b>03</b> <span data-ar='أعمال'>works</span></span>
     </header>
