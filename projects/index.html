@@ -66,7 +66,7 @@ header::after{content:"";position:absolute;bottom:0;inset-inline:0;height:1px;ba
 .kpi .v.money{font-size:20px;line-height:1.35;padding-top:5px}
 
 /* Toolbar */
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px}
 .search{flex:1;min-width:220px;position:relative}
 .search input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 38px 10px 14px;outline:none}
 .search input:focus{border-color:var(--accent-line)}
@@ -174,6 +174,31 @@ tr:last-child td{border-bottom:0}
 .who{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:3px 9px 3px 4px;border-radius:99px;background:var(--surface2);border:1px solid var(--line2);white-space:nowrap}
 .who i{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:10.5px;font-weight:700;background:var(--line2);color:var(--text);font-family:"Poppins"}
 .who.me i{background:var(--grad);color:#fff}
+.member .edit-only{display:none!important}
+.not-member{} .member .not-member{display:none!important}
+.mine{display:none} .team .mine{display:block}
+.fl{display:flex;flex-direction:column;gap:5px}
+.fl>span{font-size:11.5px;color:var(--muted);padding-inline-start:2px}
+.fl>span .en{color:var(--dim);font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-inline-start:4px}
+.fl.grow{flex:1;min-width:220px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:22px;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:var(--grad)}
+.ptable{width:100%;border-collapse:collapse;margin-top:6px}
+.ptable td,.ptable th{padding:10px 8px;border-bottom:1px solid var(--line);font-size:13px;text-align:right;vertical-align:middle}
+.ptable th{background:transparent;font-size:11.5px}
+.pin{font-family:"Poppins";letter-spacing:.12em;font-weight:600;direction:ltr;display:inline-block}
+.owe-amt{font-family:"Poppins";font-weight:700;color:var(--amber);direction:ltr;display:inline-block}
+.row-form{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.row-form input,.row-form select{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:9px 11px;outline:none}
+.row-form input:focus,.row-form select:focus{border-color:var(--accent)}
+.mini{background:none;border:1px solid var(--line2);border-radius:8px;padding:4px 9px;font-size:12px;cursor:pointer;color:var(--muted)}
+.mini:hover{border-color:var(--muted);color:var(--text)}
+.mini.ok{color:var(--cyan);border-color:rgba(38,215,227,.35)}
+.mini.bad{color:var(--red);border-color:rgba(255,93,93,.35)}
+.sub-h{font-size:13px;font-weight:600;margin:18px 0 4px;color:var(--text)}
+.mine-total{font-family:"Poppins";font-size:26px;font-weight:700;color:var(--amber);direction:ltr;text-align:right;margin:6px 0 4px}
+.member .modal input,.member .modal select,.member .modal textarea{pointer-events:none;opacity:.85}
+.member .pick:not(.on),.member .pick-add{display:none}
 .role{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line2);color:var(--dim);font-family:"Poppins";letter-spacing:.06em;text-transform:uppercase}
 .fin{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:22px;position:relative;overflow:hidden}
 .fin::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:var(--grad)}
@@ -216,7 +241,7 @@ tr:last-child td{border-bottom:0}
     <div class="hdr-actions">
       <span class="role" id="roleTag" style="display:none"></span>
       <div class="sync" id="sync"><span class="dot"></span><span id="syncTxt">بيتصل…</span></div>
-      <button class="btn primary" id="addBtn">
+      <button class="btn primary edit-only" id="addBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
         مشروع جديد
       </button>
@@ -244,30 +269,55 @@ tr:last-child td{border-bottom:0}
     <div class="months" id="months"></div>
   </section>
 
+  <section class="panel money-only" id="teamPanel">
+    <div class="fin-h"><div><b>الفريق والمستحقات</b> <span class="en">Team · Codes · Payouts</span></div></div>
+    <table class="ptable"><thead><tr><th>الاسم</th><th>الصلاحية</th><th>الكود (PIN)</th><th>ليه عندي</th><th></th></tr></thead><tbody id="teamBody"></tbody></table>
+    <form class="row-form" id="teamForm" autocomplete="off">
+      <input id="tmName" placeholder="اسم عضو جديد" required>
+      <select id="tmRole"><option value="member">Team — يشوف شغله بس</option><option value="lead">Team Leader — يضيف ويعدّل</option></select>
+      <input type="hidden" id="tmPin">
+      <button class="btn primary sm" type="submit" id="tmSave">إضافة</button>
+      <button class="btn ghost sm" type="button" id="tmCancel" style="display:none">إلغاء</button>
+    </form>
+    <div class="sub-h">المستحقات <span class="en" style="color:var(--dim);font-size:11px">Payouts — امسحها لما تدفع</span></div>
+    <table class="ptable"><thead><tr><th>لمين</th><th>المبلغ</th><th>عن إيه</th><th>التاريخ</th><th></th></tr></thead><tbody id="payBody"></tbody></table>
+    <form class="row-form" id="payForm" autocomplete="off">
+      <select id="pyPerson" required></select>
+      <input id="pyAmount" type="number" min="0" step="any" placeholder="المبلغ" required style="width:120px">
+      <select id="pyCur"><option>AED</option><option>EGP</option><option>SAR</option><option>USD</option></select>
+      <input id="pyNote" placeholder="عن إيه؟ (مثلاً: مونتاج فيديو MK)" style="flex:1;min-width:200px">
+      <input type="hidden" id="pyId">
+      <button class="btn primary sm" type="submit" id="pySave">إضافة</button>
+      <button class="btn ghost sm" type="button" id="pyCancel" style="display:none">إلغاء</button>
+    </form>
+  </section>
+
+  <section class="panel mine" id="minePanel">
+    <div class="fin-h"><div><b>مستحقاتي</b> <span class="en">My payouts</span></div><span class="per" id="mineName"></span></div>
+    <div class="mine-total" id="mineTotal">0</div>
+    <table class="ptable"><thead><tr><th>عن إيه</th><th>المبلغ</th><th>التاريخ</th></tr></thead><tbody id="mineBody"></tbody></table>
+  </section>
+
   <div class="toolbar">
-    <div class="search">
+    <label class="fl grow"><span>بحث <span class="en">Search</span></span><div class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" placeholder="دوّر بالعميل أو اسم الشغلانة…">
-    </div>
-    <select class="f" id="fYear"><option value="">كل السنين</option></select>
-    <select class="f" id="fMonth"><option value="">كل الشهور</option></select>
-    <select class="f" id="fWho"><option value="">كل الناس</option></select>
-    <select class="f" id="fStage"><option value="">كل المراحل</option></select>
-    <select class="f money-only" id="fPay">
+    </div></label>
+    <label class="fl"><span>السنة <span class="en">Year</span></span><select class="f" id="fYear"><option value="">كل السنين</option></select></label>
+    <label class="fl"><span>الشهر <span class="en">Month</span></span><select class="f" id="fMonth"><option value="">كل الشهور</option></select></label>
+    <label class="fl not-member"><span>مين شغال <span class="en">Assigned</span></span><select class="f" id="fWho"><option value="">كل الناس</option></select></label>
+    <label class="fl"><span>المرحلة <span class="en">Stage</span></span><select class="f" id="fStage"><option value="">كل المراحل</option></select></label>
+    <label class="fl money-only"><span>الدفع <span class="en">Payment</span></span><select class="f" id="fPay">
       <option value="">كل حالات الدفع</option>
       <option value="unpaid">مدفعش</option>
       <option value="deposit">دفع عربون</option>
       <option value="paid">مدفوع بالكامل</option>
-    </select>
-    <select class="f" id="fShow">
+    </select></label>
+    <label class="fl"><span>العرض <span class="en">Show</span></span><select class="f" id="fShow">
+      <option value="all">كل الشغل</option>
       <option value="active">الشغال بس</option>
-      <option value="all">الكل</option>
       <option value="done">المسلَّم بس</option>
-    </select>
-    <div class="tabs" id="viewTabs">
-      <button data-v="list" class="act">جدول</button>
-      <button data-v="board">مراحل</button>
-    </div>
+    </select></label>
   </div>
 
   <div id="listView">
@@ -289,7 +339,6 @@ tr:last-child td{border-bottom:0}
     </div>
     <div class="cards list" id="cards"></div>
   </div>
-  <div class="board" id="board"></div>
 </div>
 
 <!-- Modal -->
@@ -324,12 +373,12 @@ tr:last-child td{border-bottom:0}
     <div class="updated" id="updated"></div>
     <div class="mfoot">
       <div>
-        <button type="button" class="btn danger sm" id="delBtn">حذف</button>
+        <button type="button" class="btn danger sm edit-only" id="delBtn">حذف</button>
         <span class="confirm" id="confirm">متأكد؟ <button type="button" class="btn danger sm" id="delYes">آه احذف</button><button type="button" class="btn ghost sm" id="delNo">لأ</button></span>
       </div>
       <div class="r">
-        <button type="button" class="btn ghost" id="cancel">إلغاء</button>
-        <button type="submit" class="btn primary" id="saveBtn">حفظ</button>
+        <button type="button" class="btn ghost" id="cancel">إغلاق</button>
+        <button type="submit" class="btn primary edit-only" id="saveBtn">حفظ</button>
       </div>
     </div>
   </form>
@@ -337,8 +386,7 @@ tr:last-child td{border-bottom:0}
 <div class="toast" id="toast"></div>
 <div class="gate" id="gate"><form class="box" id="gateForm" autocomplete="off">
   <span class="wm big" aria-label="Remotion">Remoti<svg class="o" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="wmg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1FE6EA"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#055EF6"/></linearGradient></defs><circle cx="50" cy="50" r="40.3" fill="none" stroke="url(#wmg2)" stroke-width="19.4"/></svg>n</span>
-  <p>لوحة المشاريع — Projects Dashboard</p>
-  <input id="gName" placeholder="اسمك (Your name)" required>
+  <p>لوحة المشاريع — Projects Dashboard<br><span style="color:var(--dim)">ادخل الكود بتاعك</span></p>
   <input id="gPin" type="password" inputmode="numeric" placeholder="الرقم السري (PIN)" required dir="ltr">
   <button class="btn primary" type="submit">دخول</button>
   <div class="err" id="gErr"></div>
@@ -361,6 +409,7 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
 const stageOf = k => STAGES.find(s=>s.k===k) || STAGES[0];
 const fmt = n => Number(n||0).toLocaleString("en-US",{maximumFractionDigits:0});
 
+let PAYOUTS = [], TEAM = [], PEOPLE = [];
 let items = [], PIN = "", ME = "", ROLE = "", online = false, editing = null, view = "list", picked = [];
 const SERVICES = ["AI Short Film","Product Ad","Event / Corporate Ad","Projection Mapping","Motion Graphics","3D / VFX","Editing / مونتاج","Branding / هوية","Social Media Content","Photography / تصوير"];
 const splitNames = s => String(s||"").split(" + ").map(x=>x.trim()).filter(Boolean);
@@ -372,7 +421,7 @@ const OWNER_NAME = "Remon";
 let whoPicked = [];
 const initials = n => String(n).trim().split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase();
 const whoHTML = s => { const ns=splitNames(s); return ns.length?`<div class="tags">${ns.map(n=>`<span class="who${n===OWNER_NAME?" me":""}"><i>${esc(initials(n))}</i>${esc(n)}</span>`).join("")}</div>`:`<span style="color:var(--dim)">—</span>`; };
-function allPeople(){ const s=new Set([OWNER_NAME]); items.forEach(p=>splitNames(p.assignee).forEach(n=>s.add(n))); if(ME) s.add(ME); return [...s]; }
+function allPeople(){ const s=new Set([OWNER_NAME,...PEOPLE]); items.forEach(p=>splitNames(p.assignee).forEach(n=>s.add(n))); if(ME) s.add(ME); return [...s]; }
 const tagsHTML = s => `<div class="tags">${splitNames(s).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>`;
 
 // --- fill selects
@@ -456,10 +505,6 @@ function render(){
   $("#emptyT").style.display=list.length?"none":"block";
   // cards
   $("#cards").innerHTML=list.length?list.map(cardHTML).join(""):`<div class="empty"><div class="big"></div>مفيش مشاريع هنا لسه.</div>`;
-  // board
-  const cols=STAGES.filter(s=>$("#fShow").value!=="active"||s.k!=="done");
-  $("#board").innerHTML=cols.map(s=>{const its=list.filter(p=>(p.stage||"brief")===s.k);
-    return `<div class="col"><h4>${s.ar} <span class="n">${its.length}</span></h4>${its.map(cardHTML).join("")}</div>`}).join("");
 }
 function sums(list){const r={in:{},owe:{},tot:{},n:0};list.forEach(p=>{const t=+p.total||0,pd=Math.min(+p.paid||0,t||Infinity),c=p.cur||"AED";
   if(!t&&!pd)return; r.n++; r.tot[c]=(r.tot[c]||0)+t; r.in[c]=(r.in[c]||0)+(+p.paid||0); if(p.pay!=="paid"&&t>pd) r.owe[c]=(r.owe[c]||0)+(t-pd);});return r}
@@ -487,10 +532,6 @@ function cardHTML(p){
   </div>`;
 }
 
-// --- view switch
-$("#viewTabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;view=b.dataset.v;
-  document.querySelectorAll("#viewTabs button").forEach(x=>x.classList.toggle("act",x===b));
-  $("#listView").style.display=view==="list"?"block":"none"; $("#board").style.display=view==="board"?"flex":"none";});
 ["#q","#fYear","#fMonth","#fWho","#fStage","#fPay","#fShow"].forEach(s=>$(s).addEventListener("input",render));
 
 // --- clicks
@@ -525,17 +566,17 @@ $("#whoPicker").addEventListener("keydown",e=>{if(e.target.id==="whoAdd"&&e.key=
 const F=$("#form");
 function openModal(p){
   editing=p||null; F.reset(); $("#confirm").classList.remove("show"); $("#delBtn").style.display=p?"":"none";
-  $("#mTitle").textContent=p?"تعديل المشروع":"مشروع جديد";
+  $("#mTitle").textContent=ROLE==="member"?"تفاصيل المشروع":(p?"تعديل المشروع":"مشروع جديد");
   const d=p||{stage:"brief",pay:"unpaid",progress:0,cur:"AED"};
   ["client","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
   picked=splitNames(d.name); renderPicker();
-  whoPicked=p?splitNames(d.assignee):[ROLE==="owner"?OWNER_NAME:(ME||OWNER_NAME)]; renderWho();
+  whoPicked=p?splitNames(d.assignee):[ME||OWNER_NAME]; renderWho();
   $("#pv").textContent=(F.progress.value||0)+"%";
   $("#updated").textContent="";
   if(p&&p.updatedAt){const t=new Date(p.updatedAt).toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
     $("#updated").textContent=`آخر تعديل: ${t}`;
     if(p.updatedBy) $("#updated").textContent=`آخر تعديل: ${t} — ${p.updatedBy}`;}
-  $("#ov").classList.add("show"); setTimeout(()=>F.client.focus(),50);
+  $("#ov").classList.add("show"); if(ROLE!=="member") setTimeout(()=>F.client.focus(),50);
 }
 function closeModal(){$("#ov").classList.remove("show");editing=null}
 $("#addBtn").onclick=()=>openModal(null);
@@ -548,11 +589,13 @@ F.paid.addEventListener("input",()=>{const t=+F.total.value||0,pd=+F.paid.value|
 
 F.addEventListener("submit",async e=>{
   e.preventDefault();
+  if(ROLE==="member") return;
   addCustom();
   if(!picked.length){ toast("اختار الشغلانة الأول"); return; }
   const o={}; ["client","stage","due","pay","cur","data","details"].forEach(k=>o[k]=F.elements[k].value.trim());
   o.name=picked.join(" + ");
   addWho(); o.assignee=whoPicked.join(" + ");
+  if(!o.assignee){ toast("اختار مين شغال عليه"); return; }
   o.progress=+F.progress.value||0; o.total=F.total.value===""?null:+F.total.value; o.paid=F.paid.value===""?null:+F.paid.value;
   o.updatedAt=Date.now(); o.updatedBy=ME;
   const id=editing?editing.id:("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
@@ -560,7 +603,7 @@ F.addEventListener("submit",async e=>{
   $("#saveBtn").disabled=true;
   try{
     const rec={...(editing?editing:{}),...o,id};
-    items=await api("saveProject",rec); render();
+    await api("save",{item:rec});
     closeModal(); toast("اتحفظ ✓");
   }catch(err){ toast("الحفظ فشل — جرّب تاني"); console.log(err); }
   $("#saveBtn").disabled=false;
@@ -570,7 +613,7 @@ $("#delBtn").onclick=()=>$("#confirm").classList.add("show");
 $("#delNo").onclick=()=>$("#confirm").classList.remove("show");
 $("#delYes").onclick=async()=>{
   if(!editing) return; const id=editing.id;
-  try{ items=await api("deleteProject",id); render(); closeModal(); toast("اتحذف"); }
+  try{ await api("delete",{id}); closeModal(); toast("اتحذف"); }
   catch(err){toast("الحذف فشل");console.log(err)}
 };
 
@@ -581,34 +624,87 @@ async function call(body){
   const r=await fetch(API,{method:"POST",credentials:"omit",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({...body,pin:PIN})});
   return r.json();
 }
-async function api(fn,...args){
-  const body = fn==="getProjects"?{action:"get"}:fn==="saveProject"?{action:"save",item:args[0]}:{action:"delete",id:args[0]};
+async function api(action,extra={}){
   let res;
-  try{ res=await call(body); }
+  try{ res=await call({action,...extra}); }
   catch(e){ setSync("off","مش متصل"); $("#banner").classList.add("show"); throw e; }
   if(!res.ok){
     if(res.error==="PIN"){ lockOut(); throw new Error("PIN"); }
+    if(res.error==="FORBIDDEN"){ toast("مش مسموحلك بالحركة دي"); throw new Error("FORBIDDEN"); }
     setSync("off","مش متصل"); $("#banner").classList.add("show"); throw new Error(res.error||"error");
   }
   online=true; setSync("on","متزامن"); $("#banner").classList.remove("show");
-  if(res.role && res.role!==ROLE){ ROLE=res.role; document.body.classList.toggle("team",ROLE!=="owner");
-    const t=$("#roleTag"); t.style.display=""; t.textContent=ROLE==="owner"?"Owner":"Team"; }
-  setTimeout(renderFin,0);
-  return res.items;
+  applyRes(res);
+  return res;
 }
+function applyRes(res){
+  items=res.items||[]; PAYOUTS=res.payouts||[]; TEAM=res.team||[]; PEOPLE=res.people||[];
+  ME=res.me||ME;
+  if(res.role!==ROLE){ ROLE=res.role;
+    document.body.classList.toggle("team",ROLE!=="owner");
+    document.body.classList.toggle("member",ROLE==="member");
+    const t=$("#roleTag"); t.style.display=""; t.textContent=(ROLE==="owner"?"Owner":ROLE==="lead"?"Team Leader":"Team")+" · "+ME; }
+  render(); renderTeam(); renderMine();
+}
+// --- team & payouts (owner)
+function sumBy(list){const o={};list.forEach(x=>{o[x.cur]=(o[x.cur]||0)+(+x.amount||0)});return o}
+function moneyInline(o){const k=Object.keys(o).filter(c=>o[c]);return k.length?k.map(c=>`${fmt(o[c])} ${c}`).join(" · "):"—"}
+function renderTeam(){
+  if(ROLE!=="owner") return;
+  const rows=[{pin:"",name:OWNER_NAME,role:"owner"},...TEAM];
+  $("#teamBody").innerHTML=rows.map(t=>`<tr><td><b>${esc(t.name)}</b></td>
+    <td>${t.role==="owner"?"Owner":t.role==="lead"?"Team Leader":"Team"}</td>
+    <td>${t.role==="owner"?`<span style="color:var(--dim)">الكود بتاعك</span>`:`<span class="pin">${esc(t.pin)}</span> <button class="copy" data-copy="${esc(t.pin)}" title="نسخ">⧉</button>`}</td>
+    <td>${t.role==="owner"?"—":`<span class="owe-amt">${moneyInline(sumBy(PAYOUTS.filter(p=>p.person===t.name)))}</span>`}</td>
+    <td>${t.role==="owner"?"":`<button class="mini" data-tedit="${esc(t.pin)}">تعديل</button> <button class="mini bad" data-tdel="${esc(t.pin)}">مسح</button>`}</td></tr>`).join("");
+  $("#pyPerson").innerHTML=TEAM.map(t=>`<option>${esc(t.name)}</option>`).join("")||`<option value="">ضيف عضو الأول</option>`;
+  const ps=[...PAYOUTS].sort((a,b)=>b.createdAt-a.createdAt);
+  $("#payBody").innerHTML=ps.length?ps.map(p=>`<tr><td><b>${esc(p.person)}</b></td><td><span class="owe-amt">${fmt(p.amount)} ${esc(p.cur)}</span></td><td>${esc(p.note)||"—"}</td>
+    <td style="font-family:Poppins;font-size:12px;color:var(--muted)">${p.createdAt?new Date(p.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"—"}</td>
+    <td><button class="mini" data-pedit="${esc(p.id)}">تعديل</button> <button class="mini ok" data-ppaid="${esc(p.id)}">اتدفع ✓</button></td></tr>`).join("")
+    :`<tr><td colspan="5" style="color:var(--dim)">مفيش مستحقات مسجلة.</td></tr>`;
+}
+function renderMine(){
+  if(ROLE==="owner"||!ROLE) return;
+  $("#mineName").textContent=ME;
+  const o=sumBy(PAYOUTS); const k=Object.keys(o).filter(c=>o[c]);
+  $("#mineTotal").innerHTML=k.length?k.map(c=>`${fmt(o[c])}<small style="font-size:13px;color:var(--muted);margin-inline-start:4px">${c}</small>`).join("<br>"):"0";
+  const ps=[...PAYOUTS].sort((a,b)=>b.createdAt-a.createdAt);
+  $("#mineBody").innerHTML=ps.length?ps.map(p=>`<tr><td>${esc(p.note)||"—"}</td><td><span class="owe-amt">${fmt(p.amount)} ${esc(p.cur)}</span></td>
+    <td style="font-family:Poppins;font-size:12px;color:var(--muted)">${p.createdAt?new Date(p.createdAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"—"}</td></tr>`).join("")
+    :`<tr><td colspan="3" style="color:var(--dim)">مفيش مستحقات ليك دلوقتي.</td></tr>`;
+}
+function resetTeamForm(){$("#tmName").value="";$("#tmPin").value="";$("#tmRole").value="member";$("#tmSave").textContent="إضافة";$("#tmCancel").style.display="none"}
+function resetPayForm(){$("#pyAmount").value="";$("#pyNote").value="";$("#pyId").value="";$("#pySave").textContent="إضافة";$("#pyCancel").style.display="none"}
+$("#teamForm").addEventListener("submit",async e=>{e.preventDefault();
+  try{await api("team_save",{member:{name:$("#tmName").value,role:$("#tmRole").value,pin:$("#tmPin").value}});resetTeamForm();toast("اتحفظ ✓")}catch(err){console.log(err)}});
+$("#tmCancel").onclick=resetTeamForm;
+$("#payForm").addEventListener("submit",async e=>{e.preventDefault(); if(!$("#pyPerson").value){toast("ضيف عضو الأول");return}
+  const old=PAYOUTS.find(p=>p.id===$("#pyId").value);
+  try{await api("pay_save",{payout:{id:$("#pyId").value||undefined,person:$("#pyPerson").value,amount:+$("#pyAmount").value,cur:$("#pyCur").value,note:$("#pyNote").value.trim(),createdAt:old?old.createdAt:Date.now()}});resetPayForm();toast("اتحفظ ✓")}catch(err){console.log(err)}});
+$("#pyCancel").onclick=resetPayForm;
+$("#teamPanel").addEventListener("click",async e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.tedit){const t=TEAM.find(x=>x.pin===b.dataset.tedit);$("#tmName").value=t.name;$("#tmRole").value=t.role;$("#tmPin").value=t.pin;$("#tmSave").textContent="حفظ التعديل";$("#tmCancel").style.display="";$("#tmName").focus()}
+  if(b.dataset.tdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
+    try{await api("team_delete",{pin2:b.dataset.tdel});toast("اتمسح")}catch(err){console.log(err)} }
+  if(b.dataset.pedit){const p=PAYOUTS.find(x=>x.id===b.dataset.pedit);$("#pyPerson").value=p.person;$("#pyAmount").value=p.amount;$("#pyCur").value=p.cur;$("#pyNote").value=p.note;$("#pyId").value=p.id;$("#pySave").textContent="حفظ التعديل";$("#pyCancel").style.display="";$("#pyAmount").focus()}
+  if(b.dataset.ppaid){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="أكيد اتدفع؟";setTimeout(()=>{b.dataset.sure="";b.textContent="اتدفع ✓"},3000);return}
+    try{await api("pay_delete",{id:b.dataset.ppaid});toast("اتشال ✓")}catch(err){console.log(err)} }
+});
 function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}}
 function load(k){try{return localStorage.getItem(k)||""}catch{return ""}}
 function lockOut(){store("rm_pin",null);PIN="";$("#gate").classList.remove("hide");$("#gErr").textContent="الرقم السري غلط"}
-async function refresh(){try{items=await api("getProjects");render()}catch(e){console.log(e)}}
+async function refresh(){try{await api("get")}catch(e){console.log(e)}}
 async function enter(){
   $("#gErr").textContent="";
-  try{ items=await api("getProjects"); $("#gate").classList.add("hide"); render(); }
+  try{ await api("get"); $("#gate").classList.add("hide"); }
   catch(e){ if(!String(e&&e.message||e).includes("PIN")) $("#gErr").textContent="مش قادر يوصل — جرّب تاني"; }
 }
-$("#gateForm").addEventListener("submit",e=>{e.preventDefault();ME=$("#gName").value.trim();PIN=$("#gPin").value.trim();store("rm_name",ME);store("rm_pin",PIN);enter()});
+$("#gateForm").addEventListener("submit",e=>{e.preventDefault();PIN=$("#gPin").value.trim();store("rm_pin",PIN);enter()});
 render();
-ME=load("rm_name"); PIN=load("rm_pin"); $("#gName").value=ME;
-if(ME&&PIN) enter();
+PIN=load("rm_pin");
+if(PIN) enter();
 setInterval(()=>{ if(PIN && !$("#ov").classList.contains("show") && document.visibilityState==="visible") refresh(); },20000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&PIN)refresh()});
 </script>
