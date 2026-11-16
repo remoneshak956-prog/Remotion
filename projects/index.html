@@ -590,7 +590,8 @@ function renderFin(){
   const inP=d=>{if(!d)return false;const y=d.slice(0,4),m=+d.slice(5,7);return (!fy||y===fy)&&(!fm||m===+fm)};
   const ai={}; EXP.filter(x=>inP(x.date)).forEach(x=>{ai[x.cur]=(ai[x.cur]||0)+x.amount});
   const tm={}; PAYOUTS.filter(p=>p.paidAt&&inP(isoD(p.paidAt))).forEach(p=>{tm[p.cur]=(tm[p.cur]||0)+p.amount});
-  const net={}; [r.in,ai,tm].forEach((o,i)=>Object.keys(o).forEach(c=>{net[c]=(net[c]||0)+(i?-o[c]:o[c])}));
+  const ow={}; PAYOUTS.filter(p=>!p.paidAt&&inP(isoD(p.createdAt))).forEach(p=>{ow[p.cur]=(ow[p.cur]||0)+p.amount});
+  const net={}; [r.in,ai,tm,ow].forEach((o,i)=>Object.keys(o).forEach(c=>{net[c]=(net[c]||0)+(i?-o[c]:o[c])}));
   $("#fAI").innerHTML=moneyLines(ai); $("#fTeam").innerHTML=moneyLines(tm);
   $("#fOweTeam").innerHTML=moneyLines(sumBy(PAYOUTS.filter(p=>!p.paidAt)));
   const nk=Object.keys(net).filter(c=>net[c]); $("#fNet").innerHTML=nk.length?nk.map(c=>`<span class="${net[c]<0?"neg":""}">${net[c]<0?"−":""}${fmt(Math.abs(net[c]))}</span><small>${c}</small>`).join("<br>"):"0";
