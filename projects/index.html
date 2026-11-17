@@ -372,20 +372,6 @@ html[dir=rtl] .cb-t{direction:rtl}
     </section>
 
     <section class="panel">
-      <div class="fin-h"><div><b>مصروف سريع</b> <span class="en">Quick expense</span></div><span class="per" id="spTotal"></span></div>
-      <form class="row-form" id="spForm" autocomplete="off">
-        <input id="spAmount" type="number" min="0" step="any" placeholder="المبلغ" required style="width:120px">
-        <select id="spCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
-        <select id="spCat"></select>
-        <input id="spDate" type="date" required style="width:150px">
-        <input id="spNote" placeholder="على إيه؟ (اختياري)" style="flex:1;min-width:140px">
-        <input type="hidden" id="spId">
-        <button class="btn primary sm" type="submit" id="spSave">سجّل</button>
-        <button class="btn ghost sm" type="button" id="spCancel" style="display:none">إلغاء</button>
-      </form>
-      <table class="ptable"><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>ملاحظة</th><th></th></tr></thead><tbody id="spBody"></tbody></table>
-    </section>
-    <section class="panel">
       <div class="fin-h"><div><b>الدخل</b> <span class="en">Income · Salary</span></div></div>
       <table class="ptable"><thead><tr><th>البند</th><th>المبلغ</th><th>بينزل يوم</th><th>الجاي</th><th>ملاحظة</th><th></th></tr></thead><tbody id="inBody"></tbody></table>
       <form class="row-form" id="inForm" autocomplete="off">
@@ -398,6 +384,21 @@ html[dir=rtl] .cb-t{direction:rtl}
         <button class="btn primary sm" type="submit" id="inSave">إضافة</button>
         <button class="btn ghost sm" type="button" id="inCancel" style="display:none">إلغاء</button>
       </form>
+    </section>
+
+    <section class="panel">
+      <div class="fin-h"><div><b>مصروف سريع</b> <span class="en">Quick expense</span></div><span class="per" id="spTotal"></span></div>
+      <form class="row-form" id="spForm" autocomplete="off">
+        <input id="spAmount" type="number" min="0" step="any" placeholder="المبلغ" required style="width:120px">
+        <select id="spCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
+        <select id="spCat"></select>
+        <input id="spDate" type="date" required style="width:150px">
+        <input id="spNote" placeholder="على إيه؟ (اختياري)" style="flex:1;min-width:140px">
+        <input type="hidden" id="spId">
+        <button class="btn primary sm" type="submit" id="spSave">سجّل</button>
+        <button class="btn ghost sm" type="button" id="spCancel" style="display:none">إلغاء</button>
+      </form>
+      <table class="ptable"><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>ملاحظة</th><th></th></tr></thead><tbody id="spBody"></tbody></table>
     </section>
     <section class="panel">
       <div class="fin-h"><div><b>المصاريف الشهرية</b> <span class="en">Monthly expenses</span></div></div>
@@ -975,7 +976,7 @@ $("#subsPage").addEventListener("click",async e=>{const b=e.target.closest("butt
 
 // --- budget page (owner): salary in, fixed expenses out
 let BUD=[];
-const CATS=[["rent","إيجار","#0E94EA"],["car","قسط العربية","#26D7E3"],["credit","بطاقة ائتمان","#F4B740"],["bnpl","تابي / تمارا","#B48CFF"],["loan","قرض","#FF8A5D"],["bills","فواتير","#5DD39E"],["family","تحويلات للأهل","#FF6FAE"],["transport","مواصلات وبنزين","#9AA4B2"],["other","تاني","#6B7280"]];
+const CATS=[["rent","إيجار","#0E94EA"],["car","قسط العربية","#26D7E3"],["credit","بطاقة ائتمان","#F4B740"],["bnpl","تابي / تمارا","#B48CFF"],["loan","قرض","#FF8A5D"],["bills","فواتير","#5DD39E"],["family","تحويلات للأهل","#FF6FAE"],["other","تاني","#6B7280"]];
 const catOf=k=>CATS.find(c=>c[0]===k)||CATS[CATS.length-1];
 $("#outCat").innerHTML=CATS.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join("");
 const ym=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
