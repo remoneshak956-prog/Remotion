@@ -245,6 +245,15 @@ html[dir=rtl] .cb-t{direction:rtl}
 .cb-t span{position:absolute;inset-inline-start:0;top:0;bottom:0;border-radius:99px}.cb-t .ghost{background:#3A3F48}.cb-t .bar{height:8px;top:3px}
 .cb-v{font-family:Poppins;font-size:12.5px;text-align:end}.cb-v small{margin-inline-start:6px;font-size:11px}.cb-v .up{color:var(--red)}.cb-v .down{color:#5DD39E}
 .empty-s{color:var(--dim);font-size:13px;padding:10px 0}
+.tfilter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.tfilter label{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px}
+.tfilter select{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:7px 10px;color:var(--text);font:inherit;font-size:13px}
+.tf-sum{margin-inline-start:auto;color:var(--cyan);font-size:13px;font-weight:600;font-family:Poppins}
+.pager{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:12px}
+.pager button{min-width:34px;height:32px;border-radius:9px;border:1px solid var(--line2);background:var(--bg);color:var(--muted);font-family:Poppins;font-size:13px;cursor:pointer}
+.pager button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager .dots{color:var(--dim);padding:0 2px}.pager .pg-info{color:var(--dim);font-size:12px;margin-inline-start:8px;font-family:Poppins}
 @media(max-width:1000px){.fin-grid.b5{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}.cb{grid-template-columns:110px 1fr 90px}}
 .fin-t.sub .v{color:var(--cyan)} .fin-t .v .nx{font-size:16px} .fin-t .v .nx small{display:block;margin:2px 0 0;font-size:11.5px}
 .bycard{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -393,16 +402,22 @@ html[dir=rtl] .cb-t{direction:rtl}
         <select id="spCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
         <select id="spCat"></select>
         <input id="spDate" type="date" required style="width:150px">
+        <input id="spCard" list="cardList" placeholder="الكارت (اختياري)" style="width:170px">
         <input id="spNote" placeholder="على إيه؟ (اختياري)" style="flex:1;min-width:140px">
         <input type="hidden" id="spId">
         <button class="btn primary sm" type="submit" id="spSave">سجّل</button>
         <button class="btn ghost sm" type="button" id="spCancel" style="display:none">إلغاء</button>
       </form>
-      <table class="ptable"><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>ملاحظة</th><th></th></tr></thead><tbody id="spBody"></tbody></table>
+      <div class="tfilter"><label><span>النوع</span><select id="spFCat"></select></label><label><span>الكارت</span><select id="spFCard"></select></label><span class="tf-sum" id="spFSum"></span></div>
+      <table class="ptable"><thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>الكارت</th><th>ملاحظة</th><th></th></tr></thead><tbody id="spBody"></tbody></table>
+      <div class="pager" id="spPager"></div>
+      <datalist id="cardList"></datalist>
     </section>
     <section class="panel">
       <div class="fin-h"><div><b>المصاريف الشهرية</b> <span class="en">Monthly expenses</span></div></div>
-      <table class="ptable"><thead><tr><th>البند</th><th>النوع</th><th>المبلغ</th><th>بيتدفع يوم</th><th>الجاي</th><th>لحد إمتى</th><th>ملاحظة</th><th></th></tr></thead><tbody id="outBody"></tbody></table>
+      <div class="tfilter"><label><span>النوع</span><select id="outFCat"></select></label><label><span>الكارت</span><select id="outFCard"></select></label><span class="tf-sum" id="outFSum"></span></div>
+      <table class="ptable"><thead><tr><th>البند</th><th>النوع</th><th>المبلغ</th><th>بيتدفع يوم</th><th>الجاي</th><th>لحد إمتى</th><th>الكارت</th><th>ملاحظة</th><th></th></tr></thead><tbody id="outBody"></tbody></table>
+      <div class="pager" id="outPager"></div>
       <form class="row-form" id="outForm" autocomplete="off">
         <input id="outName" placeholder="البند (إيجار، قسط العربية…)" required style="width:200px">
         <select id="outCat"></select>
@@ -410,6 +425,7 @@ html[dir=rtl] .cb-t{direction:rtl}
         <select id="outCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
         <input id="outDay" type="number" min="1" max="31" step="1" placeholder="يوم الدفع (1–31)" required style="width:130px">
         <label style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px">آخر قسط <input id="outUntil" type="month" style="width:150px"></label>
+        <input id="outCard" list="cardList" placeholder="الكارت (اختياري)" style="width:170px">
         <input id="outNote" placeholder="ملاحظة (اختياري)" style="flex:1;min-width:120px">
         <input type="hidden" id="outId">
         <button class="btn primary sm" type="submit" id="outSave">إضافة</button>
@@ -587,7 +603,7 @@ html[dir=rtl] .cb-t{direction:rtl}
 <script>
 // ---------- language (AR / EN) ----------
 let LANG=(()=>{try{return localStorage.getItem("rm_lang")||"ar"}catch{return "ar"}})();
-const DICT={"(كل السنين)": "(all years)", "+ اسم حد تاني… واضغط Enter": "+ another name… press Enter", "+ حاجة تانية… واضغط Enter": "+ something else… press Enter", "فتح الفولدر": "Open folder", "تعديل": "Edit", "اتدفع ✓": "Paid ✓", "رجّعها لسه": "Mark unpaid", "مسح": "Delete", "ضيف عضو الأول": "Add a member first", "كل السنين": "All years", "كل الناس": "Everyone", "لسه": "Unpaid", "اتدفع": "Paid", "الكود بتاعك": "Your code", "الإجمالي": "Total", "مفيش مستحقات ليك دلوقتي.": "No payouts for you right now.", "مفيش اشتراكات مسجلة في الفترة دي.": "No subscriptions in this period.", "مفيش مستحقات مسجلة.": "No payouts recorded.", "Team Leader — يضيف ويعدّل": "Team Leader — can add & edit", "Team — يشوف شغله بس": "Team — sees own work only", "https://drive.google.com/…  أو  D:\\Projects\\Client\\…": "https://drive.google.com/…  or  D:\\Projects\\Client\\…", "آه احذف": "Yes, delete", "آه — مدفوع بالكامل": "Yes — fully paid", "أكيد اتدفع؟": "Sure it's paid?", "إجمالي الشغل": "Total value", "إضافة": "Add", "إغلاق": "Close", "إلغاء": "Cancel", "إنتاج / جينيريشن": "Production", "اتحذف": "Deleted", "اتحفظ ✓": "Saved ✓", "اتسجل إنه اتدفع ✓": "Marked as paid ✓", "اتسلّم": "Delivered", "اتقبض": "Received", "اتمسح": "Deleted", "اتنسخ ✓": "Copied ✓", "اتوزع على التيم": "Paid to team", "اختار الشغلانة الأول": "Pick the services first", "اختار مين شغال عليه": "Pick who's working on it", "ادخل الكود بتاعك": "Enter your code", "استلمت فلوس؟": "Payment received?", "اسم عضو جديد": "New member name", "اشتراكات الـ AI": "AI subscriptions", "الأداة": "Tool", "الأداة (Claude, Higgsfield…)": "Tool (Claude, Higgsfield…)", "الإنجاز": "Progress", "الاسم": "Name", "البريف، المطلوب، عدد الفيديوهات، المقاسات، ملاحظات العميل…": "Brief, deliverables, number of videos, sizes, client notes…", "التاريخ": "Date", "التسليم": "Deadline", "الحالة": "Status", "الحذف فشل": "Delete failed", "الحسابات": "Finances", "الحفظ فشل — جرّب تاني": "Save failed — try again", "الداتا فين": "Files", "الدفع": "Payment", "الرقم السري (PIN)": "Your code (PIN)", "الرقم السري غلط": "Wrong code", "السنة": "Year", "الشغال بس": "Active only", "الشغلانة": "Services", "الشهر": "Month", "الصلاحية": "Access", "العرض": "Show", "العميل": "Client", "الفريق والمستحقات": "Team & payouts", "الفلوس": "Payment", "الكود (PIN)": "Code (PIN)", "اللي وصل": "Received", "المبالغ": "Amounts", "المبلغ": "Amount", "المرحلة": "Stage", "المستحقات": "Payouts", "المسلَّم بس": "Delivered only", "النهارده": "Today", "انسخ اشتراكات الشهر اللي فات": "Copy last month's subscriptions", "بحث": "Search", "بريف واتفاق": "Brief", "بكرة": "Tomorrow", "بيتصل…": "Connecting…", "تحضير / ستوري بورد": "Pre-prod", "تسليم خلال ٧ أيام": "Due in 7 days", "تعديل المشروع": "Edit project", "تفاصيل المشروع": "Project details", "حذف": "Delete", "حفظ": "Save", "حفظ التعديل": "Save changes", "خلص منه قد إيه": "Progress", "دخول": "Enter", "دفع عربون": "Deposit paid", "دوّر بالعميل أو اسم الشغلانة…": "Search client or service…", "سكريبت / كونسبت": "Script", "صافي الربح": "Net profit", "عدد المشاريع": "Projects", "عربون": "Deposit", "عربون / جزء": "Deposit / partial", "عن إيه": "For", "عن إيه؟ (مثلاً: مونتاج فيديو MK)": "What for? (e.g. MK video edit)", "فلوس لسه ماوصلتش": "Outstanding", "كل الشغل": "All work", "كل الشهور": "All months", "كل الفترات": "All time", "كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.": "Everything you write is saved and shared with the team.", "كل المراحل": "All stages", "كل حالات الدفع": "All payments", "لأ": "No", "لأ — مدفعش": "No — unpaid", "لمين": "To", "لوحة المشاريع": "Projects Dashboard", "لوحة المشاريع — Projects Dashboard": "Projects Dashboard", "ليه عندي": "Owed", "ليّا (لسه)": "Outstanding", "متأخرة": "Overdue", "متأكد؟": "Sure?", "متزامن": "Synced", "متوسط الإنجاز": "Avg progress", "متوقف": "On hold", "مثلاً: MK Wedding Planner": "e.g. MK Wedding Planner", "مدفعش": "Unpaid", "مدفوع": "Paid", "مدفوع بالكامل": "Fully paid", "مراجعة العميل": "Client review", "مستحقاتي": "My payouts", "مش قادر يوصل للشيت دلوقتي — اتأكد من النت وجرّب تعمل Refresh.": "Can't reach the sheet right now — check your connection and refresh.", "مش قادر يوصل — جرّب تاني": "Can't connect — try again", "مش متصل": "Offline", "مش مسموحلك بالحركة دي": "You don't have permission for that", "مشاريع شغالة": "Active projects", "مشروع جديد": "New project", "مصاريف الـ AI": "AI spend", "عليّا للتيم": "Owed to team", "معاد التسليم": "Deadline", "مفيش اشتراكات في الشهر اللي قبله": "No subscriptions in the previous month", "مفيش مشاريع هنا لسه — دوس": "No projects yet — click", "مفيش مشاريع هنا لسه.": "No projects yet.", "مقدرتش أنسخ": "Couldn't copy", "ملاحظة": "Note", "ملاحظة (اختياري)": "Note (optional)", "مونتاج": "Editing", "مين شغال": "Assigned", "مين شغال عليه": "Assigned to", "نسخ": "Copy", "وصلت لإيه": "Stage", "اتنسخ": "Copied", "مصاريفي": "My budget", "الدخل في الشهر": "Monthly income", "المصاريف الثابتة": "Fixed expenses", "الاشتراكات": "Subscriptions", "الباقي ليك": "Left over", "الدخل": "Income", "البند": "Item", "بينزل يوم": "Paid on day", "الجاي": "Next", "المصاريف الشهرية": "Monthly expenses", "النوع": "Type", "لحد إمتى": "Until", "مثلاً: مرتب الشركة": "e.g. Company salary", "بينزل يوم (1–31)": "Pay day (1–31)", "البند (إيجار، قسط العربية…)": "Item (rent, car loan…)", "آخر قسط": "Last payment", "مستمر": "Ongoing", "خلص": "Done", "إيجار": "Rent", "قسط العربية": "Car loan", "بطاقة ائتمان": "Credit card", "تابي / تمارا": "Tabby / Tamara", "قرض": "Loan", "فواتير": "Bills", "تحويلات للأهل": "Family transfers", "مواصلات وبنزين": "Transport & fuel", "تاني": "Other", "باقي": "Left", "مفيش دخل متسجل — ضيف المرتب تحت.": "No income yet — add your salary below.", "مفيش مصاريف متسجلة لسه.": "No expenses yet.", "بيحدّث…": "Updating…", "بيحفظ…": "Saving…", "الدخل": "Income", "الثابت": "Fixed", "مصروفات الشهر": "Spending", "تحليل الشهر": "Monthly analysis", "آخر 6 شهور": "Last 6 months", "الصرف التراكمي": "Cumulative spending", "المصروفات حسب النوع": "Spending by category", "مصروف سريع": "Quick expense", "سجّل": "Log", "على إيه؟ (اختياري)": "What for? (optional)", "أكل وسوبرماركت": "Groceries", "مطاعم وكافيهات": "Restaurants & cafés", "طلبات دليفري": "Delivery", "شوبينج": "Shopping", "بنزين": "Fuel", "تاكسي": "Taxi", "خروج وترفيه": "Going out", "صحة": "Health", "هدايا": "Gifts", "البيت": "Home", "\"آخر قسط\" للأقساط بس (العربية، تابي، القرض) — سيبه فاضي للحاجات اللي مستمرة زي الإيجار. لما الأقساط تخلص البند بيتشال من الحساب لوحده.": "\"Last payment\" is for installments only (car, Tabby, loan) — leave it empty for ongoing items like rent. Finished installments drop out of the totals automatically.", "المشاريع": "Projects", "اشتراكاتي": "Subscriptions", "الاشتراكات الشهرية": "Monthly subscriptions", "في الشهر": "Per month", "في السنة": "Per year", "عدد الاشتراكات": "Subscriptions", "الدفعة الجاية": "Next payment", "الاشتراك": "Subscription", "بيتدفع يوم": "Billing day", "البطاقة": "Card", "اسم الاشتراك (Netflix, Adobe…)": "Subscription (Netflix, Adobe…)", "يوم الدفع (1–31)": "Billing day (1–31)", "البطاقة (مثلاً: ENBD Visa •4417)": "Card (e.g. ENBD Visa •4417)", "متكتبش رقم البطاقة كامل — اسمها أو آخر ٤ أرقام كفاية.": "Don't enter the full card number — a name or last 4 digits is enough.", "مفيش اشتراكات لسه — ضيف أول واحد تحت.": "No subscriptions yet — add one below.", "من غير بطاقة": "No card", "يناير": "January", "فبراير": "February", "مارس": "March", "أبريل": "April", "مايو": "May", "يونيو": "June", "يوليو": "July", "أغسطس": "August", "سبتمبر": "September", "أكتوبر": "October", "نوفمبر": "November", "ديسمبر": "December"};
+const DICT={"(كل السنين)": "(all years)", "+ اسم حد تاني… واضغط Enter": "+ another name… press Enter", "+ حاجة تانية… واضغط Enter": "+ something else… press Enter", "فتح الفولدر": "Open folder", "تعديل": "Edit", "اتدفع ✓": "Paid ✓", "رجّعها لسه": "Mark unpaid", "مسح": "Delete", "ضيف عضو الأول": "Add a member first", "كل السنين": "All years", "كل الناس": "Everyone", "لسه": "Unpaid", "اتدفع": "Paid", "الكود بتاعك": "Your code", "الإجمالي": "Total", "مفيش مستحقات ليك دلوقتي.": "No payouts for you right now.", "مفيش اشتراكات مسجلة في الفترة دي.": "No subscriptions in this period.", "مفيش مستحقات مسجلة.": "No payouts recorded.", "Team Leader — يضيف ويعدّل": "Team Leader — can add & edit", "Team — يشوف شغله بس": "Team — sees own work only", "https://drive.google.com/…  أو  D:\\Projects\\Client\\…": "https://drive.google.com/…  or  D:\\Projects\\Client\\…", "آه احذف": "Yes, delete", "آه — مدفوع بالكامل": "Yes — fully paid", "أكيد اتدفع؟": "Sure it's paid?", "إجمالي الشغل": "Total value", "إضافة": "Add", "إغلاق": "Close", "إلغاء": "Cancel", "إنتاج / جينيريشن": "Production", "اتحذف": "Deleted", "اتحفظ ✓": "Saved ✓", "اتسجل إنه اتدفع ✓": "Marked as paid ✓", "اتسلّم": "Delivered", "اتقبض": "Received", "اتمسح": "Deleted", "اتنسخ ✓": "Copied ✓", "اتوزع على التيم": "Paid to team", "اختار الشغلانة الأول": "Pick the services first", "اختار مين شغال عليه": "Pick who's working on it", "ادخل الكود بتاعك": "Enter your code", "استلمت فلوس؟": "Payment received?", "اسم عضو جديد": "New member name", "اشتراكات الـ AI": "AI subscriptions", "الأداة": "Tool", "الأداة (Claude, Higgsfield…)": "Tool (Claude, Higgsfield…)", "الإنجاز": "Progress", "الاسم": "Name", "البريف، المطلوب، عدد الفيديوهات، المقاسات، ملاحظات العميل…": "Brief, deliverables, number of videos, sizes, client notes…", "التاريخ": "Date", "التسليم": "Deadline", "الحالة": "Status", "الحذف فشل": "Delete failed", "الحسابات": "Finances", "الحفظ فشل — جرّب تاني": "Save failed — try again", "الداتا فين": "Files", "الدفع": "Payment", "الرقم السري (PIN)": "Your code (PIN)", "الرقم السري غلط": "Wrong code", "السنة": "Year", "الشغال بس": "Active only", "الشغلانة": "Services", "الشهر": "Month", "الصلاحية": "Access", "العرض": "Show", "العميل": "Client", "الفريق والمستحقات": "Team & payouts", "الفلوس": "Payment", "الكود (PIN)": "Code (PIN)", "اللي وصل": "Received", "المبالغ": "Amounts", "المبلغ": "Amount", "المرحلة": "Stage", "المستحقات": "Payouts", "المسلَّم بس": "Delivered only", "النهارده": "Today", "انسخ اشتراكات الشهر اللي فات": "Copy last month's subscriptions", "بحث": "Search", "بريف واتفاق": "Brief", "بكرة": "Tomorrow", "بيتصل…": "Connecting…", "تحضير / ستوري بورد": "Pre-prod", "تسليم خلال ٧ أيام": "Due in 7 days", "تعديل المشروع": "Edit project", "تفاصيل المشروع": "Project details", "حذف": "Delete", "حفظ": "Save", "حفظ التعديل": "Save changes", "خلص منه قد إيه": "Progress", "دخول": "Enter", "دفع عربون": "Deposit paid", "دوّر بالعميل أو اسم الشغلانة…": "Search client or service…", "سكريبت / كونسبت": "Script", "صافي الربح": "Net profit", "عدد المشاريع": "Projects", "عربون": "Deposit", "عربون / جزء": "Deposit / partial", "عن إيه": "For", "عن إيه؟ (مثلاً: مونتاج فيديو MK)": "What for? (e.g. MK video edit)", "فلوس لسه ماوصلتش": "Outstanding", "كل الشغل": "All work", "كل الشهور": "All months", "كل الفترات": "All time", "كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.": "Everything you write is saved and shared with the team.", "كل المراحل": "All stages", "كل حالات الدفع": "All payments", "لأ": "No", "لأ — مدفعش": "No — unpaid", "لمين": "To", "لوحة المشاريع": "Projects Dashboard", "لوحة المشاريع — Projects Dashboard": "Projects Dashboard", "ليه عندي": "Owed", "ليّا (لسه)": "Outstanding", "متأخرة": "Overdue", "متأكد؟": "Sure?", "متزامن": "Synced", "متوسط الإنجاز": "Avg progress", "متوقف": "On hold", "مثلاً: MK Wedding Planner": "e.g. MK Wedding Planner", "مدفعش": "Unpaid", "مدفوع": "Paid", "مدفوع بالكامل": "Fully paid", "مراجعة العميل": "Client review", "مستحقاتي": "My payouts", "مش قادر يوصل للشيت دلوقتي — اتأكد من النت وجرّب تعمل Refresh.": "Can't reach the sheet right now — check your connection and refresh.", "مش قادر يوصل — جرّب تاني": "Can't connect — try again", "مش متصل": "Offline", "مش مسموحلك بالحركة دي": "You don't have permission for that", "مشاريع شغالة": "Active projects", "مشروع جديد": "New project", "مصاريف الـ AI": "AI spend", "عليّا للتيم": "Owed to team", "معاد التسليم": "Deadline", "مفيش اشتراكات في الشهر اللي قبله": "No subscriptions in the previous month", "مفيش مشاريع هنا لسه — دوس": "No projects yet — click", "مفيش مشاريع هنا لسه.": "No projects yet.", "مقدرتش أنسخ": "Couldn't copy", "ملاحظة": "Note", "ملاحظة (اختياري)": "Note (optional)", "مونتاج": "Editing", "مين شغال": "Assigned", "مين شغال عليه": "Assigned to", "نسخ": "Copy", "وصلت لإيه": "Stage", "اتنسخ": "Copied", "مصاريفي": "My budget", "الدخل في الشهر": "Monthly income", "المصاريف الثابتة": "Fixed expenses", "الاشتراكات": "Subscriptions", "الباقي ليك": "Left over", "الدخل": "Income", "البند": "Item", "بينزل يوم": "Paid on day", "الجاي": "Next", "المصاريف الشهرية": "Monthly expenses", "النوع": "Type", "لحد إمتى": "Until", "مثلاً: مرتب الشركة": "e.g. Company salary", "بينزل يوم (1–31)": "Pay day (1–31)", "البند (إيجار، قسط العربية…)": "Item (rent, car loan…)", "آخر قسط": "Last payment", "مستمر": "Ongoing", "خلص": "Done", "إيجار": "Rent", "قسط العربية": "Car loan", "بطاقة ائتمان": "Credit card", "تابي / تمارا": "Tabby / Tamara", "قرض": "Loan", "فواتير": "Bills", "تحويلات للأهل": "Family transfers", "مواصلات وبنزين": "Transport & fuel", "تاني": "Other", "باقي": "Left", "مفيش دخل متسجل — ضيف المرتب تحت.": "No income yet — add your salary below.", "مفيش مصاريف متسجلة لسه.": "No expenses yet.", "بيحدّث…": "Updating…", "بيحفظ…": "Saving…", "الدخل": "Income", "الثابت": "Fixed", "مصروفات الشهر": "Spending", "تحليل الشهر": "Monthly analysis", "آخر 6 شهور": "Last 6 months", "الصرف التراكمي": "Cumulative spending", "المصروفات حسب النوع": "Spending by category", "مصروف سريع": "Quick expense", "سجّل": "Log", "على إيه؟ (اختياري)": "What for? (optional)", "أكل وسوبرماركت": "Groceries", "مطاعم وكافيهات": "Restaurants & cafés", "طلبات دليفري": "Delivery", "شوبينج": "Shopping", "بنزين": "Fuel", "تاكسي": "Taxi", "الكارت": "Card", "الكارت (اختياري)": "Card (optional)", "خروج وترفيه": "Going out", "صحة": "Health", "هدايا": "Gifts", "البيت": "Home", "\"آخر قسط\" للأقساط بس (العربية، تابي، القرض) — سيبه فاضي للحاجات اللي مستمرة زي الإيجار. لما الأقساط تخلص البند بيتشال من الحساب لوحده.": "\"Last payment\" is for installments only (car, Tabby, loan) — leave it empty for ongoing items like rent. Finished installments drop out of the totals automatically.", "المشاريع": "Projects", "اشتراكاتي": "Subscriptions", "الاشتراكات الشهرية": "Monthly subscriptions", "في الشهر": "Per month", "في السنة": "Per year", "عدد الاشتراكات": "Subscriptions", "الدفعة الجاية": "Next payment", "الاشتراك": "Subscription", "بيتدفع يوم": "Billing day", "البطاقة": "Card", "اسم الاشتراك (Netflix, Adobe…)": "Subscription (Netflix, Adobe…)", "يوم الدفع (1–31)": "Billing day (1–31)", "البطاقة (مثلاً: ENBD Visa •4417)": "Card (e.g. ENBD Visa •4417)", "متكتبش رقم البطاقة كامل — اسمها أو آخر ٤ أرقام كفاية.": "Don't enter the full card number — a name or last 4 digits is enough.", "مفيش اشتراكات لسه — ضيف أول واحد تحت.": "No subscriptions yet — add one below.", "من غير بطاقة": "No card", "يناير": "January", "فبراير": "February", "مارس": "March", "أبريل": "April", "مايو": "May", "يونيو": "June", "يوليو": "July", "أغسطس": "August", "سبتمبر": "September", "أكتوبر": "October", "نوفمبر": "November", "ديسمبر": "December"};
 const AR_RE=/[\u0600-\u06FF]/;
 function tr(t){
   if(LANG!=="en"||!t||!AR_RE.test(t)) return null;
@@ -1008,7 +1024,7 @@ function fillBudM(){
   if(!BUDM||!all.includes(BUDM)) BUDM=now;
   $("#budM").innerHTML=all.reverse().map(x=>{const [y,mo]=x.split("-").map(Number);return `<option value="${x}"${x===BUDM?" selected":""}>${new Date(y,mo-1,1).toLocaleDateString(LANG==="en"?"en-GB":"ar-EG-u-nu-latn",{month:"long",year:"numeric"})}</option>`}).join("");
 }
-$("#budM").addEventListener("change",e=>{BUDM=e.target.value;renderBudget()});
+$("#budM").addEventListener("change",e=>{BUDM=e.target.value;PG.sp=1;renderBudget()});
 function svgBars(rows,cur){
   const W=520,H=190,pad=22,n=rows.length,bw=Math.min(46,(W-pad*2)/n*0.55),max=Math.max(1,...rows.map(r=>Math.max(r.inc,r.out)));
   const y=v=>H-24-(v/max)*(H-44);
@@ -1043,6 +1059,29 @@ function catBars(a,b,cur){
     return `<div class="cb"><div class="cb-l"><i style="background:${c[2]}"></i>${cn(c)}</div><div class="cb-t"><span class="ghost" style="width:${vb/max*100}%"></span><span class="bar" style="width:${va/max*100}%;background:${c[2]}"></span></div>
     <div class="cb-v"><b>${fmt(va)}</b>${d===null?"":`<small class="${d>0?"up":"down"}">${d>0?"▲":"▼"} ${Math.abs(d)}%</small>`}</div></div>`}).join("")+`<div class="legend sm"><span><i style="background:#5A606B"></i>${L("الشهر اللي فات","Last month")}</span><span>${cur}</span></div>`;
 }
+// --- table filters + paging (10 rows a page)
+const PER=10, PG={sp:1,out:1}, NOCARD="__none";
+const fOn=p=>!!($(`#${p}FCat`).value||$(`#${p}FCard`).value);
+function fillFilter(p,cats,rows){
+  const sc=$(`#${p}FCat`), sk=$(`#${p}FCard`), vc=sc.value, vk=sk.value;
+  const used=new Set(rows.map(x=>x.cat)), cards=[...new Set(rows.map(x=>x.card).filter(Boolean))].sort();
+  sc.innerHTML=`<option value="">${L("كل الأنواع","All types")}</option>`+cats.filter(c=>used.has(c[0])||c[0]===vc).map(c=>`<option value="${c[0]}"${c[0]===vc?" selected":""}>${cn(c)}</option>`).join("");
+  sk.innerHTML=`<option value="">${L("كل الكروت","All cards")}</option>`+cards.map(c=>`<option${c===vk?" selected":""}>${esc(c)}</option>`).join("")
+    +(rows.some(x=>!x.card)?`<option value="${NOCARD}"${vk===NOCARD?" selected":""}>${L("من غير كارت","No card")}</option>`:"");
+}
+function passF(p,x){const c=$(`#${p}FCat`).value,k=$(`#${p}FCard`).value;return (!c||x.cat===c)&&(!k||(k===NOCARD?!x.card:x.card===k))}
+function pageOf(p,list){const n=Math.max(1,Math.ceil(list.length/PER)); if(PG[p]>n)PG[p]=n; return list.slice((PG[p]-1)*PER,PG[p]*PER)}
+function drawPager(p,total){
+  const n=Math.ceil(total/PER), el=$(`#${p}Pager`);
+  if(n<=1){el.innerHTML="";return}
+  let h=`<button type="button" data-pg="${p}:${PG[p]-1}"${PG[p]===1?" disabled":""}>${LANG==="en"?"‹":"›"}</button>`;
+  for(let i=1;i<=n;i++){ if(n>7&&i>2&&i<n-1&&Math.abs(i-PG[p])>1){ if(!h.endsWith("…</span>")) h+=`<span class="dots">…</span>`; continue; }
+    h+=`<button type="button" data-pg="${p}:${i}" class="${i===PG[p]?"on":""}">${i}</button>`; }
+  h+=`<button type="button" data-pg="${p}:${PG[p]+1}"${PG[p]===n?" disabled":""}>${LANG==="en"?"›":"‹"}</button>`;
+  el.innerHTML=h+`<span class="pg-info" dir="ltr">${(PG[p]-1)*PER+1}–${Math.min(PG[p]*PER,total)} / ${total}</span>`;
+}
+["sp","out"].forEach(p=>["FCat","FCard"].forEach(k=>$(`#${p}${k}`).addEventListener("change",()=>{PG[p]=1;renderBudget()})));
+document.addEventListener("click",e=>{const b=e.target.closest("[data-pg]");if(!b||b.disabled)return;const [p,n]=b.dataset.pg.split(":"),sec=b.closest("section");PG[p]=+n;renderBudget();if(sec)sec.scrollIntoView({block:"start",behavior:"smooth"})});
 function renderBudget(){
   if(ROLE!=="owner") return;
   fillBudM();
@@ -1097,13 +1136,20 @@ function renderBudget(){
   const ms=[]; let mm=M; for(let i=0;i<6;i++){ms.unshift(mm);mm=prevYM(mm)}
   const rows=ms.map(x=>monthData(x,mc)); while(rows.length>1&&!rows[0].inc&&!rows[0].out) rows.shift();
   $("#cMonths").innerHTML=svgBars(rows,mc); $("#cPace").innerHTML=svgPace(A,B,M,mc); $("#cCats").innerHTML=catBars(A,B,mc);
-  // quick-expense list for the month
-  const list=SPEND.filter(x=>x.date.slice(0,7)===M).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
-  $("#spTotal").textContent=moneyInline(sumBy(list));
-  $("#spBody").innerHTML=list.length?list.map(x=>`<tr><td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${new Date(x.date+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}</td>
-    <td><span class="cat" style="border-color:${vcatOf(x.cat)[2]}">${vcatOf(x.cat)[1]}</span></td><td><span class="ai-amt" style="color:#FF6FAE">${fmt(x.amount)} ${esc(x.cur)}</span></td><td>${esc(x.note)||"—"}</td>
+  // quick-expense list for the month — filter + 10 per page
+  const allCards=[...new Set([...SUBS,...BUD,...SPEND].map(x=>x.card).filter(Boolean))].sort();
+  $("#cardList").innerHTML=allCards.map(c=>`<option value="${esc(c)}">`).join("");
+  const monthSp=SPEND.filter(x=>x.date.slice(0,7)===M);
+  fillFilter("sp",VCATS,monthSp);
+  const list=monthSp.filter(x=>passF("sp",x)).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
+  $("#spTotal").textContent=moneyInline(sumBy(monthSp));
+  $("#spFSum").textContent=fOn("sp")?`${list.length} · ${moneyInline(sumBy(list))}`:"";
+  const spRows=pageOf("sp",list);
+  $("#spBody").innerHTML=list.length?spRows.map(x=>`<tr><td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${new Date(x.date+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}</td>
+    <td><span class="cat" style="border-color:${vcatOf(x.cat)[2]}">${vcatOf(x.cat)[1]}</span></td><td><span class="ai-amt" style="color:#FF6FAE">${fmt(x.amount)} ${esc(x.cur)}</span></td><td>${x.card?`<bdi>${esc(x.card)}</bdi>`:"—"}</td><td>${esc(x.note)||"—"}</td>
     <td style="white-space:nowrap"><button class="mini" data-spedit="${esc(x.id)}">تعديل</button> <button class="mini bad" data-spdel="${esc(x.id)}">مسح</button></td></tr>`).join("")
-    :`<tr><td colspan="5" style="color:var(--dim)">${L("مفيش مصروفات متسجلة في الشهر ده.","No spending logged this month.")}</td></tr>`;
+    :`<tr><td colspan="6" style="color:var(--dim)">${fOn("sp")?L("مفيش حاجة بالفلتر ده.","Nothing matches this filter."):L("مفيش مصروفات متسجلة في الشهر ده.","No spending logged this month.")}</td></tr>`;
+  drawPager("sp",list.length);
   if(!$("#spDate").value) $("#spDate").value=todayISO();
   // income + fixed tables
   const withNext=a=>a.map(x=>{const d=nextPay(x.day);return {...x,nd:d,k:Math.round((d-t)/864e5)}}).sort((a,b)=>a.nd-b.nd);
@@ -1111,40 +1157,44 @@ function renderBudget(){
     <td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${shortD(x.nd)}<span class="dueb">${inDays(x.k)}</span></td><td>${esc(x.note)||"—"}</td>
     <td style="white-space:nowrap"><button class="mini" data-bedit="${esc(x.id)}">تعديل</button> <button class="mini bad" data-bdel="${esc(x.id)}">مسح</button></td></tr>`).join("")
     :`<tr><td colspan="6" style="color:var(--dim)">مفيش دخل متسجل — ضيف المرتب تحت.</td></tr>`;
-  const outSum=sumBy(outs.filter(live));
-  const o2=withNext(outs).sort((a,b)=>(live(b)-live(a))||(a.nd-b.nd));
-  $("#outBody").innerHTML=o2.length?o2.map(x=>{const on=live(x), ml=monthsLeft(x.until);
+  fillFilter("out",CATS,outs);
+  const outF=outs.filter(x=>passF("out",x));
+  const outSum=sumBy(outF.filter(live));
+  $("#outFSum").textContent=fOn("out")?`${outF.length} · ${moneyInline(outSum)}`:"";
+  const o2=withNext(outF).sort((a,b)=>(live(b)-live(a))||(a.nd-b.nd));
+  $("#outBody").innerHTML=o2.length?pageOf("out",o2).map(x=>{const on=live(x), ml=monthsLeft(x.until);
     return `<tr class="${!on?"done":x.k<=3?"soon":""}"><td><b>${esc(x.name)}</b></td><td><span class="cat" style="border-color:${catOf(x.cat)[2]}">${catOf(x.cat)[1]}</span></td>
     <td><span class="ai-amt" style="color:var(--amber)">${fmt(x.amount)} ${esc(x.cur)}</span></td><td>يوم ${x.day}</td>
     <td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${on?`${shortD(x.nd)}<span class="dueb">${inDays(x.k)}</span>`:"—"}</td>
     <td style="white-space:nowrap">${!x.until?`<span style="color:var(--dim)">مستمر</span>`:!on?`<span>خلص</span>`:`<span style="font-family:Poppins">${x.until}</span><span class="left-n">باقي ${ml} شهر</span><br><small style="color:var(--dim)">باقي</small> <small style="font-family:Poppins;color:var(--muted)">${fmt(ml*x.amount)} ${esc(x.cur)}</small>`}</td>
-    <td>${esc(x.note)||"—"}</td>
+    <td>${x.card?`<bdi>${esc(x.card)}</bdi>`:"—"}</td><td>${esc(x.note)||"—"}</td>
     <td style="white-space:nowrap"><button class="mini" data-bedit="${esc(x.id)}">تعديل</button> <button class="mini bad" data-bdel="${esc(x.id)}">مسح</button></td></tr>`}).join("")
-    + `<tr><td colspan="2" style="color:var(--muted)">الإجمالي</td><td colspan="6"><span class="ai-amt" style="color:var(--amber)">${moneyInline(outSum)}</span></td></tr>`
-    :`<tr><td colspan="8" style="color:var(--dim)">مفيش مصاريف متسجلة لسه.</td></tr>`;
+    + `<tr><td colspan="2" style="color:var(--muted)">الإجمالي</td><td colspan="7"><span class="ai-amt" style="color:var(--amber)">${moneyInline(outSum)}</span></td></tr>`
+    :`<tr><td colspan="9" style="color:var(--dim)">${fOn("out")?L("مفيش حاجة بالفلتر ده.","Nothing matches this filter."):"مفيش مصاريف متسجلة لسه."}</td></tr>`;
+  drawPager("out",o2.length);
 }
-function resetSp(){["#spAmount","#spNote","#spId"].forEach(k=>$(k).value="");$("#spDate").value=todayISO();$("#spSave").textContent=L("سجّل","Log");$("#spCancel").style.display="none"}
+function resetSp(){["#spAmount","#spNote","#spId","#spCard"].forEach(k=>$(k).value="");$("#spDate").value=todayISO();$("#spSave").textContent=L("سجّل","Log");$("#spCancel").style.display="none"}
 $("#spForm").addEventListener("submit",e=>{e.preventDefault(); const old=SPEND.find(x=>x.id===$("#spId").value);
-  const item={id:$("#spId").value||uid("v"),date:$("#spDate").value,amount:+$("#spAmount").value,cur:$("#spCur").value,cat:$("#spCat").value,note:$("#spNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
+  const item={id:$("#spId").value||uid("v"),date:$("#spDate").value,amount:+$("#spAmount").value,cur:$("#spCur").value,cat:$("#spCat").value,card:maskCard($("#spCard").value.trim()),note:$("#spNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
   quick("sp_save",{item},()=>upsert(SPEND,item)); resetSp(); $("#spAmount").focus();});
 $("#spCancel").onclick=resetSp;
 const clampDay=v=>Math.min(31,Math.max(1,+v||1));
 function resetIn(){["#inName","#inAmount","#inDay","#inNote","#inId"].forEach(k=>$(k).value="");$("#inSave").textContent="إضافة";$("#inCancel").style.display="none"}
-function resetOut(){["#outName","#outAmount","#outDay","#outUntil","#outNote","#outId"].forEach(k=>$(k).value="");$("#outSave").textContent="إضافة";$("#outCancel").style.display="none"}
+function resetOut(){["#outName","#outAmount","#outDay","#outUntil","#outNote","#outId","#outCard"].forEach(k=>$(k).value="");$("#outSave").textContent="إضافة";$("#outCancel").style.display="none"}
 $("#inForm").addEventListener("submit",e=>{e.preventDefault(); const old=BUD.find(x=>x.id===$("#inId").value);
   const item={id:$("#inId").value||uid("b"),kind:"in",name:$("#inName").value.trim(),cat:"salary",amount:+$("#inAmount").value,cur:$("#inCur").value,day:clampDay($("#inDay").value),until:"",note:$("#inNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
   quick("bud_save",{item},()=>upsert(BUD,item)); resetIn();});
 $("#outForm").addEventListener("submit",e=>{e.preventDefault(); const old=BUD.find(x=>x.id===$("#outId").value);
-  const item={id:$("#outId").value||uid("b"),kind:"out",name:$("#outName").value.trim(),cat:$("#outCat").value,amount:+$("#outAmount").value,cur:$("#outCur").value,day:clampDay($("#outDay").value),until:$("#outUntil").value||"",note:$("#outNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
+  const item={id:$("#outId").value||uid("b"),kind:"out",name:$("#outName").value.trim(),cat:$("#outCat").value,amount:+$("#outAmount").value,cur:$("#outCur").value,day:clampDay($("#outDay").value),until:$("#outUntil").value||"",card:maskCard($("#outCard").value.trim()),note:$("#outNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
   quick("bud_save",{item},()=>upsert(BUD,item)); resetOut();});
 $("#inCancel").onclick=resetIn; $("#outCancel").onclick=resetOut;
 $("#budgetPage").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   if(b.dataset.bedit){const x=BUD.find(y=>y.id===b.dataset.bedit); if(!x) return;
     if(x.kind==="in"){$("#inName").value=x.name;$("#inAmount").value=x.amount;$("#inCur").value=x.cur;$("#inDay").value=x.day;$("#inNote").value=x.note;$("#inId").value=x.id;$("#inSave").textContent="حفظ التعديل";$("#inCancel").style.display="";$("#inAmount").focus()}
-    else{$("#outName").value=x.name;$("#outCat").value=x.cat;$("#outAmount").value=x.amount;$("#outCur").value=x.cur;$("#outDay").value=x.day;$("#outUntil").value=x.until;$("#outNote").value=x.note;$("#outId").value=x.id;$("#outSave").textContent="حفظ التعديل";$("#outCancel").style.display="";$("#outAmount").focus()} }
+    else{$("#outName").value=x.name;$("#outCat").value=x.cat;$("#outAmount").value=x.amount;$("#outCur").value=x.cur;$("#outDay").value=x.day;$("#outUntil").value=x.until;$("#outCard").value=x.card||"";$("#outNote").value=x.note;$("#outId").value=x.id;$("#outSave").textContent="حفظ التعديل";$("#outCancel").style.display="";$("#outAmount").focus()} }
   if(b.dataset.bdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
     const id=b.dataset.bdel; quick("bud_delete",{id},()=>{BUD=BUD.filter(x=>x.id!==id)},"اتمسح"); }
-  if(b.dataset.spedit){const x=SPEND.find(y=>y.id===b.dataset.spedit); if(!x) return; $("#spAmount").value=x.amount;$("#spCur").value=x.cur;$("#spCat").value=x.cat;$("#spDate").value=x.date;$("#spNote").value=x.note;$("#spId").value=x.id;$("#spSave").textContent="حفظ التعديل";$("#spCancel").style.display="";$("#spAmount").focus()}
+  if(b.dataset.spedit){const x=SPEND.find(y=>y.id===b.dataset.spedit); if(!x) return; $("#spAmount").value=x.amount;$("#spCur").value=x.cur;$("#spCat").value=x.cat;$("#spDate").value=x.date;$("#spCard").value=x.card||"";$("#spNote").value=x.note;$("#spId").value=x.id;$("#spSave").textContent="حفظ التعديل";$("#spCancel").style.display="";$("#spAmount").focus()}
   if(b.dataset.spdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
     const id=b.dataset.spdel; quick("sp_delete",{id},()=>{SPEND=SPEND.filter(x=>x.id!==id)},"اتمسح"); }
 });
