@@ -129,6 +129,17 @@ tr:last-child td{border-bottom:0}
 .empty .big{width:44px;height:44px;border-radius:50%;margin:0 auto 14px;background:conic-gradient(from 200deg,#26D7E3,#0E94EA,#055EF6,#26D7E3);-webkit-mask:radial-gradient(circle,transparent 12px,#000 13px);mask:radial-gradient(circle,transparent 12px,#000 13px)}
 
 /* Modal */
+.wa{position:fixed;bottom:20px;inset-inline-end:20px;z-index:80;width:min(360px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line2);border-radius:16px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.6);display:none}
+.wa.show{display:block}
+.wa-h{display:flex;justify-content:space-between;align-items:center;gap:10px}.wa-h b{font-size:14.5px}
+.wa-x{background:none;border:0;color:var(--muted);font-size:16px;cursor:pointer}
+.wa-sub{color:var(--muted);font-size:12.5px;margin:4px 0 12px}
+.wa-list{display:grid;gap:8px}
+.wa-btn{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0f2a1c;border:1px solid #1f6b43;color:#d9fbe7;border-radius:11px;padding:10px 12px;font:inherit;font-size:13.5px;cursor:pointer;text-align:start}
+.wa-btn:hover{background:#14391f}.wa-btn small{color:#7fd8a4;font-family:Poppins;direction:ltr}
+.wa-btn.nophone{background:var(--bg);border-color:var(--line2);color:var(--text)}.wa-btn.nophone small{color:var(--dim)}
+.wa-btn.sent{opacity:.55}
+.wa-note{color:var(--dim);font-size:11.5px;margin-top:10px}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;z-index:50}
 .ov.show{display:flex}
 .modal{background:var(--surface);border:1px solid var(--line2);border-radius:18px;width:100%;max-width:720px;padding:26px}
@@ -479,10 +490,11 @@ html[dir=rtl] .cb-t{direction:rtl}
 
   <section class="panel money-only" id="teamPanel">
     <div class="fin-h"><div><b>الفريق والمستحقات</b> <span class="en">Team · Codes · Payouts</span></div></div>
-    <table class="ptable"><thead><tr><th>الاسم</th><th>الصلاحية</th><th>الكود (PIN)</th><th>ليه عندي</th><th></th></tr></thead><tbody id="teamBody"></tbody></table>
+    <table class="ptable"><thead><tr><th>الاسم</th><th>الصلاحية</th><th>الكود (PIN)</th><th>واتساب</th><th>ليه عندي</th><th></th></tr></thead><tbody id="teamBody"></tbody></table>
     <form class="row-form" id="teamForm" autocomplete="off">
       <input id="tmName" placeholder="اسم عضو جديد" required>
       <select id="tmRole"><option value="member">Team — يشوف شغله بس</option><option value="lead">Team Leader — يضيف ويعدّل</option></select>
+      <input id="tmPhone" type="tel" dir="ltr" placeholder="واتساب: 2010… / 9715…" style="width:190px">
       <input type="hidden" id="tmPin">
       <button class="btn primary sm" type="submit" id="tmSave">إضافة</button>
       <button class="btn ghost sm" type="button" id="tmCancel" style="display:none">إلغاء</button>
@@ -585,6 +597,7 @@ html[dir=rtl] .cb-t{direction:rtl}
         <span class="confirm" id="confirm">متأكد؟ <button type="button" class="btn danger sm" id="delYes">آه احذف</button><button type="button" class="btn ghost sm" id="delNo">لأ</button></span>
       </div>
       <div class="r">
+        <button type="button" class="btn ghost edit-only" id="waBtn" style="display:none">📲 واتساب</button>
         <button type="button" class="btn ghost" id="cancel">إغلاق</button>
         <button type="submit" class="btn primary edit-only" id="saveBtn">حفظ</button>
       </div>
@@ -592,6 +605,7 @@ html[dir=rtl] .cb-t{direction:rtl}
   </form>
 </div>
 <div class="toast" id="toast"></div>
+<div class="wa" id="wa"><div class="wa-h"><b id="waTitle">ابعت للتيم على واتساب</b><button type="button" class="wa-x" id="waClose">✕</button></div><div class="wa-sub" id="waSub"></div><div class="wa-list" id="waList"></div><div class="wa-note">بيفتحلك واتساب والرسالة جاهزة — إنت بس دوس Send.</div></div>
 <div class="gate" id="gate"><button class="lang-btn" type="button">English</button><form class="box" id="gateForm" autocomplete="off">
   <span class="wm big" aria-label="Remotion">Remoti<svg class="o" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="wmg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1FE6EA"/><stop offset=".55" stop-color="#0E94EA"/><stop offset="1" stop-color="#055EF6"/></linearGradient></defs><circle cx="50" cy="50" r="40.3" fill="none" stroke="url(#wmg2)" stroke-width="19.4"/></svg>n</span>
   <p>لوحة المشاريع — Projects Dashboard<br><span style="color:var(--dim)">ادخل الكود بتاعك</span></p>
@@ -855,7 +869,7 @@ $("#whoPicker").addEventListener("keydown",e=>{if(e.target.id==="whoAdd"&&e.key=
 // --- modal
 const F=$("#form");
 function openModal(p){
-  editing=p||null; F.reset(); $("#confirm").classList.remove("show"); $("#delBtn").style.display=p?"":"none";
+  editing=p||null; F.reset(); $("#confirm").classList.remove("show"); $("#delBtn").style.display=p?"":"none"; $("#waBtn").style.display=p?"":"none";
   $("#mTitle").textContent=ROLE==="member"?"تفاصيل المشروع":(p?"تعديل المشروع":"مشروع جديد");
   const d=p||{stage:"brief",pay:"unpaid",progress:0,cur:"AED"};
   ["client","stage","due","pay","total","paid","cur","data","details","progress"].forEach(k=>{if(F.elements[k]) F.elements[k].value=d[k]??""});
@@ -891,7 +905,10 @@ F.addEventListener("submit",async e=>{
   const id=editing?editing.id:("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
   if(!editing) o.createdAt=Date.now();
   const rec={...(editing?editing:{}),...o,id};
+  const before=editing?splitN(editing.assignee):[], isNew=!editing;
   closeModal(); quick("save",{item:rec},()=>{upsert(items,rec)});
+  const fresh=splitN(rec.assignee).filter(n=>!before.includes(n));
+  if(fresh.length) showWA(rec,fresh,isNew);
 });
 function strip(p){const {id,...r}=p;return r}
 $("#delBtn").onclick=()=>$("#confirm").classList.add("show");
@@ -933,7 +950,7 @@ async function api(action,extra={}){
   return res;
 }
 function applyRes(res){
-  items=res.items||[]; PAYOUTS=res.payouts||[]; TEAM=res.team||[]; PEOPLE=res.people||[]; EXP=res.expenses||[]; SUBS=res.subs||[]; BUD=res.budget||[]; SPEND=res.spend||[];
+  items=res.items||[]; PAYOUTS=res.payouts||[]; TEAM=res.team||[]; PEOPLE=res.people||[]; EXP=res.expenses||[]; SUBS=res.subs||[]; BUD=res.budget||[]; SPEND=res.spend||[]; PHONES=res.phones||{};
   ME=res.me||ME;
   if(res.role!==ROLE){ ROLE=res.role;
     document.body.classList.toggle("team",ROLE!=="owner");
@@ -944,6 +961,29 @@ function applyRes(res){
 }
 // --- subscriptions page (owner)
 let SUBS=[];
+// --- WhatsApp: open a ready message to whoever was assigned
+let PHONES={};
+const splitN=s=>String(s||"").split(" + ").map(x=>x.trim()).filter(Boolean);
+function waMsg(p,name,isNew){
+  const due=p.due?new Date(p.due+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"—";
+  const det=String(p.details||"").trim(), more=det.length>350?det.slice(0,350)+"…":det;
+  return [`أهلاً ${name} 👋`, isNew?`اتضافلك مشروع جديد على لوحة Remotion:`:`فيه تحديث على مشروع معاك على لوحة Remotion:`, "",
+    `• العميل: ${p.client||"—"}`, `• الشغلانة: ${p.name||"—"}`, `• معاد التسليم: ${due}`,
+    ...(more?[`• التفاصيل: ${more}`]:[]), ...(p.data?[`• الداتا: ${p.data}`]:[]), "",
+    `افتح اللوحة بالكود بتاعك 👇`, `https://myremotion.com/projects/`].join("\n");
+}
+function showWA(p,names,isNew){
+  names=names.filter(n=>n!==OWNER_NAME&&n!==ME); if(!names.length) return;
+  $("#waTitle").textContent=L("ابعت للتيم على واتساب","Notify on WhatsApp");
+  $("#waSub").textContent=`${p.client||""}${p.client&&p.name?" — ":""}${p.name||""}`;
+  $("#waList").innerHTML=names.map(n=>{const ph=PHONES[n];return `<button type="button" class="wa-btn${ph?"":" nophone"}" data-wa="${esc(n)}"><span>💬 ${esc(n)}</span><small>${ph?"+"+esc(ph):L("اختار الرقم من واتساب","pick contact")}</small></button>`}).join("");
+  $("#wa")._p=p; $("#wa")._new=isNew; $("#wa").classList.add("show");
+}
+$("#waList").addEventListener("click",e=>{const b=e.target.closest("[data-wa]");if(!b)return;const n=b.dataset.wa,ph=PHONES[n]||"";
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(waMsg($("#wa")._p,n,$("#wa")._new))}`,"_blank");b.classList.add("sent")});
+$("#waClose").onclick=()=>$("#wa").classList.remove("show");
+$("#waBtn").onclick=()=>{ if(!editing) return; const p={...editing,client:F.elements.client.value.trim(),due:F.elements.due.value,data:F.elements.data.value.trim(),details:F.elements.details.value.trim(),name:picked.join(" + ")||editing.name};
+  showWA(p,[...new Set([...splitN(editing.assignee),...whoPicked])],false); };
 function renderAll(){render(); renderTeam(); renderMine(); renderAI(); renderSubs(); renderBudget();}
 function setView(v){ if(ROLE!=="owner") v="proj";
   document.body.classList.toggle("v-page",v!=="proj");
@@ -1208,6 +1248,7 @@ function renderTeam(){
   $("#teamBody").innerHTML=rows.map(t=>`<tr><td><b>${esc(t.name)}</b></td>
     <td>${t.role==="owner"?"Owner":t.role==="lead"?"Team Leader":"Team"}</td>
     <td>${t.role==="owner"?`<span style="color:var(--dim)">الكود بتاعك</span>`:`<span class="pin">${esc(t.pin)}</span> <button class="copy" data-copy="${esc(t.pin)}" title="نسخ">⧉</button>`}</td>
+    <td dir="ltr" style="font-family:Poppins;font-size:12.5px;text-align:inherit">${t.role==="owner"?"—":t.phone?"+"+esc(t.phone):`<span style="color:var(--dim)">—</span>`}</td>
     <td>${t.role==="owner"?"—":`<span class="owe-amt">${moneyInline(sumBy(PAYOUTS.filter(p=>p.person===t.name&&!p.paidAt)))}</span>`}</td>
     <td>${t.role==="owner"?"":`<button class="mini" data-tedit="${esc(t.pin)}">تعديل</button> <button class="mini bad" data-tdel="${esc(t.pin)}">مسح</button>`}</td></tr>`).join("");
   $("#pyPerson").innerHTML=TEAM.map(t=>`<option>${esc(t.name)}</option>`).join("")||`<option value="">ضيف عضو الأول</option>`;
@@ -1230,10 +1271,10 @@ function renderMine(){
     <td>${p.paidAt?`<span class="st paid">اتدفع</span>`:`<span class="st due">لسه</span>`}</td></tr>`).join("")
     :`<tr><td colspan="4" style="color:var(--dim)">مفيش مستحقات ليك دلوقتي.</td></tr>`;
 }
-function resetTeamForm(){$("#tmName").value="";$("#tmPin").value="";$("#tmRole").value="member";$("#tmSave").textContent="إضافة";$("#tmCancel").style.display="none"}
+function resetTeamForm(){$("#tmName").value="";$("#tmPhone").value="";$("#tmPin").value="";$("#tmRole").value="member";$("#tmSave").textContent="إضافة";$("#tmCancel").style.display="none"}
 function resetPayForm(){$("#pyAmount").value="";$("#pyNote").value="";$("#pyId").value="";$("#pySave").textContent="إضافة";$("#pyCancel").style.display="none"}
 $("#teamForm").addEventListener("submit",async e=>{e.preventDefault();
-  try{await api("team_save",{member:{name:$("#tmName").value,role:$("#tmRole").value,pin:$("#tmPin").value}});resetTeamForm();toast("اتحفظ ✓")}catch(err){console.log(err)}});
+  try{await api("team_save",{member:{name:$("#tmName").value,role:$("#tmRole").value,pin:$("#tmPin").value,phone:$("#tmPhone").value}});resetTeamForm();toast("اتحفظ ✓")}catch(err){console.log(err)}});
 $("#tmCancel").onclick=resetTeamForm;
 $("#payForm").addEventListener("submit",async e=>{e.preventDefault(); if(!$("#pyPerson").value){toast("ضيف عضو الأول");return}
   const old=PAYOUTS.find(p=>p.id===$("#pyId").value);
@@ -1242,7 +1283,7 @@ $("#payForm").addEventListener("submit",async e=>{e.preventDefault(); if(!$("#py
 $("#pyCancel").onclick=resetPayForm;
 $("#teamPanel").addEventListener("click",async e=>{
   const b=e.target.closest("button"); if(!b) return;
-  if(b.dataset.tedit){const t=TEAM.find(x=>x.pin===b.dataset.tedit);$("#tmName").value=t.name;$("#tmRole").value=t.role;$("#tmPin").value=t.pin;$("#tmSave").textContent="حفظ التعديل";$("#tmCancel").style.display="";$("#tmName").focus()}
+  if(b.dataset.tedit){const t=TEAM.find(x=>x.pin===b.dataset.tedit);$("#tmName").value=t.name;$("#tmRole").value=t.role;$("#tmPhone").value=t.phone||"";$("#tmPin").value=t.pin;$("#tmSave").textContent="حفظ التعديل";$("#tmCancel").style.display="";$("#tmName").focus()}
   if(b.dataset.tdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
     try{await api("team_delete",{pin2:b.dataset.tdel});toast("اتمسح")}catch(err){console.log(err)} }
   if(b.dataset.pedit){const p=PAYOUTS.find(x=>x.id===b.dataset.pedit);$("#pyPerson").value=p.person;$("#pyAmount").value=p.amount;$("#pyCur").value=p.cur;$("#pyNote").value=p.note;$("#pyId").value=p.id;$("#pySave").textContent="حفظ التعديل";$("#pyCancel").style.display="";$("#pyAmount").focus()}
