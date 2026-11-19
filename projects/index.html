@@ -236,6 +236,16 @@ body.v-page:not(.team) .wrap>*:not(header):not(.nav):not(.banner):not(.page.on),
 .ptable tr.done td{opacity:.45}
 .left-n{font-size:11.5px;color:var(--muted);margin-inline-start:6px}
 .fin-grid.b5{grid-template-columns:repeat(5,1fr)} .fin-t.var .v{color:#FF6FAE}
+.fin-grid.b6{grid-template-columns:repeat(6,1fr)} .fin-t.sav .v{color:#5DD39E} .t-sub{color:var(--dim);font-size:11.5px;margin-top:4px}
+@media(max-width:1300px){.fin-grid.b6{grid-template-columns:repeat(3,1fr)}}
+.goal{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:6px}
+.goal .g-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.goal .g-top b{font-size:14px}.goal .g-num{font-family:Poppins;font-size:13px;color:var(--muted);direction:ltr;unicode-bidi:isolate}
+.goal .g-bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0 6px}
+.goal .g-bar i{display:block;height:100%;background:linear-gradient(90deg,#5DD39E,#26D7E3);border-radius:99px}
+.goal .g-meta{display:flex;justify-content:space-between;color:var(--dim);font-size:12px;gap:10px;flex-wrap:wrap}
+.amt-in{color:#5DD39E;font-family:Poppins;font-weight:700}.amt-out{color:var(--red);font-family:Poppins;font-weight:700}
+@media(max-width:700px){.fin-grid.b6{grid-template-columns:repeat(2,1fr)}}
 .mpick{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
 .mpick select{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:7px 10px;color:var(--text);font:inherit;font-size:13px}
 .verdict{font-size:13px;font-weight:700;padding:6px 14px;border-radius:99px;background:var(--line);color:var(--text)}
@@ -370,11 +380,12 @@ html[dir=rtl] .cb-t{direction:rtl}
     <section class="fin">
       <div class="fin-h"><div><b>مصاريفي</b> <span class="en">Salary & expenses · Owner only</span></div>
         <label class="mpick"><span>الشهر</span><select id="budM"></select></label></div>
-      <div class="fin-grid b5">
-        <div class="fin-t in"><div class="l">الدخل <span class="en">Income</span></div><div class="v" id="bIn">0</div></div>
+      <div class="fin-grid b6">
+        <div class="fin-t in"><div class="l">الدخل <span class="en">Income</span></div><div class="v" id="bIn">0</div><div class="t-sub" id="bInX"></div></div>
         <div class="fin-t out"><div class="l">الثابت <span class="en">Fixed</span></div><div class="v" id="bOut">0</div></div>
         <div class="fin-t ai"><div class="l">الاشتراكات <span class="en">Subs</span></div><div class="v" id="bSubs">0</div></div>
         <div class="fin-t var"><div class="l">مصروفات الشهر <span class="en">Spending</span></div><div class="v" id="bVar">0</div></div>
+        <div class="fin-t sav"><div class="l">التحويش <span class="en">Saved</span></div><div class="v" id="bSav">0</div></div>
         <div class="fin-t left"><div class="l">الباقي ليك <span class="en">Left</span></div><div class="v" id="bLeft">0</div></div>
       </div>
       <div class="split" id="bSplit"></div>
@@ -404,6 +415,18 @@ html[dir=rtl] .cb-t{direction:rtl}
         <button class="btn primary sm" type="submit" id="inSave">إضافة</button>
         <button class="btn ghost sm" type="button" id="inCancel" style="display:none">إلغاء</button>
       </form>
+      <div class="sub-h">دخل إضافي — مرة واحدة <span class="en" style="color:var(--dim);font-size:11px">Bonus · جمعية · Freelance</span><span class="per" id="exTotal" style="float:inline-end;color:var(--cyan);font-size:13px"></span></div>
+      <form class="row-form" id="exForm" autocomplete="off">
+        <input id="exAmount" type="number" min="0" step="any" placeholder="المبلغ" required style="width:120px">
+        <select id="exCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
+        <select id="exCat"></select>
+        <input id="exDate" type="date" required style="width:150px">
+        <input id="exNote" placeholder="من إيه؟ (اختياري)" style="flex:1;min-width:140px">
+        <input type="hidden" id="exId">
+        <button class="btn primary sm" type="submit" id="exSave">إضافة</button>
+        <button class="btn ghost sm" type="button" id="exCancel" style="display:none">إلغاء</button>
+      </form>
+      <table class="ptable"><tbody id="exBody"></tbody></table>
     </section>
 
     <section class="panel">
@@ -424,6 +447,32 @@ html[dir=rtl] .cb-t{direction:rtl}
       <div class="pager" id="spPager"></div>
       <datalist id="cardList"></datalist>
     </section>
+    <section class="panel" id="savPanel">
+      <div class="fin-h"><div><b>التحويش</b> <span class="en">Savings</span></div><span class="per" id="svBal"></span></div>
+      <div class="goal" id="goalBox"></div>
+      <form class="row-form" id="goalForm" autocomplete="off" style="display:none">
+        <input id="gName" placeholder="الهدف (مثلاً: عربية، سفر، طوارئ)" required style="width:220px">
+        <input id="gAmount" type="number" min="0" step="any" placeholder="المبلغ المطلوب" required style="width:140px">
+        <select id="gCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
+        <input type="hidden" id="gId">
+        <button class="btn primary sm" type="submit">حفظ الهدف</button>
+        <button class="btn ghost sm" type="button" id="gCancel">إلغاء</button>
+      </form>
+      <form class="row-form" id="svForm" autocomplete="off">
+        <select id="svCat"><option value="sv_dep">➕ حوّشت</option><option value="sv_wd">➖ سحبت من التحويش</option></select>
+        <input id="svAmount" type="number" min="0" step="any" placeholder="المبلغ" required style="width:120px">
+        <select id="svCur"><option>AED</option><option>USD</option><option>EGP</option><option>SAR</option></select>
+        <input id="svDate" type="date" required style="width:150px">
+        <input id="svNote" placeholder="ملاحظة (اختياري)" style="flex:1;min-width:120px">
+        <input type="hidden" id="svId">
+        <button class="btn primary sm" type="submit" id="svSave">سجّل</button>
+        <button class="btn ghost sm" type="button" id="svAll">حوّش الباقي كله</button>
+        <button class="btn ghost sm" type="button" id="svCancel" style="display:none">إلغاء</button>
+      </form>
+      <table class="ptable"><thead><tr><th>التاريخ</th><th>العملية</th><th>المبلغ</th><th>ملاحظة</th><th></th></tr></thead><tbody id="svBody"></tbody></table>
+      <div class="pager" id="svPager"></div>
+    </section>
+
     <section class="panel">
       <div class="fin-h"><div><b>المصاريف الشهرية</b> <span class="en">Monthly expenses</span></div></div>
       <div class="tfilter"><label><span>النوع</span><select id="outFCat"></select></label><label><span>الكارت</span><select id="outFCard"></select></label><span class="tf-sum" id="outFSum"></span></div>
@@ -617,7 +666,7 @@ html[dir=rtl] .cb-t{direction:rtl}
 <script>
 // ---------- language (AR / EN) ----------
 let LANG=(()=>{try{return localStorage.getItem("rm_lang")||"ar"}catch{return "ar"}})();
-const DICT={"(كل السنين)": "(all years)", "+ اسم حد تاني… واضغط Enter": "+ another name… press Enter", "+ حاجة تانية… واضغط Enter": "+ something else… press Enter", "فتح الفولدر": "Open folder", "تعديل": "Edit", "اتدفع ✓": "Paid ✓", "رجّعها لسه": "Mark unpaid", "مسح": "Delete", "ضيف عضو الأول": "Add a member first", "كل السنين": "All years", "كل الناس": "Everyone", "لسه": "Unpaid", "اتدفع": "Paid", "الكود بتاعك": "Your code", "الإجمالي": "Total", "مفيش مستحقات ليك دلوقتي.": "No payouts for you right now.", "مفيش اشتراكات مسجلة في الفترة دي.": "No subscriptions in this period.", "مفيش مستحقات مسجلة.": "No payouts recorded.", "Team Leader — يضيف ويعدّل": "Team Leader — can add & edit", "Team — يشوف شغله بس": "Team — sees own work only", "https://drive.google.com/…  أو  D:\\Projects\\Client\\…": "https://drive.google.com/…  or  D:\\Projects\\Client\\…", "آه احذف": "Yes, delete", "آه — مدفوع بالكامل": "Yes — fully paid", "أكيد اتدفع؟": "Sure it's paid?", "إجمالي الشغل": "Total value", "إضافة": "Add", "إغلاق": "Close", "إلغاء": "Cancel", "إنتاج / جينيريشن": "Production", "اتحذف": "Deleted", "اتحفظ ✓": "Saved ✓", "اتسجل إنه اتدفع ✓": "Marked as paid ✓", "اتسلّم": "Delivered", "اتقبض": "Received", "اتمسح": "Deleted", "اتنسخ ✓": "Copied ✓", "اتوزع على التيم": "Paid to team", "اختار الشغلانة الأول": "Pick the services first", "اختار مين شغال عليه": "Pick who's working on it", "ادخل الكود بتاعك": "Enter your code", "استلمت فلوس؟": "Payment received?", "اسم عضو جديد": "New member name", "اشتراكات الـ AI": "AI subscriptions", "الأداة": "Tool", "الأداة (Claude, Higgsfield…)": "Tool (Claude, Higgsfield…)", "الإنجاز": "Progress", "الاسم": "Name", "البريف، المطلوب، عدد الفيديوهات، المقاسات، ملاحظات العميل…": "Brief, deliverables, number of videos, sizes, client notes…", "التاريخ": "Date", "التسليم": "Deadline", "الحالة": "Status", "الحذف فشل": "Delete failed", "الحسابات": "Finances", "الحفظ فشل — جرّب تاني": "Save failed — try again", "الداتا فين": "Files", "الدفع": "Payment", "الرقم السري (PIN)": "Your code (PIN)", "الرقم السري غلط": "Wrong code", "السنة": "Year", "الشغال بس": "Active only", "الشغلانة": "Services", "الشهر": "Month", "الصلاحية": "Access", "العرض": "Show", "العميل": "Client", "الفريق والمستحقات": "Team & payouts", "الفلوس": "Payment", "الكود (PIN)": "Code (PIN)", "اللي وصل": "Received", "المبالغ": "Amounts", "المبلغ": "Amount", "المرحلة": "Stage", "المستحقات": "Payouts", "المسلَّم بس": "Delivered only", "النهارده": "Today", "انسخ اشتراكات الشهر اللي فات": "Copy last month's subscriptions", "بحث": "Search", "بريف واتفاق": "Brief", "بكرة": "Tomorrow", "بيتصل…": "Connecting…", "تحضير / ستوري بورد": "Pre-prod", "تسليم خلال ٧ أيام": "Due in 7 days", "تعديل المشروع": "Edit project", "تفاصيل المشروع": "Project details", "حذف": "Delete", "حفظ": "Save", "حفظ التعديل": "Save changes", "خلص منه قد إيه": "Progress", "دخول": "Enter", "دفع عربون": "Deposit paid", "دوّر بالعميل أو اسم الشغلانة…": "Search client or service…", "سكريبت / كونسبت": "Script", "صافي الربح": "Net profit", "عدد المشاريع": "Projects", "عربون": "Deposit", "عربون / جزء": "Deposit / partial", "عن إيه": "For", "عن إيه؟ (مثلاً: مونتاج فيديو MK)": "What for? (e.g. MK video edit)", "فلوس لسه ماوصلتش": "Outstanding", "كل الشغل": "All work", "كل الشهور": "All months", "كل الفترات": "All time", "كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.": "Everything you write is saved and shared with the team.", "كل المراحل": "All stages", "كل حالات الدفع": "All payments", "لأ": "No", "لأ — مدفعش": "No — unpaid", "لمين": "To", "لوحة المشاريع": "Projects Dashboard", "لوحة المشاريع — Projects Dashboard": "Projects Dashboard", "ليه عندي": "Owed", "ليّا (لسه)": "Outstanding", "متأخرة": "Overdue", "متأكد؟": "Sure?", "متزامن": "Synced", "متوسط الإنجاز": "Avg progress", "متوقف": "On hold", "مثلاً: MK Wedding Planner": "e.g. MK Wedding Planner", "مدفعش": "Unpaid", "مدفوع": "Paid", "مدفوع بالكامل": "Fully paid", "مراجعة العميل": "Client review", "مستحقاتي": "My payouts", "مش قادر يوصل للشيت دلوقتي — اتأكد من النت وجرّب تعمل Refresh.": "Can't reach the sheet right now — check your connection and refresh.", "مش قادر يوصل — جرّب تاني": "Can't connect — try again", "مش متصل": "Offline", "مش مسموحلك بالحركة دي": "You don't have permission for that", "مشاريع شغالة": "Active projects", "مشروع جديد": "New project", "مصاريف الـ AI": "AI spend", "عليّا للتيم": "Owed to team", "معاد التسليم": "Deadline", "مفيش اشتراكات في الشهر اللي قبله": "No subscriptions in the previous month", "مفيش مشاريع هنا لسه — دوس": "No projects yet — click", "مفيش مشاريع هنا لسه.": "No projects yet.", "مقدرتش أنسخ": "Couldn't copy", "ملاحظة": "Note", "ملاحظة (اختياري)": "Note (optional)", "مونتاج": "Editing", "مين شغال": "Assigned", "مين شغال عليه": "Assigned to", "نسخ": "Copy", "وصلت لإيه": "Stage", "اتنسخ": "Copied", "مصاريفي": "My budget", "الدخل في الشهر": "Monthly income", "المصاريف الثابتة": "Fixed expenses", "الاشتراكات": "Subscriptions", "الباقي ليك": "Left over", "الدخل": "Income", "البند": "Item", "بينزل يوم": "Paid on day", "الجاي": "Next", "المصاريف الشهرية": "Monthly expenses", "النوع": "Type", "لحد إمتى": "Until", "مثلاً: مرتب الشركة": "e.g. Company salary", "بينزل يوم (1–31)": "Pay day (1–31)", "البند (إيجار، قسط العربية…)": "Item (rent, car loan…)", "آخر قسط": "Last payment", "مستمر": "Ongoing", "خلص": "Done", "إيجار": "Rent", "قسط العربية": "Car loan", "بطاقة ائتمان": "Credit card", "تابي / تمارا": "Tabby / Tamara", "قرض": "Loan", "فواتير": "Bills", "تحويلات للأهل": "Family transfers", "مواصلات وبنزين": "Transport & fuel", "تاني": "Other", "باقي": "Left", "مفيش دخل متسجل — ضيف المرتب تحت.": "No income yet — add your salary below.", "مفيش مصاريف متسجلة لسه.": "No expenses yet.", "بيحدّث…": "Updating…", "بيحفظ…": "Saving…", "الدخل": "Income", "الثابت": "Fixed", "مصروفات الشهر": "Spending", "تحليل الشهر": "Monthly analysis", "آخر 6 شهور": "Last 6 months", "الصرف التراكمي": "Cumulative spending", "المصروفات حسب النوع": "Spending by category", "مصروف سريع": "Quick expense", "سجّل": "Log", "على إيه؟ (اختياري)": "What for? (optional)", "أكل وسوبرماركت": "Groceries", "مطاعم وكافيهات": "Restaurants & cafés", "طلبات دليفري": "Delivery", "شوبينج": "Shopping", "بنزين": "Fuel", "تاكسي": "Taxi", "مواصلات": "Transport", "الكارت": "Card", "الكارت (اختياري)": "Card (optional)", "خروج وترفيه": "Going out", "صحة": "Health", "هدايا": "Gifts", "البيت": "Home", "\"آخر قسط\" للأقساط بس (العربية، تابي، القرض) — سيبه فاضي للحاجات اللي مستمرة زي الإيجار. لما الأقساط تخلص البند بيتشال من الحساب لوحده.": "\"Last payment\" is for installments only (car, Tabby, loan) — leave it empty for ongoing items like rent. Finished installments drop out of the totals automatically.", "المشاريع": "Projects", "اشتراكاتي": "Subscriptions", "الاشتراكات الشهرية": "Monthly subscriptions", "في الشهر": "Per month", "في السنة": "Per year", "عدد الاشتراكات": "Subscriptions", "الدفعة الجاية": "Next payment", "الاشتراك": "Subscription", "بيتدفع يوم": "Billing day", "البطاقة": "Card", "اسم الاشتراك (Netflix, Adobe…)": "Subscription (Netflix, Adobe…)", "يوم الدفع (1–31)": "Billing day (1–31)", "البطاقة (مثلاً: ENBD Visa •4417)": "Card (e.g. ENBD Visa •4417)", "متكتبش رقم البطاقة كامل — اسمها أو آخر ٤ أرقام كفاية.": "Don't enter the full card number — a name or last 4 digits is enough.", "مفيش اشتراكات لسه — ضيف أول واحد تحت.": "No subscriptions yet — add one below.", "من غير بطاقة": "No card", "يناير": "January", "فبراير": "February", "مارس": "March", "أبريل": "April", "مايو": "May", "يونيو": "June", "يوليو": "July", "أغسطس": "August", "سبتمبر": "September", "أكتوبر": "October", "نوفمبر": "November", "ديسمبر": "December"};
+const DICT={"(كل السنين)": "(all years)", "+ اسم حد تاني… واضغط Enter": "+ another name… press Enter", "+ حاجة تانية… واضغط Enter": "+ something else… press Enter", "فتح الفولدر": "Open folder", "تعديل": "Edit", "اتدفع ✓": "Paid ✓", "رجّعها لسه": "Mark unpaid", "مسح": "Delete", "ضيف عضو الأول": "Add a member first", "كل السنين": "All years", "كل الناس": "Everyone", "لسه": "Unpaid", "اتدفع": "Paid", "الكود بتاعك": "Your code", "الإجمالي": "Total", "مفيش مستحقات ليك دلوقتي.": "No payouts for you right now.", "مفيش اشتراكات مسجلة في الفترة دي.": "No subscriptions in this period.", "مفيش مستحقات مسجلة.": "No payouts recorded.", "Team Leader — يضيف ويعدّل": "Team Leader — can add & edit", "Team — يشوف شغله بس": "Team — sees own work only", "https://drive.google.com/…  أو  D:\\Projects\\Client\\…": "https://drive.google.com/…  or  D:\\Projects\\Client\\…", "آه احذف": "Yes, delete", "آه — مدفوع بالكامل": "Yes — fully paid", "أكيد اتدفع؟": "Sure it's paid?", "إجمالي الشغل": "Total value", "إضافة": "Add", "إغلاق": "Close", "إلغاء": "Cancel", "إنتاج / جينيريشن": "Production", "اتحذف": "Deleted", "اتحفظ ✓": "Saved ✓", "اتسجل إنه اتدفع ✓": "Marked as paid ✓", "اتسلّم": "Delivered", "اتقبض": "Received", "اتمسح": "Deleted", "اتنسخ ✓": "Copied ✓", "اتوزع على التيم": "Paid to team", "اختار الشغلانة الأول": "Pick the services first", "اختار مين شغال عليه": "Pick who's working on it", "ادخل الكود بتاعك": "Enter your code", "استلمت فلوس؟": "Payment received?", "اسم عضو جديد": "New member name", "اشتراكات الـ AI": "AI subscriptions", "الأداة": "Tool", "الأداة (Claude, Higgsfield…)": "Tool (Claude, Higgsfield…)", "الإنجاز": "Progress", "الاسم": "Name", "البريف، المطلوب، عدد الفيديوهات، المقاسات، ملاحظات العميل…": "Brief, deliverables, number of videos, sizes, client notes…", "التاريخ": "Date", "التسليم": "Deadline", "الحالة": "Status", "الحذف فشل": "Delete failed", "الحسابات": "Finances", "الحفظ فشل — جرّب تاني": "Save failed — try again", "الداتا فين": "Files", "الدفع": "Payment", "الرقم السري (PIN)": "Your code (PIN)", "الرقم السري غلط": "Wrong code", "السنة": "Year", "الشغال بس": "Active only", "الشغلانة": "Services", "الشهر": "Month", "الصلاحية": "Access", "العرض": "Show", "العميل": "Client", "الفريق والمستحقات": "Team & payouts", "الفلوس": "Payment", "الكود (PIN)": "Code (PIN)", "اللي وصل": "Received", "المبالغ": "Amounts", "المبلغ": "Amount", "المرحلة": "Stage", "المستحقات": "Payouts", "المسلَّم بس": "Delivered only", "النهارده": "Today", "انسخ اشتراكات الشهر اللي فات": "Copy last month's subscriptions", "بحث": "Search", "بريف واتفاق": "Brief", "بكرة": "Tomorrow", "بيتصل…": "Connecting…", "تحضير / ستوري بورد": "Pre-prod", "تسليم خلال ٧ أيام": "Due in 7 days", "تعديل المشروع": "Edit project", "تفاصيل المشروع": "Project details", "حذف": "Delete", "حفظ": "Save", "حفظ التعديل": "Save changes", "خلص منه قد إيه": "Progress", "دخول": "Enter", "دفع عربون": "Deposit paid", "دوّر بالعميل أو اسم الشغلانة…": "Search client or service…", "سكريبت / كونسبت": "Script", "صافي الربح": "Net profit", "عدد المشاريع": "Projects", "عربون": "Deposit", "عربون / جزء": "Deposit / partial", "عن إيه": "For", "عن إيه؟ (مثلاً: مونتاج فيديو MK)": "What for? (e.g. MK video edit)", "فلوس لسه ماوصلتش": "Outstanding", "كل الشغل": "All work", "كل الشهور": "All months", "كل الفترات": "All time", "كل اللي هتكتبه بيتحفظ ويظهر عند الطرفين.": "Everything you write is saved and shared with the team.", "كل المراحل": "All stages", "كل حالات الدفع": "All payments", "لأ": "No", "لأ — مدفعش": "No — unpaid", "لمين": "To", "لوحة المشاريع": "Projects Dashboard", "لوحة المشاريع — Projects Dashboard": "Projects Dashboard", "ليه عندي": "Owed", "ليّا (لسه)": "Outstanding", "متأخرة": "Overdue", "متأكد؟": "Sure?", "متزامن": "Synced", "متوسط الإنجاز": "Avg progress", "متوقف": "On hold", "مثلاً: MK Wedding Planner": "e.g. MK Wedding Planner", "مدفعش": "Unpaid", "مدفوع": "Paid", "مدفوع بالكامل": "Fully paid", "مراجعة العميل": "Client review", "مستحقاتي": "My payouts", "مش قادر يوصل للشيت دلوقتي — اتأكد من النت وجرّب تعمل Refresh.": "Can't reach the sheet right now — check your connection and refresh.", "مش قادر يوصل — جرّب تاني": "Can't connect — try again", "مش متصل": "Offline", "مش مسموحلك بالحركة دي": "You don't have permission for that", "مشاريع شغالة": "Active projects", "مشروع جديد": "New project", "مصاريف الـ AI": "AI spend", "عليّا للتيم": "Owed to team", "معاد التسليم": "Deadline", "مفيش اشتراكات في الشهر اللي قبله": "No subscriptions in the previous month", "مفيش مشاريع هنا لسه — دوس": "No projects yet — click", "مفيش مشاريع هنا لسه.": "No projects yet.", "مقدرتش أنسخ": "Couldn't copy", "ملاحظة": "Note", "ملاحظة (اختياري)": "Note (optional)", "مونتاج": "Editing", "مين شغال": "Assigned", "مين شغال عليه": "Assigned to", "نسخ": "Copy", "وصلت لإيه": "Stage", "اتنسخ": "Copied", "مصاريفي": "My budget", "الدخل في الشهر": "Monthly income", "المصاريف الثابتة": "Fixed expenses", "الاشتراكات": "Subscriptions", "الباقي ليك": "Left over", "الدخل": "Income", "البند": "Item", "بينزل يوم": "Paid on day", "الجاي": "Next", "المصاريف الشهرية": "Monthly expenses", "النوع": "Type", "لحد إمتى": "Until", "مثلاً: مرتب الشركة": "e.g. Company salary", "بينزل يوم (1–31)": "Pay day (1–31)", "البند (إيجار، قسط العربية…)": "Item (rent, car loan…)", "آخر قسط": "Last payment", "مستمر": "Ongoing", "خلص": "Done", "إيجار": "Rent", "قسط العربية": "Car loan", "بطاقة ائتمان": "Credit card", "تابي / تمارا": "Tabby / Tamara", "قرض": "Loan", "فواتير": "Bills", "تحويلات للأهل": "Family transfers", "مواصلات وبنزين": "Transport & fuel", "تاني": "Other", "باقي": "Left", "مفيش دخل متسجل — ضيف المرتب تحت.": "No income yet — add your salary below.", "مفيش مصاريف متسجلة لسه.": "No expenses yet.", "بيحدّث…": "Updating…", "بيحفظ…": "Saving…", "الدخل": "Income", "الثابت": "Fixed", "مصروفات الشهر": "Spending", "تحليل الشهر": "Monthly analysis", "آخر 6 شهور": "Last 6 months", "الصرف التراكمي": "Cumulative spending", "المصروفات حسب النوع": "Spending by category", "مصروف سريع": "Quick expense", "سجّل": "Log", "على إيه؟ (اختياري)": "What for? (optional)", "أكل وسوبرماركت": "Groceries", "مطاعم وكافيهات": "Restaurants & cafés", "طلبات دليفري": "Delivery", "شوبينج": "Shopping", "بنزين": "Fuel", "تاكسي": "Taxi", "مواصلات": "Transport", "التحويش": "Savings", "دخل إضافي — مرة واحدة": "One-off extra income", "بونص": "Bonus", "جمعية": "Gameya payout", "فريلانس": "Freelance", "هدية": "Gift", "دخل تاني": "Other income", "من إيه؟ (اختياري)": "From what? (optional)", "الهدف (مثلاً: عربية، سفر، طوارئ)": "Goal (e.g. car, travel, emergency)", "المبلغ المطلوب": "Target amount", "حفظ الهدف": "Save goal", "➕ حوّشت": "➕ Saved", "➖ سحبت من التحويش": "➖ Withdrew", "حوّش الباقي كله": "Save all that's left", "العملية": "Action", "تعديل الهدف": "Edit goal", "الكارت": "Card", "الكارت (اختياري)": "Card (optional)", "خروج وترفيه": "Going out", "صحة": "Health", "هدايا": "Gifts", "البيت": "Home", "\"آخر قسط\" للأقساط بس (العربية، تابي، القرض) — سيبه فاضي للحاجات اللي مستمرة زي الإيجار. لما الأقساط تخلص البند بيتشال من الحساب لوحده.": "\"Last payment\" is for installments only (car, Tabby, loan) — leave it empty for ongoing items like rent. Finished installments drop out of the totals automatically.", "المشاريع": "Projects", "اشتراكاتي": "Subscriptions", "الاشتراكات الشهرية": "Monthly subscriptions", "في الشهر": "Per month", "في السنة": "Per year", "عدد الاشتراكات": "Subscriptions", "الدفعة الجاية": "Next payment", "الاشتراك": "Subscription", "بيتدفع يوم": "Billing day", "البطاقة": "Card", "اسم الاشتراك (Netflix, Adobe…)": "Subscription (Netflix, Adobe…)", "يوم الدفع (1–31)": "Billing day (1–31)", "البطاقة (مثلاً: ENBD Visa •4417)": "Card (e.g. ENBD Visa •4417)", "متكتبش رقم البطاقة كامل — اسمها أو آخر ٤ أرقام كفاية.": "Don't enter the full card number — a name or last 4 digits is enough.", "مفيش اشتراكات لسه — ضيف أول واحد تحت.": "No subscriptions yet — add one below.", "من غير بطاقة": "No card", "يناير": "January", "فبراير": "February", "مارس": "March", "أبريل": "April", "مايو": "May", "يونيو": "June", "يوليو": "July", "أغسطس": "August", "سبتمبر": "September", "أكتوبر": "October", "نوفمبر": "November", "ديسمبر": "December"};
 const AR_RE=/[\u0600-\u06FF]/;
 function tr(t){
   if(LANG!=="en"||!t||!AR_RE.test(t)) return null;
@@ -950,7 +999,7 @@ async function api(action,extra={}){
   return res;
 }
 function applyRes(res){
-  items=res.items||[]; PAYOUTS=res.payouts||[]; TEAM=res.team||[]; PEOPLE=res.people||[]; EXP=res.expenses||[]; SUBS=res.subs||[]; BUD=res.budget||[]; SPEND=res.spend||[]; PHONES=res.phones||{};
+  items=res.items||[]; PAYOUTS=res.payouts||[]; TEAM=res.team||[]; PEOPLE=res.people||[]; EXP=res.expenses||[]; SUBS=res.subs||[]; BUD=res.budget||[]; {const allS=res.spend||[]; SPEND=allS.filter(x=>!/^(in_|sv_)/.test(x.cat)); EXTRA=allS.filter(x=>/^in_/.test(x.cat)); SAVE=allS.filter(x=>/^sv_/.test(x.cat));} PHONES=res.phones||{};
   ME=res.me||ME;
   if(res.role!==ROLE){ ROLE=res.role;
     document.body.classList.toggle("team",ROLE!=="owner");
@@ -1050,16 +1099,18 @@ const mLabel=m=>{const [y,mo]=m.split("-").map(Number);return new Date(y,mo-1,1)
 function monthData(m,cur){
   const on=x=>ymOf(x.createdAt)<=m && (x.kind!=="out"||!x.until||x.until>=m);
   const sum=a=>a.filter(x=>x.cur===cur).reduce((s,x)=>s+(+x.amount||0),0);
-  const inc=sum(BUD.filter(x=>x.kind==="in"&&on(x))), fixed=sum(BUD.filter(x=>x.kind==="out"&&on(x)));
+  const salary=sum(BUD.filter(x=>x.kind==="in"&&on(x))), fixed=sum(BUD.filter(x=>x.kind==="out"&&on(x)));
+  const extra=sum(EXTRA.filter(x=>x.date.slice(0,7)===m)), inc=salary+extra;
+  const saved=SAVE.filter(x=>x.date.slice(0,7)===m&&x.cur===cur).reduce((s,x)=>s+(x.cat==="sv_dep"?x.amount:-x.amount),0);
   const subs=sum(SUBS.filter(x=>ymOf(x.createdAt)<=m));
   const sp=SPEND.filter(x=>x.date.slice(0,7)===m&&x.cur===cur), vari=sp.reduce((s,x)=>s+x.amount,0);
   const cats={}; sp.forEach(x=>{cats[x.cat]=(cats[x.cat]||0)+x.amount});
-  return {m,inc,fixed,subs,vari,cats,sp,out:fixed+subs+vari,left:inc-fixed-subs-vari};
+  return {m,inc,salary,extra,saved,fixed,subs,vari,cats,sp,out:fixed+subs+vari,left:inc-fixed-subs-vari-saved};
 }
 function mainCur(){const o={};BUD.filter(x=>x.kind==="in").forEach(x=>o[x.cur]=(o[x.cur]||0)+x.amount);return Object.keys(o).sort((a,b)=>o[b]-o[a])[0]||"AED"}
 function fillBudM(){
   const now=ym(new Date()); const set=new Set([now]);
-  SPEND.forEach(x=>set.add(x.date.slice(0,7))); BUD.forEach(x=>set.add(ymOf(x.createdAt)));
+  [...SPEND,...EXTRA,...SAVE].forEach(x=>set.add(x.date.slice(0,7))); BUD.forEach(x=>set.add(ymOf(x.createdAt)));
   let m=[...set].sort()[0]; const all=[]; while(m<=now){all.push(m); const [y,mo]=m.split("-").map(Number); m=mo===12?`${y+1}-01`:`${y}-${String(mo+1).padStart(2,"0")}`;}
   if(!BUDM||!all.includes(BUDM)) BUDM=now;
   $("#budM").innerHTML=all.reverse().map(x=>{const [y,mo]=x.split("-").map(Number);return `<option value="${x}"${x===BUDM?" selected":""}>${new Date(y,mo-1,1).toLocaleDateString(LANG==="en"?"en-GB":"ar-EG-u-nu-latn",{month:"long",year:"numeric"})}</option>`}).join("");
@@ -1122,6 +1173,64 @@ function drawPager(p,total){
 }
 ["sp","out"].forEach(p=>["FCat","FCard"].forEach(k=>$(`#${p}${k}`).addEventListener("change",()=>{PG[p]=1;renderBudget()})));
 document.addEventListener("click",e=>{const b=e.target.closest("[data-pg]");if(!b||b.disabled)return;const [p,n]=b.dataset.pg.split(":"),sec=b.closest("section");PG[p]=+n;renderBudget();if(sec)sec.scrollIntoView({block:"start",behavior:"smooth"})});
+// --- extra income + savings
+let EXTRA=[], SAVE=[];
+const EXCATS=[["in_bonus","بونص","#26D7E3"],["in_gameya","جمعية","#F4B740"],["in_free","فريلانس","#B48CFF"],["in_gift","هدية","#FF6FAE"],["in_other","دخل تاني","#5DD39E"]];
+const excOf=k=>EXCATS.find(c=>c[0]===k)||EXCATS[EXCATS.length-1];
+$("#exCat").innerHTML=EXCATS.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join("");
+PG.sv=1;
+function saveBal(){const o={};SAVE.forEach(x=>{o[x.cur]=(o[x.cur]||0)+(x.cat==="sv_dep"?x.amount:-x.amount)});return o}
+function renderSavings(M){
+  // extra income list for the month
+  const ex=EXTRA.filter(x=>x.date.slice(0,7)===M).sort((a,b)=>b.date.localeCompare(a.date));
+  $("#exTotal").textContent=ex.length?moneyInline(sumBy(ex)):"";
+  $("#exBody").innerHTML=ex.map(x=>`<tr><td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${new Date(x.date+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}</td>
+    <td><span class="cat" style="border-color:${excOf(x.cat)[2]}">${excOf(x.cat)[1]}</span></td><td><span class="amt-in">+${fmt(x.amount)} ${esc(x.cur)}</span></td><td>${esc(x.note)||"—"}</td>
+    <td style="white-space:nowrap"><button class="mini" data-exedit="${esc(x.id)}">تعديل</button> <button class="mini bad" data-exdel="${esc(x.id)}">مسح</button></td></tr>`).join("");
+  if(!$("#exDate").value) $("#exDate").value=todayISO();
+  // balance + goal
+  const bal=saveBal(), bk=Object.keys(bal).filter(c=>bal[c]);
+  $("#svBal").textContent=bk.length?L("الرصيد: ","Balance: ")+bk.map(c=>`${fmt(bal[c])} ${c}`).join(" · "):"";
+  const G=BUD.find(x=>x.kind==="goal");
+  if(G){const b=bal[G.cur]||0, p=G.amount?Math.min(100,b/G.amount*100):0, rem=Math.max(0,G.amount-b);
+    $("#goalBox").innerHTML=`<div class="g-top"><b>🎯 ${esc(G.name)}</b><span class="g-num">${fmt(b)} / ${fmt(G.amount)} ${esc(G.cur)}</span></div>
+      <div class="g-bar"><i style="width:${p}%"></i></div>
+      <div class="g-meta"><span>${Math.round(p)}%${rem?` · ${L("فاضل","left")} ${fmt(rem)} ${esc(G.cur)}`:` · ${L("وصلت للهدف 🎉","goal reached 🎉")}`}</span>
+      <span><button class="mini" data-gedit="1">تعديل الهدف</button> <button class="mini bad" data-gdel="${esc(G.id)}">مسح</button></span></div>`;
+  } else $("#goalBox").innerHTML=`<div class="g-top"><span style="color:var(--muted);font-size:13px">${L("حط هدف للتحويش (عربية، سفر، طوارئ…) وتابع وصلت لفين.","Set a savings goal and track your progress.")}</span><button class="mini" data-gedit="1">+ ${L("هدف","Goal")}</button></div>`;
+  // history
+  const list=[...SAVE].sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
+  $("#svBody").innerHTML=list.length?pageOf("sv",list).map(x=>`<tr><td style="font-family:Poppins;font-size:12.5px;white-space:nowrap">${new Date(x.date+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}</td>
+    <td>${x.cat==="sv_dep"?L("➕ حوّشت","➕ Saved"):L("➖ سحبت","➖ Withdrew")}</td><td><span class="${x.cat==="sv_dep"?"amt-in":"amt-out"}">${x.cat==="sv_dep"?"+":"−"}${fmt(x.amount)} ${esc(x.cur)}</span></td><td>${esc(x.note)||"—"}</td>
+    <td style="white-space:nowrap"><button class="mini" data-svedit="${esc(x.id)}">تعديل</button> <button class="mini bad" data-svdel="${esc(x.id)}">مسح</button></td></tr>`).join("")
+    :`<tr><td colspan="5" style="color:var(--dim)">${L("لسه محوّشتش حاجة — لما يفضل معاك فلوس، سجّلها هنا.","Nothing saved yet — log it here when money is left over.")}</td></tr>`;
+  drawPager("sv",list.length);
+  if(!$("#svDate").value) $("#svDate").value=todayISO();
+}
+function resetEx(){["#exAmount","#exNote","#exId"].forEach(k=>$(k).value="");$("#exDate").value=todayISO();$("#exSave").textContent="إضافة";$("#exCancel").style.display="none"}
+function resetSv(){["#svAmount","#svNote","#svId"].forEach(k=>$(k).value="");$("#svDate").value=todayISO();$("#svCat").value="sv_dep";$("#svSave").textContent="سجّل";$("#svCancel").style.display="none"}
+$("#exForm").addEventListener("submit",e=>{e.preventDefault();const old=EXTRA.find(x=>x.id===$("#exId").value);
+  const item={id:$("#exId").value||uid("v"),date:$("#exDate").value,amount:+$("#exAmount").value,cur:$("#exCur").value,cat:$("#exCat").value,card:"",note:$("#exNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
+  quick("sp_save",{item},()=>upsert(EXTRA,item)); resetEx();});
+$("#exCancel").onclick=resetEx;
+$("#svForm").addEventListener("submit",e=>{e.preventDefault();const old=SAVE.find(x=>x.id===$("#svId").value);
+  const item={id:$("#svId").value||uid("v"),date:$("#svDate").value,amount:+$("#svAmount").value,cur:$("#svCur").value,cat:$("#svCat").value,card:"",note:$("#svNote").value.trim(),createdAt:old?old.createdAt:Date.now()};
+  quick("sp_save",{item},()=>upsert(SAVE,item),$("#svCat").value==="sv_dep"?L("اتحوّش ✓","Saved ✓"):"اتحفظ ✓"); resetSv();});
+$("#svCancel").onclick=resetSv;
+$("#svAll").onclick=()=>{const d=monthData(BUDM,mainCur()); if(d.left<=0){toast(L("مفيش فلوس فاضلة الشهر ده","Nothing left this month"));return}
+  $("#svCat").value="sv_dep";$("#svAmount").value=Math.floor(d.left);$("#svCur").value=mainCur();$("#svAmount").focus();};
+$("#goalForm").addEventListener("submit",e=>{e.preventDefault();const old=BUD.find(x=>x.kind==="goal");
+  const item={id:old?old.id:uid("b"),kind:"goal",name:$("#gName").value.trim(),cat:"goal",amount:+$("#gAmount").value,cur:$("#gCur").value,day:1,until:"",note:"",card:"",createdAt:old?old.createdAt:Date.now()};
+  quick("bud_save",{item},()=>upsert(BUD,item)); $("#goalForm").style.display="none";});
+$("#gCancel").onclick=()=>{$("#goalForm").style.display="none"};
+$("#savPanel").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.gedit){const G=BUD.find(x=>x.kind==="goal");$("#gName").value=G?G.name:"";$("#gAmount").value=G?G.amount:"";$("#gCur").value=G?G.cur:mainCur();$("#goalForm").style.display="";$("#gName").focus()}
+  if(b.dataset.gdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
+    const id=b.dataset.gdel; quick("bud_delete",{id},()=>{BUD=BUD.filter(x=>x.id!==id)},"اتمسح"); }
+  if(b.dataset.svedit){const x=SAVE.find(y=>y.id===b.dataset.svedit);if(!x)return;$("#svCat").value=x.cat;$("#svAmount").value=x.amount;$("#svCur").value=x.cur;$("#svDate").value=x.date;$("#svNote").value=x.note;$("#svId").value=x.id;$("#svSave").textContent="حفظ التعديل";$("#svCancel").style.display="";$("#svAmount").focus()}
+  if(b.dataset.svdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
+    const id=b.dataset.svdel; quick("sp_delete",{id},()=>{SAVE=SAVE.filter(x=>x.id!==id)},"اتمسح"); }
+});
 function renderBudget(){
   if(ROLE!=="owner") return;
   fillBudM();
@@ -1129,10 +1238,12 @@ function renderBudget(){
   const live=x=>!x.until||x.until>=cur;
   const ins=BUD.filter(x=>x.kind==="in"), outs=BUD.filter(x=>x.kind==="out");
   // tiles: every currency, for the selected month
-  const curs=[...new Set([...BUD,...SUBS,...SPEND].map(x=>x.cur))]; if(!curs.length) curs.push("AED");
+  const curs=[...new Set([...BUD,...SUBS,...SPEND,...EXTRA,...SAVE].filter(x=>x.kind!=="goal").map(x=>x.cur))]; if(!curs.length) curs.push("AED");
   const per=curs.map(c=>monthData(M,c));
   const lines=k=>{const o={};per.forEach(d=>{if(d[k])o[d.m&&curs[per.indexOf(d)]]=d[k]});return o};
   $("#bIn").innerHTML=moneyLines(lines("inc")); $("#bOut").innerHTML=moneyLines(lines("fixed")); $("#bSubs").innerHTML=moneyLines(lines("subs")); $("#bVar").innerHTML=moneyLines(lines("vari"));
+  {const ex=lines("extra"),sv=lines("saved"); $("#bInX").textContent=Object.keys(ex).length?L("منها إضافي: ","incl. extra: ")+moneyInline(ex):"";
+   const sk=Object.keys(sv).filter(c=>sv[c]); $("#bSav").innerHTML=sk.length?sk.map(c=>`<span class="${sv[c]<0?"neg":""}">${sv[c]<0?"−":""}${fmt(Math.abs(sv[c]))}</span><small>${c}</small>`).join("<br>"):"0";}
   const left=lines("left"), lk=Object.keys(left).filter(c=>left[c]);
   $("#bLeft").innerHTML=lk.length?lk.map(c=>`<span class="${left[c]<0?"neg":""}">${left[c]<0?"−":""}${fmt(Math.abs(left[c]))}</span><small>${c}</small>`).join("<br>"):"0";
   const A=monthData(M,mc), B=monthData(P,mc);
@@ -1141,6 +1252,7 @@ function renderBudget(){
     const parts=CATS.map(c=>[c,outs.filter(x=>ymOf(x.createdAt)<=M&&(!x.until||x.until>=M)&&x.cat===c[0]&&x.cur===mc).reduce((s,x)=>s+x.amount,0)]).filter(p=>p[1]>0);
     if(A.subs) parts.push([["subs",L("الاشتراكات","Subscriptions"),"#7C5CFF"],A.subs]);
     if(A.vari) parts.push([["var",L("مصروفات الشهر","Spending"),"#FF6FAE"],A.vari]);
+    if(A.saved>0) parts.push([["sav",L("التحويش","Saved"),"#5DD39E"],A.saved]);
     const spent=parts.reduce((s,p)=>s+p[1],0), rest=A.inc-spent, base=Math.max(A.inc,spent);
     $("#bSplit").innerHTML=parts.map(p=>`<i style="width:${p[1]/base*100}%;background:${p[0][2]}"></i>`).join("")+(rest>0?`<i style="width:${rest/base*100}%;background:rgba(255,255,255,.22)"></i>`:"");
     $("#bLegend").innerHTML=parts.map(p=>`<span><i style="background:${p[0][2]}"></i>${cn(p[0])} <b>${fmt(p[1])}</b></span>`).join("")
@@ -1151,18 +1263,22 @@ function renderBudget(){
   const bSame=B.sp.filter(x=>+x.date.slice(8,10)<=day).reduce((s,x)=>s+x.amount,0);
   const pct=(a,b)=>b?Math.round((a-b)/b*100):null;
   const projV=isNow&&day<daysIn(M)&&A.vari?Math.round(A.vari/day*daysIn(M)):A.vari;
-  const dv=pct(A.vari,bSame), sr=A.inc?Math.round((A.inc-A.fixed-A.subs-projV)/A.inc*100):null, srB=B.inc?Math.round(B.left/B.inc*100):null;
+  const dv=pct(A.vari,bSame), sr=A.inc?Math.round((A.inc-A.fixed-A.subs-projV)/A.inc*100):null, srB=B.inc?Math.round((B.inc-B.out)/B.inc*100):null;
   const ins2=[];
   if(!A.inc) ins2.push(["i",L("ضيف المرتب في جدول الدخل تحت علشان التحليل يشتغل.","Add your salary in the Income table below so the analysis can run.")]);
   if(A.vari||bSame) ins2.push([dv===null?"i":dv>5?"bad":dv<-5?"good":"i", isNow
     ?L(`صرفت ${fmt(A.vari)} ${mc} لحد يوم ${day}، مقابل ${fmt(bSame)} في نفس الفترة الشهر اللي فات${dv===null?"":` (${dv>0?"+":""}${dv}%)`}.`,`You've spent ${fmt(A.vari)} ${mc} by day ${day}, vs ${fmt(bSame)} at the same point last month${dv===null?"":` (${dv>0?"+":""}${dv}%)`}.`)
     :L(`صرفت ${fmt(A.vari)} ${mc} مصروفات في الشهر ده، مقابل ${fmt(B.vari)} الشهر اللي قبله${dv===null?"":` (${dv>0?"+":""}${dv}%)`}.`,`You spent ${fmt(A.vari)} ${mc} this month vs ${fmt(B.vari)} the month before${dv===null?"":` (${dv>0?"+":""}${dv}%)`}.`)]);
   if(projV!==A.vari) ins2.push(["i",L(`بالمعدل ده هتقفل الشهر على حوالي ${fmt(projV)} ${mc} مصروفات.`,`At this pace you'll end the month around ${fmt(projV)} ${mc} in spending.`)]);
-  if(sr!==null) ins2.push([sr<10?"bad":sr>=20?"good":"i",L(`${isNow?"متوقع تحوّش":"حوّشت"} ${sr}% من دخلك${srB!==null&&B.inc?` (الشهر اللي فات ${srB}%)`:""} — الهدف الصحي 20% أو أكتر.`,`${isNow?"On track to save":"You saved"} ${sr}% of income${srB!==null&&B.inc?` (last month ${srB}%)`:""} — a healthy target is 20%+.`)]);
+  if(sr!==null) ins2.push([sr<10?"bad":sr>=20?"good":"i",L(`${isNow?"متوقع يفضلك":"فضلك"} ${sr}% من دخلك من غير صرف${srB!==null&&B.inc?` (الشهر اللي فات ${srB}%)`:""} — الهدف الصحي 20% أو أكتر.`,`${isNow?"On track to keep":"You kept"} ${sr}% of income unspent${srB!==null&&B.inc?` (last month ${srB}%)`:""} — a healthy target is 20%+.`)]);
   const ups=Object.keys(A.cats).map(k=>[k,A.cats[k]-(B.cats[k]||0)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);
   if(ups.length&&Object.keys(B.cats).length) ins2.push(["bad",L(`أكتر حاجات زادت: `,`Biggest increases: `)+ups.map(u=>`${cn(vcatOf(u[0]))} +${fmt(u[1])}`).join(" · ")]);
   const topC=Object.keys(A.cats).sort((a,b)=>A.cats[b]-A.cats[a])[0];
   if(topC&&A.vari) ins2.push(["i",L(`أكبر بند صرف: ${cn(vcatOf(topC))} (${Math.round(A.cats[topC]/A.vari*100)}% من المصروفات).`,`Top spending: ${cn(vcatOf(topC))} (${Math.round(A.cats[topC]/A.vari*100)}% of spending).`)]);
+  if(A.extra) ins2.push(["good",L(`دخل إضافي الشهر ده: ${fmt(A.extra)} ${mc} — `,`Extra income this month: ${fmt(A.extra)} ${mc} — `)+[...new Set(EXTRA.filter(x=>x.date.slice(0,7)===M&&x.cur===mc).map(x=>cn(excOf(x.cat))))].join("، ")]);
+  if(A.saved>0) ins2.push(["good",L(`حوّشت ${fmt(A.saved)} ${mc} الشهر ده 👏`,`You set aside ${fmt(A.saved)} ${mc} this month 👏`)]);
+  if(A.left>0&&isNow) ins2.push(["i",L(`فاضلك ${fmt(A.left)} ${mc} — ممكن تحوّش جزء منهم من "التحويش" تحت.`,`${fmt(A.left)} ${mc} left — you can move some to Savings below.`)]);
+  const G=BUD.find(x=>x.kind==="goal"); if(G){const bal=saveBal()[G.cur]||0, gp=G.amount?Math.min(100,Math.round(bal/G.amount*100)):0; ins2.push([gp>=100?"good":"i",L(`هدف "${G.name}": وصلت ${gp}% (${fmt(bal)} من ${fmt(G.amount)} ${G.cur}).`,`Goal "${G.name}": ${gp}% (${fmt(bal)} of ${fmt(G.amount)} ${G.cur}).`)])}
   const ending=outs.filter(x=>x.until&&x.until>=cur).map(x=>[x,monthsLeft(x.until)]).filter(x=>x[1]<=3).sort((a,b)=>a[1]-b[1]);
   ending.forEach(([x,n])=>ins2.push(["good",L(`${x.name} فاضل فيه ${n} ${n===1?"شهر":"شهور"} — بعدها هيوفّرلك ${fmt(x.amount)} ${x.cur} كل شهر.`,`${x.name}: ${n} month${n===1?"":"s"} left — then it frees ${fmt(x.amount)} ${x.cur} a month.`)]));
   $("#aList").innerHTML=ins2.length?ins2.map(([k,txt])=>`<li class="${k}">${esc(txt)}</li>`).join(""):`<li class="i">${L("سجّل مصروفاتك اليومية في \"مصروف سريع\" تحت، والتحليل هيبدأ يقارن الشهور ببعض.","Log daily spending in Quick expense below and the analysis will start comparing months.")}</li>`;
@@ -1191,6 +1307,7 @@ function renderBudget(){
     :`<tr><td colspan="6" style="color:var(--dim)">${fOn("sp")?L("مفيش حاجة بالفلتر ده.","Nothing matches this filter."):L("مفيش مصروفات متسجلة في الشهر ده.","No spending logged this month.")}</td></tr>`;
   drawPager("sp",list.length);
   if(!$("#spDate").value) $("#spDate").value=todayISO();
+  renderSavings(M);
   // income + fixed tables
   const withNext=a=>a.map(x=>{const d=nextPay(x.day);return {...x,nd:d,k:Math.round((d-t)/864e5)}}).sort((a,b)=>a.nd-b.nd);
   $("#inBody").innerHTML=ins.length?withNext(ins).map(x=>`<tr><td><b>${esc(x.name)}</b></td><td><span class="ai-amt" style="color:var(--cyan)">${fmt(x.amount)} ${esc(x.cur)}</span></td><td>يوم ${x.day}</td>
@@ -1234,6 +1351,9 @@ $("#budgetPage").addEventListener("click",e=>{const b=e.target.closest("button")
     else{$("#outName").value=x.name;$("#outCat").value=x.cat;$("#outAmount").value=x.amount;$("#outCur").value=x.cur;$("#outDay").value=x.day;$("#outUntil").value=x.until;$("#outCard").value=x.card||"";$("#outNote").value=x.note;$("#outId").value=x.id;$("#outSave").textContent="حفظ التعديل";$("#outCancel").style.display="";$("#outAmount").focus()} }
   if(b.dataset.bdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
     const id=b.dataset.bdel; quick("bud_delete",{id},()=>{BUD=BUD.filter(x=>x.id!==id)},"اتمسح"); }
+  if(b.dataset.exedit){const x=EXTRA.find(y=>y.id===b.dataset.exedit);if(!x)return;$("#exAmount").value=x.amount;$("#exCur").value=x.cur;$("#exCat").value=x.cat;$("#exDate").value=x.date;$("#exNote").value=x.note;$("#exId").value=x.id;$("#exSave").textContent="حفظ التعديل";$("#exCancel").style.display="";$("#exAmount").focus()}
+  if(b.dataset.exdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
+    const id=b.dataset.exdel; quick("sp_delete",{id},()=>{EXTRA=EXTRA.filter(x=>x.id!==id)},"اتمسح"); }
   if(b.dataset.spedit){const x=SPEND.find(y=>y.id===b.dataset.spedit); if(!x) return; $("#spAmount").value=x.amount;$("#spCur").value=x.cur;$("#spCat").value=x.cat;$("#spDate").value=x.date;$("#spCard").value=x.card||"";$("#spNote").value=x.note;$("#spId").value=x.id;$("#spSave").textContent="حفظ التعديل";$("#spCancel").style.display="";$("#spAmount").focus()}
   if(b.dataset.spdel){ if(b.dataset.sure!=="1"){b.dataset.sure="1";b.textContent="متأكد؟";setTimeout(()=>{b.dataset.sure="";b.textContent="مسح"},3000);return}
     const id=b.dataset.spdel; quick("sp_delete",{id},()=>{SPEND=SPEND.filter(x=>x.id!==id)},"اتمسح"); }
