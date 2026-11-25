@@ -1222,7 +1222,7 @@ function waMsg(p,name,isNew){
   const line="━━━━━━━━━━━━";
   return [`*🎬 ${isNew?"مشروع جديد":"تحديث على مشروع"} — Remotion*`, `أهلاً ${name} 👋`, "",
     `*👤 العميل:* ${p.client||"—"}`, `*🎞️ الشغلانة:* ${p.name||"—"}`, `*📅 التسليم:* ${due}${rel}`, ...(p.stage?[`*📍 المرحلة:* ${stageOf(p.stage).ar}`]:[]),
-    ...(()=>{const f=p.id&&PAYOUTS.find(x=>x.id===feeId(p.id,name)); return f?[`*💰 حقك في المشروع:* ${fmt(f.amount)} ${f.cur}`]:[];})(),
+    ...(()=>{const f=p.id&&PAYOUTS.find(x=>x.id===feeId(p.id,name)); return f?[`*💰 مبلغ المشروع:* ${fmt(f.amount)} ${f.cur}`]:[];})(),
     ...(det?["",line,det,line]:[]), ...(p.data?["",`*📁 الداتا:*`,p.data]:[]), "",
     `🔑 افتح اللوحة بالكود بتاعك:`, `https://myremotion.com/projects/`].join("\n");
 }
